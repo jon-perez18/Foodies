@@ -26,10 +26,10 @@ function App() {
           Submit
         </button>
         <form>
-        <h1>Enter your desired range</h1>
+        <h3>Enter your desired range</h3>
         
         <input type="radio"
-        checked={radio === "apple"}
+        checked={radio === "5000"}
         value="5000"
         onChange={(e)=>{ setRadio(e.target.value)}}/>
         <label>5000 meters</label>
