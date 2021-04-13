@@ -9,22 +9,26 @@ app = Flask(__name__, static_folder='./build/static')
 MY_API_KEY = os.getenv('MY_API_KEY')
 ENDPOINT='https://api.yelp.com/v3/businesses/search'
 HEADERS = {'Authorization':'bearer %s' % MY_API_KEY}
+@app.route('/') 
+def get_restaurant_recs():
+    PARAMS = {'term':'restaurant', 'limit': 5, 'radius': 10000, 'location': 'Princeton'}
 
-PARAMS = {'term':'restuarant', 'limit': 5, 'radius': 10000, 'location': 'Princeton'}
+    response = requests.get(url=ENDPOINT, params=PARAMS, headers=HEADERS)
 
-response = requests.get(url=ENDPOINT, params=PARAMS, headers=HEADERS)
-
-business_data = response.json()
-results={}
-for i in range(5):
-    results[business_data['businesses'][i]['name']] = business_data['businesses'][i]['location']['display_address'][0]
+    business_data = response.json()
+    results={}
+    for i in range(5):
+        results[business_data['businesses'][i]['name']] = business_data['businesses'][i]['location']['display_address'][0]
   
-print(results)
+    print(results)
+
+    
 @app.route('/', defaults={"filename": "index.html"})
 @app.route('/<path:filename>')
 def index(filename):
     return send_from_directory('./build', filename)
 
+get_restaurant_recs()
 
 app.run(
     host=os.getenv('IP', '0.0.0.0'),

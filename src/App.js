@@ -1,30 +1,66 @@
-import logo from './logo.svg';
 import './App.css';
+import {
+  React, useState, useRef, useEffect,
+} from 'react';
 
 function App() {
+  const addy = useRef(null);
+  const range = useRef(null);
+  const [store_address, set_address] = useState(null);
+  const [radio,setRadio] = useState("apple");
+  const [isChecked, setIsChecked] = useState(false);
+  
+  function save_address() {
+    const input_addy = addy.current.value;
+    set_address(input_addy);
+    console.log(store_address);
+  }
+
+
   return (
     <div className="App">
       <header className="App-header">
 
-      <input type="input" className="form__field" placeholder='Enter an address' />
-        
-        <p>
-        Enter your desired range
-        </p>
-      
-        
-        <input type="radio" id="one" name="range" value="5000"/>
-  <label for="one">5000 meters</label>
-  <input type="radio" id="two" name="range" value="10,000"/>
-  <label for="two">10,000 meters</label>
-  <input type="radio" id="three" name="range" value="25,000"/>
-  <label for="three">25,000 meters</label>
-  <input type="radio" id="four" name="range" value="40,000"/>
-  <label for="four">40,000 meters</label>
-  <br/>
-  <button type="button" name="input">
-          Continue
+      <input type="input" ref={addy} className="form__field" placeholder='Enter an address' />
+        <button type="button" name="address" onClick={save_address}>
+          Submit
         </button>
+        <form>
+        <h1>Enter your desired range</h1>
+        
+        <input type="radio"
+        checked={radio === "apple"}
+        value="5000"
+        onChange={(e)=>{ setRadio(e.target.value)}}/>
+        <label>5000 meters</label>
+        <br/>
+        
+        <input type="radio"
+        checked={radio === "10000"}
+        value="10000"
+        onChange={(e)=>{ setRadio(e.target.value)}}/>
+        <label>10000 meters</label>
+        <br/>
+        
+        <input type="radio"
+        checked={radio === "25000"}
+        value="25000"
+        onChange={(e)=>{ setRadio(e.target.value)}}/>
+        <label>25000 meters</label>
+        <br/>
+        
+        <input type="radio"
+        checked={radio === "40000"}
+        value="40000"
+        onChange={(e)=>{ setRadio(e.target.value)}}/>
+        <label>40000 meters</label>
+        <br/>
+        
+        
+        
+        </form>
+    
+        
         </header>
         
     </div>
