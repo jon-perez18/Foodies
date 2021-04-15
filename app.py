@@ -21,12 +21,14 @@ HEADERS = {'Authorization':'bearer %s' % MY_API_KEY}
 @SOCKETIO.on('recs')
 def get_restaurant_recs(data):  # data is whatever arg you pass in your emit call on client
     """on chat"""
+    
     print(data)
     PARAMS = {'term':'restaurant', 'limit': 5, 'radius': int(data['radio']), 'location': data['addy']}
 
     response = requests.get(url=ENDPOINT, params=PARAMS, headers=HEADERS)
 
     business_data = response.json()
+    print(business_data)
     results={}
     for i in range(5):
         results[business_data['businesses'][i]['name']] = business_data['businesses'][i]['location']['display_address'][0]
