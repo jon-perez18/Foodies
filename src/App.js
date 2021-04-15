@@ -1,23 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState, useRef, useEffect } from 'react';
+import io from 'socket.io-client';
+import { Recommendation } from './Recommendation';
+const socket = io(); // socket for client
+
+
+
 
 function App() {
+ // const [recomendations, setRecom] = useState({});
+  
+  const recommendations = {res1:'add1',res2:'add2',res3:'add3',res4:'add4', res5:'add5'};
+  function onPressCreate(){
+    
+  }
+  useEffect(() => {
+    // Listening for a chat event emitted by the server. If received, we
+    // run the code in the function that is passed in as the second arg
+     socket.on('recomendations', (data) => {
+      console.log(data);
+
+  
+    });
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Recommendation recommendations={recommendations}/>
     </div>
   );
 }
