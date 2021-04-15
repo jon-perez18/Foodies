@@ -10,10 +10,10 @@ const socket = io(); // socket for client
 
 function App() {
  // const [recomendations, setRecom] = useState({});
-  
+ const [isCreate,setCreate] = useState(false)
   const recommendations = {res1:'add1',res2:'add2',res3:'add3',res4:'add4', res5:'add5'};
   function onPressCreate(){
-    
+    setCreate(preCreate=>true)
   }
   useEffect(() => {
     // Listening for a chat event emitted by the server. If received, we
