@@ -1,4 +1,6 @@
 import './App.css';
+import {Recommendation} from './Recommendation'
+
 import {
   React, useState, useRef, useEffect,
 } from 'react';
@@ -9,6 +11,10 @@ const socket = io(); // Connects to socket connection
 
 function Search() {
   const addy = useRef(null);
+  const event_name_ref = useRef(null);
+  const event_description_ref = useRef(null);
+  const event_date_ref = useRef(null);
+  const event_time_ref = useRef(null);
   const [store_address, set_address] = useState(null);
   const [radio,setRadio] = useState("5000");
   const [isCreate,setCreate] = useState(false)
@@ -19,7 +25,7 @@ function Search() {
     set_address(input_addy);
     console.log(store_address);
     setContinueClick(prevClickContinue=>true);
-    socket.emit('recs', { addy: store_address, radio: radio });
+    socket.emit('recs', { addy: input_addy, radio: radio });
   }
   function onPressCreate(key){
     setCreate(preCreate=>true);
@@ -28,6 +34,14 @@ function Search() {
     const location = recommendations[key];
     console.log(restaurant, location);
     socket.emit('recommendations', {restaurant:restaurant,location:location});
+  }
+  function onPressSubmit(){
+    const event_name = event_name_ref.current.value;
+    const event_description =event_description_ref.current.value;
+    const event_date = event_date_ref.current.value;
+    const event_time = event_time_ref.current.value;
+    socket.emit('event_info',{event_name:event_name,event_description:event_description,event_date:event_date,event_time:event_time})
+    
   }
   useEffect(() => {
     // Listening for a chat event emitted by the server. If received, we
@@ -84,7 +98,7 @@ function Search() {
         <label>39000 meters</label>
         <br/>
         <br/>
-        <button type="button" name="continue" onClick={save_info}>
+        <button type="button" name="continue" onClick={()=>save_info()}>
           Continue
         </button>
         </form>
@@ -97,18 +111,29 @@ function Search() {
             <br></br>
             <br></br>
             <label>Event Name
-                <input type="text" name="event_name"></input>
+                <input type="text" ref={event_name_ref} name="event_name" placeholder="Enter Event Name Here"></input>
                 <br></br>
                 <br></br>
                 <br></br>
             </label>
             
            <label>Desription
-                <textarea type="textarea" name="event_name"></textarea>
+                <textarea type="textarea"  ref={event_description_ref}name="event_description" placeholder="Enter Description Here"></textarea>
             </label>
          <br></br>
+          
+           <label>Event Date
+                <input type="date"  ref={event_date_ref}name="event_date" ></input>
+            </label>
+            <label>Event Time
+                <input type="time" ref={event_time_ref} id="appt" name="appt"
+                required></input>
+            </label>
+            
          <br></br>
-        <button> Submit </button>
+         
+         <br></br>
+        <button onClick={()=> onPressSubmit()}> Submit </button>
         </div>):("")}
         
         </header>

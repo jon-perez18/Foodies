@@ -5,10 +5,13 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 import requests
 from flask_socketio import SocketIO
+from flask_cors import CORS
 
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__, static_folder='./build/static')
+
 SOCKETIO = SocketIO(app,
                     cors_allowed_origins="*",
                     json=json,
@@ -23,11 +26,13 @@ HEADERS = {'Authorization':'bearer %s' % MY_API_KEY}
 def index(filename):
     return send_from_directory('./build', filename)
 
-event_info = {}
+event_information = {'host':'host1','event_name':'','event_description':'','restaurant':'','location':'','event_date':'','event_time':''}
+
 @SOCKETIO.on('connect')
 def on_connect():
     ''' Connecting user'''
     print('user connected')
+
 @SOCKETIO.on('recs')
 def get_restaurant_recs(data):  # data is whatever arg you pass in your emit call on client
     
@@ -51,6 +56,28 @@ def get_restaurant_recs(data):  # data is whatever arg you pass in your emit cal
 @SOCKETIO.on('recommendations')
 def get_recomendations(data):
     print("RECOOMENDATION",data)
+    restaurant = data['restaurant']
+    location=data['location']
+    event_information['restaurant']=restaurant
+    event_information['location'] = location
+ 
+    
+@SOCKETIO.on('event_info')
+def get_event_info(data):
+    print("Event Info", data)
+    event_name=data['event_name']
+    event_description=data['event_description']
+    event_date=data['event_date']
+    event_time=data['event_time']
+    event_information['event_name']=event_name
+    event_information['event_description']=event_description
+    event_information['event_date']=event_date
+    event_information['event_time']=event_time
+    print(event_information)
+    
+    print(event_information)
+    
+    
     
 
 
