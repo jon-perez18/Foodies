@@ -13,10 +13,15 @@ SOCKETIO = SocketIO(app,
                     json=json,
                     manage_session=False)
                     
-MY_API_KEY = os.getenv('MY_API_KEY')
-ENDPOINT='https://api.yelp.com/v3/businesses/search'
-HEADERS = {'Authorization':'bearer %s' % MY_API_KEY}
+@app.route('/', defaults={"filename": "index.html"})
+@app.route('/<path:filename>')
+def index(filename):
+    return send_from_directory('./build', filename)
  
+@SOCKETIO.on('connect')
+def on_connect():
+    ''' Connecting user'''
+    print('user connected')
 """@SOCKETIO.on('recs')
 def get_restaurant_recs(data):  # data is whatever arg you pass in your emit call on client
     
@@ -41,12 +46,13 @@ def get_restaurant_recs(data):  # data is whatever arg you pass in your emit cal
 def get_recomendations(data):
     print(data)
     
-@app.route('/', defaults={"filename": "index.html"})
-@app.route('/<path:filename>')
-def index(filename):
-    return send_from_directory('./build', filename)
 
-app.run(
-    host=os.getenv('IP', '0.0.0.0'),
-    port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
-)
+
+if __name__ == "__main__":
+    # Note that we don't call app.run anymore. We call socketio.run with app arg
+    SOCKETIO.run(
+        app,
+        host=os.getenv('IP', '0.0.0.0'),
+        port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
+    )
+
