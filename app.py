@@ -7,15 +7,17 @@ import requests
 from flask_socketio import SocketIO
 
 
+
 app = Flask(__name__, static_folder='./build/static')
 SOCKETIO = SocketIO(app,
                     cors_allowed_origins="*",
                     json=json,
                     manage_session=False)
+                    
 MY_API_KEY = os.getenv('MY_API_KEY')
 ENDPOINT='https://api.yelp.com/v3/businesses/search'
 HEADERS = {'Authorization':'bearer %s' % MY_API_KEY}
-                   
+
 @app.route('/', defaults={"filename": "index.html"})
 @app.route('/<path:filename>')
 def index(filename):
