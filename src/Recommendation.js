@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 export function Recommendation({
-  recommendations
+  recommendations,onPressCreate
 }) {
   const rows = [];
   
@@ -15,7 +15,8 @@ export function Recommendation({
           <td>{keyName}</td>
           {' '}
           <td>{recommendations[keyName]}</td>
-          <td><button> Create Event </button> </td>
+          {' '}
+          <td><button  onClick={()=> onPressCreate(keyName)}> Create Event </button> </td>
           {' '}
         </tr>,
       );
@@ -23,7 +24,7 @@ export function Recommendation({
     // and a[keyName] to get its value
   });
   return (
-    <div className="leaderboard">
+    <div className="recommendations">
       <div>
         {' '}
         
@@ -47,6 +48,7 @@ export function Recommendation({
   );
 }
 Recommendation.propTypes = {
-  recommendations: PropTypes.objectOf(PropTypes.string).isRequired
+  recommendations: PropTypes.objectOf(PropTypes.string).isRequired,
+  onPressCreate: PropTypes.func.isRequired
   
 };

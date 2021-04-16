@@ -17,9 +17,9 @@ MY_API_KEY = os.getenv('MY_API_KEY')
 ENDPOINT='https://api.yelp.com/v3/businesses/search'
 HEADERS = {'Authorization':'bearer %s' % MY_API_KEY}
  
-@SOCKETIO.on('recs')
+"""@SOCKETIO.on('recs')
 def get_restaurant_recs(data):  # data is whatever arg you pass in your emit call on client
-    """on chat"""
+    
     
     print(data)
     PARAMS = {'term':'restaurant', 'limit': 5, 'radius': int(data['radio']), 'location': data['addy']}
@@ -36,7 +36,10 @@ def get_restaurant_recs(data):  # data is whatever arg you pass in your emit cal
     # This emits the 'chat' event from the server to all clients except for
     # the client that emmitted the event that triggered this function
     SOCKETIO.emit('recs', data, broadcast=True, include_self=False)
-
+"""
+@SOCKETIO.on('recommendations')
+def get_recomendations(data):
+    print(data)
     
 @app.route('/', defaults={"filename": "index.html"})
 @app.route('/<path:filename>')

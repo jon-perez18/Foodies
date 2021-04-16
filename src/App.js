@@ -12,8 +12,13 @@ function App() {
  // const [recomendations, setRecom] = useState({});
  const [isCreate,setCreate] = useState(false)
   const recommendations = {res1:'add1',res2:'add2',res3:'add3',res4:'add4', res5:'add5'};
-  function onPressCreate(){
+  function onPressCreate(key){
     setCreate(preCreate=>true)
+    //console.log(key)
+    const restaurant = key;
+    const location = recommendations[key]
+    console.log(restaurant, location)
+    socket.emit('recommendations', {restaurant:restaurant,location:location});
   }
   useEffect(() => {
     // Listening for a chat event emitted by the server. If received, we
@@ -27,7 +32,7 @@ function App() {
   return (
     <div className="App">
         
-        <Recommendation recommendations={recommendations}/>
+        <Recommendation onPressCreate={onPressCreate} recommendations={recommendations}/>
     </div>
   );
 }
