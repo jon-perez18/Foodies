@@ -6,11 +6,19 @@ load_dotenv(find_dotenv())
 import requests
 from flask_socketio import SocketIO
 from flask_cors import CORS
-
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__, static_folder='./build/static')
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+#db = SQLAlchemy(app)
+
+#import models
+ 
+#db.create_all()
 
 SOCKETIO = SocketIO(app,
                     cors_allowed_origins="*",
@@ -73,10 +81,15 @@ def get_event_info(data):
     event_information['event_description']=event_description
     event_information['event_date']=event_date
     event_information['event_time']=event_time
-    print(event_information)
+   
     
-    print(event_information)
+    date_time = event_date+' '+ event_time+ '%b %d %Y %I:%M%p'
+    datetime_object = datetime.strptime(date_time)
+    print(datetime_object)
+  
     
+    
+    datetime_object = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
     
     
 

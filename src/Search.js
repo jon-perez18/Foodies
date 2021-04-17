@@ -1,6 +1,6 @@
 import './App.css';
 import {Recommendation} from './Recommendation'
-
+import {EventInfo} from './EventInfo'
 import {
   React, useState, useRef, useEffect,
 } from 'react';
@@ -17,7 +17,8 @@ function Search() {
   const event_time_ref = useRef(null);
   const [store_address, set_address] = useState(null);
   const [radio,setRadio] = useState("5000");
-  const [isCreate,setCreate] = useState(false)
+  const [isCreate,setCreate] = useState(false);
+  const [isSubmit, setSubmit] = useState(false);
   const [recommendations, setRecom] = useState({})
   const [isContunueClick, setContinueClick] = useState(false);
   function save_info() {
@@ -40,6 +41,7 @@ function Search() {
     const event_description =event_description_ref.current.value;
     const event_date = event_date_ref.current.value;
     const event_time = event_time_ref.current.value;
+    setSubmit(prevSubmit=>true)
     socket.emit('event_info',{event_name:event_name,event_description:event_description,event_date:event_date,event_time:event_time})
     
   }
@@ -61,11 +63,13 @@ function Search() {
   }, []);
 
 
-  return (
-    <div className="App">
+  
+    if(isContunueClick===false){
+      return(
+        
+      <div className="App">
       <header className="App-header">
-
-      {isContunueClick === false ? (<div><input type="input" ref={addy} className="form__field" placeholder='Enter an address' />
+          <div><input type="input" ref={addy} className="form__field" placeholder='Enter an address' />
         
         <form>
         <h3>Enter your desired range</h3>
@@ -103,43 +107,59 @@ function Search() {
         </button>
         </form>
         </div>
-        ):((<Recommendation onPressCreate={onPressCreate} recommendations={recommendations}/>
-        ))}
-    
-       {(isCreate === true)?(<div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <label>Event Name
-                <input type="text" ref={event_name_ref} name="event_name" placeholder="Enter Event Name Here"></input>
-                <br></br>
-                <br></br>
-                <br></br>
-            </label>
-            
-           <label>Desription
-                <textarea type="textarea"  ref={event_description_ref}name="event_description" placeholder="Enter Description Here"></textarea>
-            </label>
-         <br></br>
-          
-           <label>Event Date
-                <input type="date"  ref={event_date_ref}name="event_date" ></input>
-            </label>
-            <label>Event Time
-                <input type="time" ref={event_time_ref} id="appt" name="appt"
-                required></input>
-            </label>
-            
-         <br></br>
-         
-         <br></br>
-        <button onClick={()=> onPressSubmit()}> Submit </button>
-        </div>):("")}
         
         </header>
+        </div>
+        );
+    }
+    else{
+      if(isCreate===false){
         
-    </div>
-  );
+         return(
+      
+      <div className="App">
+      <header className="App-header">
+      
+      <Recommendation onPressCreate={onPressCreate} recommendations={recommendations}/>
+        
+      </header>
+      </div>);
+      }
+      else {
+        
+        
+        if(isSubmit===false){
+          return(
+            
+            <div className="App">
+      <header className="App-header">
+              <EventInfo event_name_ref={event_name_ref}
+        event_description_ref={event_description_ref} event_date_ref={event_date_ref}
+        event_time_ref={event_time_ref} onPressSubmit = {onPressSubmit}
+       
+       />
+       </header>
+      </div>
+            );
+        }
+        
+      }
+      
+     
+     
+    }
+     return(
+          
+            <div className="App">
+        <header className="App-header">
+        
+        <h2>Congratulation Event Created Successfully</h2>
+         </header>
+      </div>
+          
+        
+        );
+
 }
 
 export default Search;
