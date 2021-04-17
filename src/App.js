@@ -1,7 +1,8 @@
-import './App.css';
+
 import Search from './Search';
 import Login from './Login';
 import Logout from './Logout';
+
 import {
   React, useState, useRef, useEffect,
 } from 'react';

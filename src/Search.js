@@ -1,4 +1,6 @@
 import './App.css';
+import {Recommendation} from './Recommendation';
+import {EventInfo} from './EventInfo';
 import {
   React, useState, useRef, useEffect,
 } from 'react';
@@ -9,23 +11,75 @@ const socket = io(); // Connects to socket connection
 
 function Search() {
   const addy = useRef(null);
+  const event_name_ref = useRef(null);
+  const event_description_ref = useRef(null);
+  const event_date_ref = useRef(null);
+  const event_time_ref = useRef(null);
   const [store_address, set_address] = useState(null);
   const [radio,setRadio] = useState("5000");
-
+  const [isCreate,setCreate] = useState(false);
+  const [isSubmit, setSubmit] = useState(false);
+  const [recommendations, setRecom] = useState({});
+  const [isContunueClick, setContinueClick] = useState(false);
+  const [event,setEvent] = useState({});
   function save_info() {
     const input_addy = addy.current.value;
     set_address(input_addy);
     console.log(store_address);
-    socket.emit('recs', { addy: store_address, radio: radio });
+    setContinueClick(prevClickContinue=>true);
+    socket.emit('recs', { addy: input_addy, radio: radio });
   }
+  function onPressCreate(key){
+    setCreate(preCreate=>true);
+    //console.log(key)
+    const restaurant = key;
+    const location = recommendations[key];
+    console.log(restaurant, location);
+    socket.emit('recommendations', {restaurant:restaurant,location:location});
+  }
+  function onPressSubmit(){
+    const event_name = event_name_ref.current.value;
+    const event_description =event_description_ref.current.value;
+    const event_date = event_date_ref.current.value;
+    const event_time = event_time_ref.current.value;
+    setSubmit(prevSubmit=>true)
+    socket.emit('event_info',{event_name:event_name,event_description:event_description,event_date:event_date,event_time:event_time})
+    
+  }
+  useEffect(() => {
+    // Listening for a chat event emitted by the server. If received, we
+    // run the code in the function that is passed in as the second arg
+     socket.on('recomendations', (data) => {
+      console.log("recoomendation",data);
+
+  
+    });
+    
+    socket.on('recs',(data)=>{
+        console.log(data["results"]);
+        const results = data["results"];
+        setRecom(prevRecom=>results);
+        
+    });
+    socket.on("event_info",(data)=>{
+     //console.log(data['event_info']);
+     const event_info = data.event_info;
+     console.log(event_info);
+     setEvent(event_info);
+      console.log("Event_info_name",event['event_name']);
+    });
+    
+  }, []);
 
 
-  return (
-    <div className="App">
+  
+    if(isContunueClick===false){
+      return(
+        
+      <div className="App">
       <header className="App-header">
-
-      <input type="input" ref={addy} className="form__field" placeholder='Enter an address' />
-
+          <div><input type="input" ref={addy} className="form__field" placeholder='Enter an address' />
+        
         <form>
         <h3>Enter your desired range</h3>
         
@@ -57,16 +111,64 @@ function Search() {
         <label>39000 meters</label>
         <br/>
         <br/>
-        <button type="button" name="continue" onClick={save_info}>
+        <button type="button" name="continue" onClick={()=>save_info()}>
           Continue
         </button>
         </form>
-    
+        </div>
         
         </header>
+        </div>
+        );
+    }
+    else{
+      if(isCreate===false){
         
-    </div>
-  );
+         return(
+      
+      <div className="App">
+      <header className="App-header">
+      
+      <Recommendation onPressCreate={onPressCreate} recommendations={recommendations}/>
+        
+      </header>
+      </div>);
+      }
+      else {
+        
+        
+        if(isSubmit===false){
+          return(
+            
+            <div className="App">
+      <header className="App-header">
+              <EventInfo event_name_ref={event_name_ref}
+        event_description_ref={event_description_ref} event_date_ref={event_date_ref}
+        event_time_ref={event_time_ref} onPressSubmit = {onPressSubmit}
+       
+       />
+       </header>
+      </div>
+            );
+        }
+        
+      }
+      
+     
+     
+    }
+     return(
+          
+            <div className="App">
+        <header className="App-header">
+        
+        <h2>Congratulation Event Created Successfully</h2>
+         </header>
+      </div>
+          
+        
+        );
+
 }
 
 export default Search;
