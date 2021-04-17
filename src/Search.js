@@ -1,6 +1,6 @@
 import './App.css';
-import {Recommendation} from './Recommendation'
-import {EventInfo} from './EventInfo'
+import {Recommendation} from './Recommendation';
+import {EventInfo} from './EventInfo';
 import {
   React, useState, useRef, useEffect,
 } from 'react';
@@ -19,8 +19,9 @@ function Search() {
   const [radio,setRadio] = useState("5000");
   const [isCreate,setCreate] = useState(false);
   const [isSubmit, setSubmit] = useState(false);
-  const [recommendations, setRecom] = useState({})
+  const [recommendations, setRecom] = useState({});
   const [isContunueClick, setContinueClick] = useState(false);
+  const [event,setEvent] = useState({});
   function save_info() {
     const input_addy = addy.current.value;
     set_address(input_addy);
@@ -55,11 +56,19 @@ function Search() {
     });
     
     socket.on('recs',(data)=>{
-        console.log(data["results"])
-        const results = data["results"]
-        setRecom(prevRecom=>results)
+        console.log(data["results"]);
+        const results = data["results"];
+        setRecom(prevRecom=>results);
         
-    })
+    });
+    socket.on("event_info",(data)=>{
+     //console.log(data['event_info']);
+     const event_info = data.event_info;
+     console.log(event_info);
+     setEvent(event_info);
+      console.log("Event_info_name",event['event_name']);
+    });
+    
   }, []);
 
 

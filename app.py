@@ -85,6 +85,9 @@ def get_event_info(data):
     event_information['event_date']=event_date
     event_information['event_time']=event_time
     add_event_to_db(event_information) 
+    
+    SOCKETIO.emit("event_info", {'event_info':event_information},broadcast=True, include_self=True)
+    
    
     
 def add_event_to_db(event):
