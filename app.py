@@ -92,7 +92,8 @@ def get_event_info(data):
     
 def add_event_to_db(event):
     new_event = models.Event(host=event['host'], event_name=event['event_name'],
-    event_description=event['event_description'],event_date=event['event_date'],
+    event_description=event['event_description'],restaurant=event['restaurant'],
+    location=event['location'],event_date=event['event_date'],
     event_time=event['event_time'])
     db.session.add(new_event)
     db.session.commit()
