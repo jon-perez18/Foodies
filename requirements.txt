@@ -88,8 +88,4 @@ yapf==0.31.0
 yelp==1.0.2
 youtube-dl==2021.1.24.1
 youtube-search==1.1.1
-<<<<<<< HEAD
 zipp==3.4.0
-=======
-zipp==3.4.0
->>>>>>> yelp
