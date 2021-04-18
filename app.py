@@ -49,11 +49,7 @@ def on_connect():
   
 @SOCKETIO.on('login')
 def on_login(data_name, data_email):
-<<<<<<< HEAD
     socketio.emit('login', data_name, broadcast=True, include_self=False)
-=======
-    SOCKETIO.emit('login', data_name, data_email, broadcast=True, include_self=False)
->>>>>>> 9fe3747721ff91e7293b1e57027a246dd81a7217
 
     all_users = models.User.query.all()
     names = []
