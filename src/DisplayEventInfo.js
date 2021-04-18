@@ -19,7 +19,7 @@ export function DisplayEventInfo({Event}){
         <h3>Event Time: {event_time}</h3>
         <button>View other Events</button>
         
-        
+        <button>Create New Event</button>
         </div>
         );
 }
