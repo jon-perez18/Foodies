@@ -1,4 +1,4 @@
-import logo from './logo.PNG';
+import logo from './Logo.PNG';
 import './ViewEvents.css';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,7 +7,7 @@ export const ViewEvents = () => {
     // Server will send over data from db to populate page
     // Later will use api on server retrieval?
     const mock_data = [ {'name':'Event1', 'host': 'host', 'place': 'place', 'time': 'time', 'attendees': ['Guest1']}, 
-    {'name':'Event2', 'host': 'host2', 'place': 'place', 'time': 'time', 'attendees': []}, 
+    {'name':'Event2', 'host': 'host2', 'place': 'place', 'time': 'time', 'attendees': [""]}, 
     {"name": "Event3", 'host': 'host3', 'place': 'place', 'time': 'time', 'attendees': ['Guest1', 'Guest2']}, 
     {"name": "Event4", 'host': 'host4', 'place': 'place', 'time': 'time', 'attendees': ['Guest1', 'Guest2', 'Guest3']} ]; // temporary, not used
     // console.log(mock_data[0]['attendees']);
@@ -15,6 +15,7 @@ export const ViewEvents = () => {
     return (
         <div className="container">
             <h2>Events</h2>
+            <p>NOTE: Using mocked data for now</p>
             {mock_data.map((items, index) => (
                 <Event 
                     my_name={my_name}
@@ -57,11 +58,11 @@ const Event = (props) => {
         <li> { props.hosts } </li>
         <li> { props.time } </li>
         <li> { props.place } </li>
-        {props.attendees.length === 0 ? null : <li> { props.attendees.toString() } </li>}
+        {props.attendees.length === 0 ? null:<li>{ props.attendees.toString() }</li>}
         </ul>
-        { props.hosts === props.my_name ? null : <div className="center">
+        {props.hosts === props.my_name ? null:<div className="center">
         <button type="button" onClick={() => add_to_attendees(props.my_name)}>Request Join</button>
-        </div> }
+        </div>}
     </div>
     );
 };
