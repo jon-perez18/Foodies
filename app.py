@@ -33,7 +33,7 @@ def index(filename):
     
 @socketio.on('login')
 def on_login(data_name, data_email):
-    socketio.emit('login', data_name, data_email, broadcast=True, include_self=False)
+    socketio.emit('login', data_name, broadcast=True, include_self=False)
 
     all_users = models.User.query.all()
     names = []
@@ -43,11 +43,11 @@ def on_login(data_name, data_email):
         emails.append(user.email)
 
     if data_name not in names:
-        new_user = models.User(username=data_name, email=data_email)
+        new_user = models.User(name=data_name.get('username'), email=data_email.get('email'))
         db.session.add(new_user)
         db.session.commit()
-        names.append(data_name)
-        emails.append(data_email)
+        names.append(data_name.get('username'))
+        emails.append(data_email.get('email'))
 
     print(names)
     print(emails)
