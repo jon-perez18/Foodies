@@ -32,24 +32,25 @@ MY_API_KEY = os.getenv('MY_API_KEY')
 ENDPOINT='https://api.yelp.com/v3/businesses/search'
 HEADERS = {'Authorization':'bearer %s' % MY_API_KEY}
 
+
 @app.route('/', defaults={"filename": "index.html"})
 @app.route('/<path:filename>')
 def index(filename):
     return send_from_directory('./build', filename)
 
+
 event_information = {'host':'host1','event_name':'','event_description':'','restaurant':'','location':'','event_date':'','event_time':''}
+
 
 @SOCKETIO.on('connect')
 def on_connect():
     ''' Connecting user'''
     print('user connected')
 
-
-
   
 @SOCKETIO.on('login')
 def on_login(data_name, data_email):
-    socketio.emit('login', data_name, broadcast=True, include_self=False)
+    SOCKETIO.emit('login', data_name, broadcast=True, include_self=False)
 
     all_users = models.User.query.all()
     names = []
