@@ -1,16 +1,16 @@
 import os
 from flask import Flask, send_from_directory, json
-from flask_socketio import SocketIO
-from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-
 from yelp.client import Client
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 import requests
+from flask_socketio import SocketIO
+from flask_cors import CORS
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from random import randint
 
 app = Flask(__name__, static_folder='./build/static')
-
 
 # Point SQLAlchemy to your Heroku database
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
@@ -44,38 +44,13 @@ def on_connect():
     ''' Connecting user'''
     print('user connected')
 
-
-
-  
-@SOCKETIO.on('login')
-def on_login(data_name, data_email):
-    SOCKETIO.emit('login', data_name, data_email, broadcast=True, include_self=False)
-
-    all_users = models.User.query.all()
-    names = []
-    emails = []
-    for user in all_users:
-        names.append(user.name)
-        emails.append(user.email)
-
-    if data_name not in names:
-        new_user = models.User(username=data_name, email=data_email)
-        db.session.add(new_user)
-        db.session.commit()
-        names.append(data_name)
-        emails.append(data_email)
-
-    print(names)
-    print(emails)
-
-
 @SOCKETIO.on('recs')
 def get_restaurant_recs(data):  # data is whatever arg you pass in your emit call on client
     
     
     print(data)
     PARAMS = {'term':'restaurant', 'limit': 5, 'radius': int(data['radio']), 'location': data['addy']}
-    
+
     response = requests.get(url=ENDPOINT, params=PARAMS, headers=HEADERS)
 
     business_data = response.json()
@@ -117,7 +92,8 @@ def get_event_info(data):
     
 def add_event_to_db(event):
     new_event = models.Event(host=event['host'], event_name=event['event_name'],
-    event_description=event['event_description'],event_date=event['event_date'],
+    event_description=event['event_description'],restaurant=event['restaurant'],
+    location=event['location'],event_date=event['event_date'],
     event_time=event['event_time'])
     db.session.add(new_event)
     db.session.commit()
