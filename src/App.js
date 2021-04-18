@@ -1,5 +1,7 @@
-
+import './App.css';
 import Search from './Search';
+import Login from './Login';
+import Logout from './Logout';
 
 import {
   React, useState, useRef, useEffect,
@@ -8,7 +10,6 @@ import io from 'socket.io-client';
 
 const socket = io(); // Connects to socket connection
 
-
 function App() {
   
 
@@ -16,10 +17,9 @@ function App() {
     <div class="App">
      <h1>Foodies App</h1>
          <Search />
-
+     
     </div>
   );
 }
 
 export default App;
-
