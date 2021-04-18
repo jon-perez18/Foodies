@@ -3,9 +3,10 @@ import io from "socket.io-client";
 import { GoogleLogin } from 'react-google-login';
 import { refreshTokenSetup } from './refreshToken';
 
-const socket = io();
-const clientId = process.env.GOOGLE_ID;
 
+const socket = io();
+require('dotenv').config();
+const client_id=process.env.REACT_APP_GOOGLE_ID;
 
 export function Login() {
   const [usernames, setusernames] = useState([]);
@@ -51,7 +52,7 @@ export function Login() {
   return (
     <div>
       <GoogleLogin
-        clientId={clientId}
+        clientId={client_id}
         buttonText="Login"
         onSuccess={onSuccess}
         onFailure={onFailure}
