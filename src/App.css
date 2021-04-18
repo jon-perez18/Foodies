@@ -40,3 +40,19 @@
 .hide {
   color: #61dafb;
 }
+
+nav ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;  
+}
+
+nav li {
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  background-color: #999;
+}
