@@ -49,13 +49,9 @@ def on_connect():
   
 @SOCKETIO.on('login')
 def on_login(data_name, data_email):
-<<<<<<< HEAD
-    socketio.emit('login', data_name, broadcast=True, include_self=False)
-=======
-    SOCKETIO.emit('login', data_name, data_email, broadcast=True, include_self=False)
->>>>>>> 9fe3747721ff91e7293b1e57027a246dd81a7217
+    SOCKETIO.emit('login', data_name, broadcast=True, include_self=False)
 
-    all_users = models.User.query.all()
+    all_users = models.Login.query.all()
     names = []
     emails = []
     for user in all_users:
@@ -63,7 +59,7 @@ def on_login(data_name, data_email):
         emails.append(user.email)
 
     if data_name not in names:
-        new_user = models.User(name=data_name.get('username'), email=data_email.get('email'))
+        new_user = models.Login(name=data_name.get('username'), email=data_email.get('email'))
         db.session.add(new_user)
         db.session.commit()
         names.append(data_name.get('username'))
