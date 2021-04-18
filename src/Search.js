@@ -1,6 +1,7 @@
 import './App.css';
 import {Recommendation} from './Recommendation';
 import {EventInfo} from './EventInfo';
+import {DisplayEventInfo} from './DisplayEventInfo';
 import {
   React, useState, useRef, useEffect,
 } from 'react';
@@ -21,7 +22,7 @@ function Search() {
   const [isSubmit, setSubmit] = useState(false);
   const [recommendations, setRecom] = useState({});
   const [isContunueClick, setContinueClick] = useState(false);
-  const [event,setEvent] = useState({});
+  const [Event,setEvent] = useState({});
   function save_info() {
     const input_addy = addy.current.value;
     set_address(input_addy);
@@ -56,8 +57,8 @@ function Search() {
     });
     
     socket.on('recs',(data)=>{
-        console.log(data["results"]);
-        const results = data["results"];
+        console.log(data.results);
+        const results = data.results;
         setRecom(prevRecom=>results);
         
     });
@@ -65,13 +66,13 @@ function Search() {
      //console.log(data['event_info']);
      const event_info = data.event_info;
      console.log(event_info);
-     setEvent(event_info);
-      console.log("Event_info_name",event['event_name']);
+     setEvent(prevEvent=>event_info);
+     
     });
     
   }, []);
 
-
+console.log("Event",Event);
   
     if(isContunueClick===false){
       return(
@@ -114,6 +115,7 @@ function Search() {
         <button type="button" name="continue" onClick={()=>save_info()}>
           Continue
         </button>
+        <button>View Events </button>
         </form>
         </div>
         
@@ -163,6 +165,12 @@ function Search() {
         <header className="App-header">
         
         <h2>Congratulation Event Created Successfully</h2>
+        <br></br>
+        <br></br>
+        
+        <DisplayEventInfo Event={Event}/>
+        
+        
          </header>
       </div>
           
