@@ -89,10 +89,12 @@ def get_restaurant_recs(data):  # data is whatever arg you pass in your emit cal
     # This emits the 'chat' event from the server to all clients except for
     # the client that emmitted the event that triggered this function
     SOCKETIO.emit('recs',  {"results":results }, broadcast=True, include_self=True)
+    return results
+    
 
 @SOCKETIO.on('recommendations')
 def get_recomendations(data):
-    print("RECOOMENDATION",data)
+    print("RECOMMENDATION",data)
     restaurant = data['restaurant']
     location=data['location']
     event_information['restaurant']=restaurant
@@ -101,7 +103,7 @@ def get_recomendations(data):
     
 @SOCKETIO.on('event_info')
 def get_event_info(data):
-    print("Event Info", data)
+    print(data)
     
     event_name=data['event_name']
     event_description=data['event_description']
@@ -125,7 +127,7 @@ def get_event_info(data):
     add_event_to_db(event_information) 
     
     SOCKETIO.emit("event_info", {'event_info':event_information},broadcast=True, include_self=True)
-    
+    return time
    
     
 def add_event_to_db(event):
