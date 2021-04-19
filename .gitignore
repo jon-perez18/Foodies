@@ -19,6 +19,8 @@
 .env.production.local
 .env
 sql.env
+__pycache__/app.cpython-36.pyc
+__pycache__/models.cpython-36.pyc
 
 npm-debug.log*
 yarn-debug.log*

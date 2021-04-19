@@ -72,8 +72,6 @@ def on_login(data_name, data_email):
 
 @SOCKETIO.on('recs')
 def get_restaurant_recs(data):  # data is whatever arg you pass in your emit call on client
-    
-    
     print(data)
     PARAMS = {'term':'restaurant', 'limit': 5, 'radius': int(data['radio']), 'location': data['addy']}
     
@@ -85,14 +83,15 @@ def get_restaurant_recs(data):  # data is whatever arg you pass in your emit cal
     for i in range(5):
         results[business_data['businesses'][i]['name']] = business_data['businesses'][i]['location']['display_address'][0]
   
-    print("results",results)
+    print(results)
     # This emits the 'chat' event from the server to all clients except for
     # the client that emmitted the event that triggered this function
-    SOCKETIO.emit('recs',  {"results":results }, broadcast=True, include_self=True)
-
+    SOCKETIO.emit('recs', {"results":results }, broadcast=True, include_self=True)
+    return results
+    
 @SOCKETIO.on('recommendations')
 def get_recomendations(data):
-    print("RECOOMENDATION",data)
+    print("RECOMMENDATION",data)
     restaurant = data['restaurant']
     location=data['location']
     event_information['restaurant']=restaurant
@@ -102,7 +101,6 @@ def get_recomendations(data):
 @SOCKETIO.on('event_info')
 def get_event_info(data):
     print("Event Info", data)
-    
     event_name=data['event_name']
     event_description=data['event_description']
     event_date=data['event_date']
