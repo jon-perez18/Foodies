@@ -57,8 +57,7 @@ def on_login(data_name, data_email):
     for user in all_users:
         names.append(user.name)
         emails.append(user.email)
-
-    if data_name not in names:
+    if data_name.get('username') not in names:
         new_user = models.Login(name=data_name.get('username'), email=data_email.get('email'))
         db.session.add(new_user)
         db.session.commit()
