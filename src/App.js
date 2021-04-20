@@ -24,7 +24,7 @@ function App() {
     useEffect(() => {
     socket.on("login", (data_name, data_email) => {
       console.log(data_name);
-      alert("getname")
+      alert(data_name.get('username'))
     });
   }, []);
   
