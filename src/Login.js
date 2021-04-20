@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import io from "socket.io-client";
+import PropTypes from 'prop-types';
 import { GoogleLogin } from 'react-google-login';
 import { refreshTokenSetup } from './refreshToken';
 
-
-const socket = io();
 require('dotenv').config();
 const client_id=process.env.REACT_APP_GOOGLE_ID;
 
-export function Login() {
+export function Login(props) {
+  const { socket } = props;
   const [usernames, setusernames] = useState([]);
   const [emails, setemails] = useState([]);
+  const [user, setUser] = useState(null);
   
   const onSuccess = (res) => {
     console.log('Login Success: currentUser:', res.profileObj);
@@ -36,6 +36,7 @@ export function Login() {
       console.log("Login event received!");
       console.log(data_name);
       console.log(data_email);
+      setUser(() => data_name);
       setusernames((prevusernames) => [...prevusernames, data_name.username]);
       setemails((prevemails) => [...prevemails, data_email.email]);
     });
@@ -51,6 +52,7 @@ export function Login() {
 
   return (
     <div>
+      <div className="login" id="hide">
       <GoogleLogin
         clientId={client_id}
         buttonText="Login"
@@ -60,8 +62,13 @@ export function Login() {
         style={{ marginTop: '100px' }}
         isSignedIn={true}
       />
+      </div>
     </div>
   );
 }
+
+Login.propTypes = {
+    socket: PropTypes.object.isRequired,
+};
 
 export default Login;

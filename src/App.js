@@ -40,13 +40,13 @@ function App() {
             <ul>
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/search">Search</Link></li>
-                <li><Link to="/view">View Events</Link></li>
+                <li><Link onClick={() => socket.emit("events")} to="/view">View Events</Link></li>
             </ul>
             </nav>
             <Switch>
-            <Route path="/view"> <ViewEvents /></Route>
-            <Route path="/search"> <Search /></Route>
-            <Route path="/"> <Login /></Route>
+            <Route path="/view"> <ViewEvents socket={ socket } onClick={() => socket.emit("events")} /></Route>
+            <Route path="/search"> <Search socket={ socket } /></Route>
+            <Route path="/"> <Login socket={ socket }/> <Logout socket={ socket }/> </Route>
             </Switch>
         </div>
     </Router>
