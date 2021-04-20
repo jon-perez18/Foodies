@@ -6,7 +6,11 @@ class Login(DB.Model):
     email = DB.Column(DB.String(120), unique=True, nullable=False)
 
     def __repr__(self):
+<<<<<<< HEAD
         return '<Login %r>' % self.name
+=======
+        return '<User %r>' % self.name
+>>>>>>> origin
 
 class Event(DB.Model):
     event_id = DB.Column(DB.Integer, primary_key=True)
