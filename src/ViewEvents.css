@@ -23,6 +23,9 @@
   font-size: medium;
 }
 
+.box ul {
+    list-style-type: none;
+}
 .center {
   display: flex;
   justify-content: center;
@@ -30,7 +33,6 @@
 }
 
 .container {
-  padding: 25px;
   text-align: center;
 }
 

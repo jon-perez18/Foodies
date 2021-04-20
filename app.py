@@ -162,6 +162,19 @@ def add_event_to_db(event):
     DB.session.add(new_event)
     DB.session.commit()
 
+def get_events():
+    '''Returns list of events from db'''
+    events = models.Event.query.all()
+    events = list(map(lambda event: [event.host, event.event_name, event.event_description, event.restaurant, event.location, event.event_date, event.event_time], events))
+    print(events)
+    return events
+
+@SOCKETIO.on("events")
+def on_events():
+    '''Returns a list of events from db'''
+    events_list = get_events()
+    print("on events func")
+    SOCKETIO.emit("events", {"events": events_list}, broadcast=True, include_self=True)
 
 if __name__ == "__main__":
     # Note that we don't call app.run anymore. We call socketio.run with app arg

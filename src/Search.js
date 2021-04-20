@@ -1,13 +1,16 @@
-import "./App.css";
-import { Recommendation } from "./Recommendation";
-import { EventInfo } from "./EventInfo";
-import { DisplayEventInfo } from "./DisplayEventInfo";
-import { React, useState, useRef, useEffect } from "react";
-import io from "socket.io-client";
+import './App.css';
+import PropTypes from 'prop-types';
+import {Recommendation} from './Recommendation';
+import {EventInfo} from './EventInfo';
+import {DisplayEventInfo} from './DisplayEventInfo';
+import {
+  React, useState, useRef, useEffect,
+} from 'react';
+// import io from 'socket.io-client';
+// const socket = io(); // Connects to socket connection
 
-const socket = io(); // Connects to socket connection
-
-function Search() {
+function Search(props) {
+  const { socket } = props;
   const addy = useRef(null);
   const event_name_ref = useRef(null);
   const event_description_ref = useRef(null);
@@ -43,6 +46,7 @@ function Search() {
     const event_description = event_description_ref.current.value;
     const event_date = event_date_ref.current.value;
     const event_time = event_time_ref.current.value;
+
     setSubmit((prevSubmit) => true);
     socket.emit("event_info", {
       event_name: event_name,
@@ -184,4 +188,7 @@ function Search() {
   );
 }
 
+Search.propTypes = {
+    socket: PropTypes.object.isRequired,
+};
 export default Search;
