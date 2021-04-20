@@ -17,10 +17,10 @@ export function Login() {
     alert(
       `Successful Login ${res.profileObj.name}. \n`
     );
-    refreshTokenSetup(res);
-    document.getElementById("hide").style.visibility = "hidden";
     
-    onLogin(res)
+    refreshTokenSetup(res);
+    onLogin(res);
+    document.location.href = '/view'
   };
   
   function onLogin(res) {
