@@ -4,11 +4,9 @@ class Login(DB.Model):
     id = DB.Column(DB.Integer, primary_key=True)
     name = DB.Column(DB.String(80), unique=True, nullable=False)
     email = DB.Column(DB.String(120), unique=True, nullable=False)
-
     def __repr__(self):
         return '<Login %r>' % self.name
-
-
+        
 class Event(DB.Model):
     event_id = DB.Column(DB.Integer, primary_key=True)
     host = DB.Column(DB.String(80), nullable=False)
