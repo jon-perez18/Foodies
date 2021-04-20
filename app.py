@@ -37,7 +37,7 @@ HEADERS = {'Authorization':'bearer %s' % MY_API_KEY}
 def index(filename):
     return send_from_directory('./build', filename)
 
-event_information = {'host':'host1','event_name':'','event_description':'','restaurant':'','location':'','event_date':'','event_time':''}
+event_information = {'host':'','event_name':'','event_description':'','restaurant':'','location':'','event_date':'','event_time':''}
 
 @SOCKETIO.on('connect')
 def on_connect():
@@ -51,8 +51,11 @@ def on_connect():
 def on_login(data_name, data_email):
     SOCKETIO.emit('login', data_name, data_email, broadcast=True, include_self=False)
     print(data_name)
+    
     host = data_name
+    
     event_information['host'] = host
+    
     all_users = models.Login.query.all()
     names = []
     emails = []
