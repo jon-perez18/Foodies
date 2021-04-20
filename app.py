@@ -1,43 +1,52 @@
+"""Foodies"""
 import os
 from flask import Flask, send_from_directory, json
 from flask_socketio import SocketIO
-from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-
-from yelp.client import Client
 from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
 import requests
-
-app = Flask(__name__, static_folder='./build/static')
-
-
-# Point SQLAlchemy to your Heroku database
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-# Gets rid of a warning
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-
 import models
 
-db.create_all()
+load_dotenv(find_dotenv())
 
-SOCKETIO = SocketIO(app,
+APP = Flask(__name__, static_folder='./build/static')
+
+# Point SQLAlchemy to your Heroku database
+APP.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+# Gets rid of a warning
+APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+DB = SQLAlchemy(APP)
+
+DB.create_all()
+
+SOCKETIO = SocketIO(APP,
                     cors_allowed_origins="*",
                     json=json,
                     manage_session=False)
-                    
-MY_API_KEY = os.getenv('MY_API_KEY')
-ENDPOINT='https://api.yelp.com/v3/businesses/search'
-HEADERS = {'Authorization':'bearer %s' % MY_API_KEY}
 
-@app.route('/', defaults={"filename": "index.html"})
-@app.route('/<path:filename>')
+MY_API_KEY = os.getenv('MY_API_KEY')
+ENDPOINT = 'https://api.yelp.com/v3/businesses/search'
+HEADERS = {'Authorization': 'bearer %s' % MY_API_KEY}
+
+
+@APP.route('/', defaults={"filename": "index.html"})
+@APP.route('/<path:filename>')
 def index(filename):
+    """index"""
     return send_from_directory('./build', filename)
 
-event_information = {'host':'host1','event_name':'','event_description':'','restaurant':'','location':'','event_date':'','event_time':''}
+
+EVENT_INFO = {
+    'host': '',
+    'event_name': '',
+    'event_description': '',
+    'restaurant': '',
+    'location': '',
+    'event_date': '',
+    'event_time': ''
+}
+
 
 @SOCKETIO.on('connect')
 def on_connect():
@@ -45,13 +54,12 @@ def on_connect():
     print('user connected')
 
 
-
-  
 @SOCKETIO.on('login')
 def on_login(data_name, data_email):
-    SOCKETIO.emit('login', data_name, data_email, broadcast=True, include_self=False)
+    """logging in user"""
+    SOCKETIO.emit('login', data_name, broadcast=True, include_self=False)
 
-    all_users = models.User.query.all()
+    all_users = models.Login.query.all()
     names = []
     emails = []
     for user in all_users:
@@ -59,89 +67,106 @@ def on_login(data_name, data_email):
         emails.append(user.email)
 
     if data_name not in names:
-        new_user = models.User(username=data_name, email=data_email)
-        db.session.add(new_user)
-        db.session.commit()
-        names.append(data_name)
-        emails.append(data_email)
+        new_user = models.Login(name=data_name.get('username'),
+                               email=data_email.get('email'))
+        DB.session.add(new_user)
+        DB.session.commit()
+        names.append(data_name.get('username'))
+        emails.append(data_email.get('email'))
 
     print(names)
     print(emails)
-
+    
+    EVENT_INFO['host'] = data_name
 
 @SOCKETIO.on('recs')
-def get_restaurant_recs(data):  # data is whatever arg you pass in your emit call on client
-    
-    
+def get_restaurant_recs(
+        data):  # data is whatever arg you pass in your emit call on client
+    """get restaurant recs"""
     print(data)
-    PARAMS = {'term':'restaurant', 'limit': 5, 'radius': int(data['radio']), 'location': data['addy']}
-    
-    response = requests.get(url=ENDPOINT, params=PARAMS, headers=HEADERS)
+    params = {
+        'term': 'restaurant',
+        'limit': 5,
+        'radius': int(data['radio']),
+        'location': data['addy']
+    }
+
+    response = requests.get(url=ENDPOINT, params=params, headers=HEADERS)
 
     business_data = response.json()
-    
-    results={}
+
+    results = {}
     for i in range(5):
-        results[business_data['businesses'][i]['name']] = business_data['businesses'][i]['location']['display_address'][0]
-  
-    print("results",results)
+        results[business_data['businesses'][i]['name']] = business_data[
+            'businesses'][i]['location']['display_address'][0]
+
+    print("results", results)
     # This emits the 'chat' event from the server to all clients except for
     # the client that emmitted the event that triggered this function
-    SOCKETIO.emit('recs',  {"results":results }, broadcast=True, include_self=True)
+    SOCKETIO.emit('recs', {"results": results},
+                  broadcast=True,
+                  include_self=True)
+    return results
+
 
 @SOCKETIO.on('recommendations')
 def get_recomendations(data):
-    print("RECOOMENDATION",data)
+    """get recommendations"""
+    print("RECOMMENDATION", data)
     restaurant = data['restaurant']
-    location=data['location']
-    event_information['restaurant']=restaurant
-    event_information['location'] = location
- 
-    
+    location = data['location']
+    EVENT_INFO['restaurant'] = restaurant
+    EVENT_INFO['location'] = location
+
+
 @SOCKETIO.on('event_info')
 def get_event_info(data):
-    print("Event Info", data)
-    
-    event_name=data['event_name']
-    event_description=data['event_description']
-    event_date=data['event_date']
-    event_time=data['event_time']
-    print(int(event_time[:2])-12)
-    hour=int(event_time[:2])
-    if hour>12:
-        new_hour = hour-12
-        time= str(new_hour)+event_time[2:]+ ' PM'
+    """get event info"""
+    print(data)
+
+    event_name = data['event_name']
+    event_description = data['event_description']
+    event_date = data['event_date']
+    event_time = data['event_time']
+    print(int(event_time[:2]) - 12)
+    hour = int(event_time[:2])
+    if hour > 12:
+        new_hour = hour - 12
+        time = str(new_hour) + event_time[2:] + ' PM'
     else:
         time = event_time + ' AM'
     print(time)
-    
-        
-    event_information['event_name']=event_name
-    event_information['event_description']=event_description
-    event_information['event_date']=event_date
-    event_information['event_time']=time
+
+    EVENT_INFO['event_name'] = event_name
+    EVENT_INFO['event_description'] = event_description
+    EVENT_INFO['event_date'] = event_date
+    EVENT_INFO['event_time'] = time
     print(event_time[:2])
-    add_event_to_db(event_information) 
-    
-    SOCKETIO.emit("event_info", {'event_info':event_information},broadcast=True, include_self=True)
-    
-   
-    
+    add_event_to_db(EVENT_INFO)
+
+    SOCKETIO.emit("event_info", {'event_info': EVENT_INFO},
+                  broadcast=True,
+                  include_self=True)
+    return time
+
+
 def add_event_to_db(event):
-    new_event = models.Event(host=event['host'], event_name=event['event_name'],
-    event_description=event['event_description'],restaurant=event['restaurant'],
-    location=event['location'],event_date=event['event_date'],
-    event_time=event['event_time'])
-    db.session.add(new_event)
-    db.session.commit()
-   
+    """adding an event to the databse"""
+    new_event = models.Event(host=event['host'],
+                             event_name=event['event_name'],
+                             event_description=event['event_description'],
+                             restaurant=event['restaurant'],
+                             location=event['location'],
+                             event_date=event['event_date'],
+                             event_time=event['event_time'])
+    DB.session.add(new_event)
+    DB.session.commit()
 
 
 if __name__ == "__main__":
     # Note that we don't call app.run anymore. We call socketio.run with app arg
     SOCKETIO.run(
-        app,
+        APP,
         host=os.getenv('IP', '0.0.0.0'),
         port=8081 if os.getenv('C9_PORT') else int(os.getenv('PORT', 8081)),
     )
-
