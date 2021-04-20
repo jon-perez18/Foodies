@@ -11,26 +11,24 @@ export function Login(props) {
   const [usernames, setusernames] = useState([]);
   const [emails, setemails] = useState([]);
   const [user, setUser] = useState(null);
-  
+
   const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res.profileObj);
-    alert(
-      `Successful Login ${res.profileObj.name}. \n`
-    );
+    console.log("Login Success: currentUser:", res.profileObj);
+    alert(`Successful Login ${res.profileObj.name}. \n`);
     refreshTokenSetup(res);
     document.getElementById("hide").style.visibility = "hidden";
-    
-    onLogin(res)
+
+    onLogin(res);
   };
-  
+
   function onLogin(res) {
     const username = `${res.profileObj.name}`;
     setusernames((prevusernames) => [...prevusernames, username]);
     const email = `${res.profileObj.email}`;
     setemails((prevemails) => [...prevemails, email]);
-    socket.emit("login", { username: username }, {email: email});
+    socket.emit("login", { username: username }, { email: email });
   }
-  
+
   useEffect(() => {
     socket.on("login", (data_name, data_email) => {
       console.log("Login event received!");
@@ -41,14 +39,11 @@ export function Login(props) {
       setemails((prevemails) => [...prevemails, data_email.email]);
     });
   }, []);
-  
-  const onFailure = (res) => {
-    console.log('Login failed: res:', res);
-    alert(
-      `Failed to login.`
-    );
-  };
 
+  const onFailure = (res) => {
+    console.log("Login failed: res:", res);
+    alert(`Failed to login.`);
+  };
 
   return (
     <div>
@@ -58,8 +53,8 @@ export function Login(props) {
         buttonText="Login"
         onSuccess={onSuccess}
         onFailure={onFailure}
-        cookiePolicy={'single_host_origin'}
-        style={{ marginTop: '100px' }}
+        cookiePolicy={"single_host_origin"}
+        style={{ marginTop: "100px" }}
         isSignedIn={true}
       />
       </div>

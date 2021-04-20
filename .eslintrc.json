@@ -1,0 +1,10 @@
+{
+  "extends": "airbnb",
+  "ignorePatterns": ["reportWebVitals.js", "setupTests.js", "logo.svg", "App.test.js", "index.css","index.js"],
+  "rules": {
+    "react/jsx-filename-extension": "off",
+    "no-nested-ternary": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off"
+  }
+}

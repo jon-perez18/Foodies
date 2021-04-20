@@ -74,5 +74,5 @@ const Event = (props) => {
         <button type="button" onClick={() => add_to_attendees(props.my_name)}>Request Join</button>
         </div>}
     </div>
-    );
+  );
 };

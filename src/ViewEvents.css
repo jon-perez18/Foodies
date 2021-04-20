@@ -1,46 +1,46 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .box {
-    border: 1px solid black;
-    border-radius: 10px;
-    text-align: left;
-    flex-direction: column;
-    margin: 1rem auto;
-    margin-bottom: 1.6%;
-    background: #fff;
-    line-height: 1.4;
-    padding: 0px 10px;
-    overflow: hidden;
-    z-index: 0;
-    font-size: small;
-    width: 520px;
+  border: 1px solid black;
+  border-radius: 10px;
+  text-align: left;
+  flex-direction: column;
+  margin: 1rem auto;
+  margin-bottom: 1.6%;
+  background: #fff;
+  line-height: 1.4;
+  padding: 0px 10px;
+  overflow: hidden;
+  z-index: 0;
+  font-size: small;
+  width: 520px;
 }
 
 .box h4 {
-    margin: 0px 5px 5px;
-    font-size: medium;
+  margin: 0px 5px 5px;
+  font-size: medium;
 }
 
 .box ul {
     list-style-type: none;
 }
 .center {
-    display: flex;
-    justify-content: center;
-    margin: 5px;
+  display: flex;
+  justify-content: center;
+  margin: 5px;
 }
 
 .container {
-    text-align: center;
+  text-align: center;
 }
 
 .loc-thumbnail {
-    float: right;
-    width: 25%;
+  float: right;
+  width: 25%;
 }
-    
+
 .picture {
-    margin: 10px;
+  margin: 10px;
 }
