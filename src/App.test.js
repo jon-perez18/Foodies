@@ -6,10 +6,9 @@ test("Switch to different tabs", () => {
   render(<App />);
   const LoginButton = screen.getByText("Login");
   expect(LoginButton).toBeInTheDocument();
-  const SearchButton = screen.getByText("Search")
+  const SearchButton = screen.getByText("Search");
   fireEvent.click(SearchButton);
   expect(LoginButton).not.toBeInTheDocument();
-  
 });
 
 test("Enter address", () => {
