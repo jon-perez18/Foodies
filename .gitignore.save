@@ -4,7 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-*/__pycache__/*
+
 # testing
 /coverage
 
@@ -18,11 +18,9 @@
 .env.test.local
 .env.production.local
 .env
-sql.env
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+*/__pycache__/*
 
 
