@@ -59,6 +59,7 @@ def on_login(data_name, data_email):
     """logging in user"""
     SOCKETIO.emit('login', data_name, broadcast=True, include_self=False)
     EVENT_INFO['host'] = data_name
+
     all_users = models.Login.query.all()
     names = []
     emails = []
@@ -66,11 +67,12 @@ def on_login(data_name, data_email):
         names.append(user.name)
         emails.append(user.email)
 
-    if data_name not in names:
+    if data_name.get('username') not in names:
         new_user = models.Login(name=data_name.get('username'),
                                email=data_email.get('email'))
         DB.session.add(new_user)
         DB.session.commit()
+
         names.append(data_name.get('username'))
         emails.append(data_email.get('email'))
 

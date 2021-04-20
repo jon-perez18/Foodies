@@ -13,21 +13,17 @@ import io from "socket.io-client";
 const socket = io(); // Connects to socket connection
 
 function App() {
-  //  <div class="login" id="hide">
-  //          <Login />
-  //          <br />
-  //          <Logout />
-  //      </div>
-
+    
+    useEffect(() => {
+    socket.on("login", (data_name, data_email) => {
+      console.log(data_name);
+      alert(data_name.get('username'))
+    });
+  }, []);
+  
   return (
-    //     <div class="App">
-    //      <h1>Foodies App</h1>
-    //          <Search />
-    <div class="App">
-      {
-        //<h1>Foodies App</h1>
-      }
-      <Router>
+     <div className="App">
+     <Router>
         <div>
           <nav>
             <ul>

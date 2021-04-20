@@ -13,12 +13,12 @@ export function Login(props) {
   const [user, setUser] = useState(null);
 
   const onSuccess = (res) => {
-    console.log("Login Success: currentUser:", res.profileObj);
+    console.log('Login Success: currentUser:', res.profileObj);
     alert(`Successful Login ${res.profileObj.name}. \n`);
+    
     refreshTokenSetup(res);
-    document.getElementById("hide").style.visibility = "hidden";
-
     onLogin(res);
+    document.location.href = '/view'
   };
 
   function onLogin(res) {
