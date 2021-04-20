@@ -1,46 +1,56 @@
 import logo from './Logo.PNG';
 import './ViewEvents.css';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { React, useState, useEffect } from 'react';
+// import io from 'socket.io-client';
 
-export const ViewEvents = () => {
-    // Server will send over data from db to populate page
-    // Later will use api on server retrieval?
-    const mock_data = [ {'name':'Event1', 'host': 'host', 'place': 'place', 'time': 'time', 'attendees': ['Guest1']}, 
-    {'name':'Event2', 'host': 'host2', 'place': 'place', 'time': 'time', 'attendees': [""]}, 
-    {"name": "Event3", 'host': 'host3', 'place': 'place', 'time': 'time', 'attendees': ['Guest1', 'Guest2']}, 
-    {"name": "Event4", 'host': 'host4', 'place': 'place', 'time': 'time', 'attendees': ['Guest1', 'Guest2', 'Guest3']} ]; // temporary, not used
-    // console.log(mock_data[0]['attendees']);
-    const my_name = "host";
+export function ViewEvents(props){
+    const { socket } = props;
+    const[eventData, setEvents] = useState([]);
+    
+    useEffect(() => {
+        socket.on("events", (data) => {
+            setEvents(() => data.events);
+        });
+    }, []);
+    console.log("view event page", eventData);
+    const my_name = "username";
     return (
+        <div>
+        <h1>{ my_name }</h1>
         <div className="container">
             <h2>Events</h2>
-            <p>NOTE: Using mocked data for now</p>
-            {mock_data.map((items, index) => (
-                <Event 
+            {eventData.map((items, index) => (
+                <Event
+                    key={index}
                     my_name={my_name}
-                    hosts={mock_data[index]['host']}
-                    name={mock_data[index]['name']}
-                    time={mock_data[index]['time']}
-                    place={mock_data[index]['place']}
-                    attendees={mock_data[index]['attendees']}
+                    hosts={eventData[index][0]}
+                    name={eventData[index][1]}
+                    description={eventData[index][2]}
+                    place={eventData[index][3]}
+                    address={eventData[index][4]}
+                    date={eventData[index][5]}
+                    time={eventData[index][6]}
                 />
             ))}
         </div>
+        </div>
     );
+}
+ViewEvents.propTypes = {
+    socket: PropTypes.object.isRequired,
 };
 
 const Event = (props) => {
     Event.propTypes = {
+        key: PropTypes.number.isRequired,
         my_name: PropTypes.string.isRequired,
         hosts: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        time: PropTypes.string.isRequired,
         place: PropTypes.string.isRequired,
-        attendees: PropTypes.arrayOf(PropTypes.string),
-    };
-    Event.defaultProps = {
-        attendees: null,
+        address: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+        time: PropTypes.string.isRequired,
     };
     
     function add_to_attendees(name){
@@ -55,10 +65,10 @@ const Event = (props) => {
         <div className="picture"><img className="loc-thumbnail" src={logo} alt="location picture" /></div>
         <h4>{ props.name }</h4>
         <ul>
-        <li> { props.hosts } </li>
-        <li> { props.time } </li>
-        <li> { props.place } </li>
-        {props.attendees.length === 0 ? null:<li>{ props.attendees.toString() }</li>}
+        <li>Hosted by: { props.hosts }</li>
+        <li>Where: { props.place } </li>
+        <li> { props.address } </li>
+        <li>When: { props.date } { props.time } </li>
         </ul>
         {props.hosts === props.my_name ? null:<div className="center">
         <button type="button" onClick={() => add_to_attendees(props.my_name)}>Request Join</button>
