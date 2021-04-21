@@ -9,9 +9,19 @@ const clientId = process.env.REACT_APP_GOOGLE_ID;
 
 export function Login(props) {
   const { socket } = props;
-  const [usernames, setusernames] = useState([]); // eslint-disable-line no-unused-vars
-  const [emails, setemails] = useState([]); // eslint-disable-line no-unused-vars
-  const [user, setUser] = useState(null); // eslint-disable-line no-unused-vars
+
+  const [usernames, setusernames] = useState([]);
+  const [emails, setemails] = useState([]);
+  const [user, setUser] = useState(null);
+
+  const onSuccess = (res) => {
+    console.log('Login Success: currentUser:', res.profileObj);
+    alert(`Successful Login ${res.profileObj.name}. \n`);
+    
+    refreshTokenSetup(res);
+    onLogin(res);
+    document.location.href = '/search'
+  };
 
   function onLogin(res) {
     const username = `${res.profileObj.name}`;
