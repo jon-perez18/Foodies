@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleLogin } from 'react-google-login';
 import refreshTokenSetup from './refreshToken';
@@ -8,17 +8,16 @@ require('dotenv').config();
 const clientId = process.env.REACT_APP_GOOGLE_ID;
 
 export function Login(props) {
-  const { socket } = props;
-
+  const { socket, setUser } = props;
   const [usernames, setusernames] = useState([]); // eslint-disable-line no-unused-vars
   const [emails, setemails] = useState([]); // eslint-disable-line no-unused-vars
-  const [user, setUser] = useState(null); // eslint-disable-line no-unused-vars
 
   function onLogin(res) {
     const username = `${res.profileObj.name}`;
     setusernames((prevusernames) => [...prevusernames, username]);
     const email = `${res.profileObj.email}`;
     setemails((prevemails) => [...prevemails, email]);
+    // console.log(usernames, emails);
     socket.emit('login', { username }, { email });
   }
 
@@ -28,19 +27,9 @@ export function Login(props) {
 
     refreshTokenSetup(res);
     onLogin(res);
-    document.location.href = '/search';
+    setUser(() => res.profileObj.name);
+    // document.location.href = '/search';
   };
-
-  useEffect(() => {
-    socket.on('login', (dataName, dataEmail) => {
-      // console.log('Login event received!');
-      // console.log(dataName);
-      // console.log(dataEmail);
-      setUser(() => dataName);
-      setusernames((prevusernames) => [...prevusernames, dataName.username]);
-      setemails((prevemails) => [...prevemails, dataEmail.email]);
-    });
-  }, []);
 
   const onFailure = (res) => { // eslint-disable-line no-unused-vars
     // console.log('Login failed: res:', res);
@@ -66,6 +55,7 @@ export function Login(props) {
 
 Login.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
+  setUser: PropTypes.func.isRequired,
 };
 
 export default Login;

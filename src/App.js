@@ -1,6 +1,6 @@
 import './App.css';
 import {
-  React, useEffect,
+  React, useState,
 } from 'react';
 import {
   BrowserRouter as Router, Switch, Route, Link,
@@ -14,13 +14,7 @@ import ViewEvents from './ViewEvents';
 const socket = io(); // Connects to socket connection
 
 function App() {
-  useEffect(() => {
-    socket.on('login', (dataName, dataEmail) => {
-      console.log(dataName, dataEmail);
-      alert(dataName.get('username'));
-    });
-  }, []);
-
+  const [user, setUser] = useState(''); // eslint-disable-line no-unused-vars
   return (
 
     <div className="App">
@@ -42,15 +36,15 @@ function App() {
           <Switch>
             <Route path="/view">
               {' '}
-              <ViewEvents socket={socket} onClick={() => socket.emit('events')} />
+              <ViewEvents socket={socket} userName={user} />
             </Route>
             <Route path="/search">
               {' '}
-              <Search socket={socket} />
+              <Search socket={socket} userName={user} />
             </Route>
             <Route path="/">
               {' '}
-              <Login socket={socket} />
+              <Login socket={socket} setUser={setUser} />
               <Logout socket={socket} />
             </Route>
           </Switch>
