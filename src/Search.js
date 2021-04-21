@@ -1,81 +1,80 @@
 import './App.css';
 import PropTypes from 'prop-types';
-import {Recommendation} from './Recommendation';
-import {EventInfo} from './EventInfo';
-import {DisplayEventInfo} from './DisplayEventInfo';
 import {
   React, useState, useRef, useEffect,
 } from 'react';
-// import io from 'socket.io-client';
-// const socket = io(); // Connects to socket connection
+import Recommendation from './Recommendation';
+import EventInfo from './EventInfo';
+import DisplayEventInfo from './DisplayEventInfo';
 
 function Search(props) {
   const { socket } = props;
   const addy = useRef(null);
-  const event_name_ref = useRef(null);
-  const event_description_ref = useRef(null);
-  const event_date_ref = useRef(null);
-  const event_time_ref = useRef(null);
-  const [store_address, set_address] = useState(null);
-  const [radio, setRadio] = useState("5000");
+  const eventNameRef = useRef(null);
+  const eventDescriptionRef = useRef(null);
+  const eventDateRef = useRef(null);
+  const eventTimeRef = useRef(null);
+  const [storeAddress, setAddress] = useState(null); // eslint-disable-line no-unused-vars
+  const [radio, setRadio] = useState('5000');
   const [isCreate, setCreate] = useState(false);
   const [isSubmit, setSubmit] = useState(false);
   const [recommendations, setRecom] = useState({});
   const [isContunueClick, setContinueClick] = useState(false);
   const [Event, setEvent] = useState({});
-  function save_info() {
-    const input_addy = addy.current.value;
-    set_address(input_addy);
-    console.log(store_address);
-    setContinueClick((prevClickContinue) => true);
-    socket.emit("recs", { addy: input_addy, radio: radio });
+
+  function saveInfoFunc() {
+    const inputAddy = addy.current.value;
+    setAddress(inputAddy);
+    console.log(storeAddress);
+    setContinueClick((prevClickContinue) => true); // eslint-disable-line no-unused-vars
+    socket.emit('recs', { addy: inputAddy, radio });
   }
   function onPressCreate(key) {
-    setCreate((preCreate) => true);
-    //console.log(key)
+    setCreate((preCreate) => true); // eslint-disable-line no-unused-vars
+    // console.log(key)
     const restaurant = key;
     const location = recommendations[key];
     console.log(restaurant, location);
-    socket.emit("recommendations", {
-      restaurant: restaurant,
-      location: location,
+    socket.emit('recommendations', {
+      restaurant,
+      location,
     });
   }
   function onPressSubmit() {
-    const event_name = event_name_ref.current.value;
-    const event_description = event_description_ref.current.value;
-    const event_date = event_date_ref.current.value;
-    const event_time = event_time_ref.current.value;
+    const eventName = eventNameRef.current.value;
+    const eventDescription = eventDescriptionRef.current.value;
+    const eventDate = eventDateRef.current.value;
+    const eventTime = eventTimeRef.current.value;
 
-    setSubmit((prevSubmit) => true);
-    socket.emit("event_info", {
-      event_name: event_name,
-      event_description: event_description,
-      event_date: event_date,
-      event_time: event_time,
+    setSubmit((prevSubmit) => true); // eslint-disable-line no-unused-vars
+    socket.emit('event_info', {
+      eventName,
+      eventDescription,
+      eventDate,
+      eventTime,
     });
   }
   useEffect(() => {
     // Listening for a chat event emitted by the server. If received, we
     // run the code in the function that is passed in as the second arg
-    socket.on("recomendations", (data) => {
-      console.log("recoomendation", data);
+    socket.on('recomendations', (data) => { // eslint-disable-line no-unused-vars
+      console.log('recoomendation', data);
     });
 
-    socket.on("recs", (data) => {
+    socket.on('recs', (data) => {
       console.log(data.results);
-      const results = data.results;
-      setRecom((prevRecom) => results);
+      const { results } = data;
+      setRecom((prevRecom) => results); // eslint-disable-line no-unused-vars
     });
-    socket.on("event_info", (data) => {
-      //console.log(data['event_info']);
-      const event_info = data.event_info;
-      console.log(event_info);
-      setEvent((prevEvent) => event_info);
+    socket.on('event_info', (data) => {
+      console.log(data.event_info);
+      const { eventInfo } = data;
+      console.log(eventInfo);
+      setEvent((prevEvent) => eventInfo); // eslint-disable-line no-unused-vars
     });
   }, []);
 
-  console.log("Event", Event);
+  console.log('Event', Event);
 
   if (isContunueClick === false) {
     return (
@@ -94,7 +93,7 @@ function Search(props) {
 
               <input
                 type="radio"
-                checked={radio === "5000"}
+                checked={radio === '5000'}
                 value="5000"
                 onChange={(e) => {
                   setRadio(e.target.value);
@@ -105,82 +104,81 @@ function Search(props) {
 
               <input
                 type="radio"
-                checked={radio === "10000"}
+                checked={radio === '10000'}
                 value="10000"
                 onChange={(e) => {
                   setRadio(e.target.value);
                 }}
               />
-              <label>10000 meters</label>
+              <label htmlFor="10000Meter">10000 meters</label>
               <br />
 
               <input
                 type="radio"
-                checked={radio === "25000"}
+                checked={radio === '25000'}
                 value="25000"
                 onChange={(e) => {
                   setRadio(e.target.value);
                 }}
               />
-              <label>25000 meters</label>
+              <label htmlFor="25000Meter">25000 meters</label>
               <br />
 
               <input
                 type="radio"
-                checked={radio === "39000"}
+                checked={radio === '39000'}
                 value="39000"
                 onChange={(e) => {
                   setRadio(e.target.value);
                 }}
               />
-              <label>39000 meters</label>
+              <label htmlFor="39000Meter">39000 meters</label>
               <br />
               <br />
-              <button type="button" name="continue" onClick={() => save_info()}>
+              <button type="button" name="continue" onClick={() => saveInfoFunc()}>
                 Continue
               </button>
-              <button>View Events </button>
+              <button type="button">View Events </button>
             </form>
           </div>
         </header>
       </div>
     );
-  } else {
-    if (isCreate === false) {
-      return (
-        <div className="App">
-          <header className="App-header">
-            <Recommendation
-              onPressCreate={onPressCreate}
-              recommendations={recommendations}
-            />
-          </header>
-        </div>
-      );
-    } else {
-      if (isSubmit === false) {
-        return (
-          <div className="App">
-            <header className="App-header">
-              <EventInfo
-                event_name_ref={event_name_ref}
-                event_description_ref={event_description_ref}
-                event_date_ref={event_date_ref}
-                event_time_ref={event_time_ref}
-                onPressSubmit={onPressSubmit}
-              />
-            </header>
-          </div>
-        );
-      }
-    }
   }
+  if (isCreate === false) {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <Recommendation
+            onPressCreate={onPressCreate}
+            recommendations={recommendations}
+          />
+        </header>
+      </div>
+    );
+  }
+  if (isSubmit === false) {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <EventInfo
+            eventNameRef={eventNameRef}
+            eventDescriptionRef={eventDescriptionRef}
+            eventDateRef={eventDateRef}
+            eventTimeRef={eventTimeRef}
+            onPressSubmit={onPressSubmit}
+          />
+        </header>
+      </div>
+    );
+  }
+  console.log(Event);
   return (
     <div className="App">
       <header className="App-header">
         <h2>Congratulation Event Created Successfully</h2>
-        <br></br>
-        <br></br>
+        <br />
+        <br />
 
         <DisplayEventInfo Event={Event} />
       </header>
@@ -189,6 +187,6 @@ function Search(props) {
 }
 
 Search.propTypes = {
-    socket: PropTypes.object.isRequired,
+  socket: PropTypes.instanceOf(Object).isRequired,
 };
 export default Search;

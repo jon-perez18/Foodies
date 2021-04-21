@@ -18,6 +18,7 @@ class Event(DB.Model):
     location = DB.Column(DB.String(80), nullable=False)
     event_date = DB.Column(DB.String(80), nullable=False)
     event_time = DB.Column(DB.String(80), nullable=False)
+    attendees = DB.Column(DB.ARRAY(DB.String(50)), nullable=True, default={})
 
     def __repr__(self):
         return '<Event %r>' % self.event_name
