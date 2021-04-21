@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 import requests
 
+
 load_dotenv(find_dotenv())
 
 APP = Flask(__name__, static_folder='./build/static')
@@ -75,11 +76,13 @@ def on_login(data_name, data_email):
 
         names.append(data_name.get('username'))
         emails.append(data_email.get('email'))
-
+    
     print(names)
     print(emails)
     
-    EVENT_INFO['host'] = data_name
+    SOCKETIO.emit('login', data_name, broadcast=True, include_self=True)
+    
+    
 
 @SOCKETIO.on('recs')
 def get_restaurant_recs(
@@ -135,6 +138,10 @@ def get_event_info(data):
     if hour > 12:
         new_hour = hour - 12
         time = str(new_hour) + event_time[2:] + ' PM'
+    elif hour == 00:
+        new_hour = "12"
+        time = new_hour + event_time[2:] + ' AM'
+        
     else:
         time = event_time + ' AM'
     print(time)
@@ -152,7 +159,7 @@ def get_event_info(data):
     return time
 
 
-def add_event_to_db(event):
+def add_event_to_db(event): #event is a dictionary of event info
     """adding an event to the databse"""
     new_event = models.Event(host=event['host'],
                              event_name=event['event_name'],
@@ -164,7 +171,9 @@ def add_event_to_db(event):
                              attendees=[])
     DB.session.add(new_event)
     DB.session.commit()
+    print(new_event)
     return new_event
+    
 
 def get_events():
     '''Returns list of events from db'''
