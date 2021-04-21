@@ -1,12 +1,12 @@
-import React from "react";
-import { GoogleLogout } from "react-google-login";
+import React from 'react';
+import { GoogleLogout } from 'react-google-login';
 
 const clientId = process.env.GOOGLE_ID;
 
 function Logout() {
   const onSuccess = () => {
-    console.log("Logout made successfully");
-    alert("Sucessful Logout");
+    console.log('Logout made successfully');
+    alert('Sucessful Logout');
   };
 
   return (
@@ -15,7 +15,7 @@ function Logout() {
         clientId={clientId}
         buttonText="Logout"
         onLogoutSuccess={onSuccess}
-      ></GoogleLogout>
+      />
     </div>
   );
 }

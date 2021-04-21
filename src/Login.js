@@ -1,69 +1,71 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleLogin } from 'react-google-login';
-import { refreshTokenSetup } from './refreshToken';
+import refreshTokenSetup from './refreshToken';
 
 require('dotenv').config();
-const client_id=process.env.REACT_APP_GOOGLE_ID;
+
+const clientId = process.env.REACT_APP_GOOGLE_ID;
 
 export function Login(props) {
   const { socket } = props;
-  const [usernames, setusernames] = useState([]);
-  const [emails, setemails] = useState([]);
-  const [user, setUser] = useState(null);
+  const [usernames, setusernames] = useState([]); // eslint-disable-line no-unused-vars
+  const [emails, setemails] = useState([]); // eslint-disable-line no-unused-vars
+  const [user, setUser] = useState(null); // eslint-disable-line no-unused-vars
 
   const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res.profileObj);
-    alert(`Successful Login ${res.profileObj.name}. \n`);
+//     console.log('Login Success: currentUser:', res.profileObj);
+    alert(`Successful Login ${res.profileObj.name}. \n`); // eslint-disable-line no-alert
     
     refreshTokenSetup(res);
     onLogin(res);
     document.location.href = '/view'
   };
 
+
   function onLogin(res) {
     const username = `${res.profileObj.name}`;
     setusernames((prevusernames) => [...prevusernames, username]);
     const email = `${res.profileObj.email}`;
     setemails((prevemails) => [...prevemails, email]);
-    socket.emit("login", { username: username }, { email: email });
+    socket.emit('login', { username }, { email });
   }
 
   useEffect(() => {
-    socket.on("login", (data_name, data_email) => {
-      console.log("Login event received!");
-      console.log(data_name);
-      console.log(data_email);
-      setUser(() => data_name);
-      setusernames((prevusernames) => [...prevusernames, data_name.username]);
-      setemails((prevemails) => [...prevemails, data_email.email]);
+    socket.on('login', (dataName, dataEmail) => {
+      // console.log('Login event received!');
+      // console.log(dataName);
+      // console.log(dataEmail);
+      setUser(() => dataName);
+      setusernames((prevusernames) => [...prevusernames, dataName.username]);
+      setemails((prevemails) => [...prevemails, dataEmail.email]);
     });
   }, []);
 
-  const onFailure = (res) => {
-    console.log("Login failed: res:", res);
-    alert(`Failed to login.`);
+  const onFailure = (res) => { // eslint-disable-line no-unused-vars
+    // console.log('Login failed: res:', res);
+    alert('Failed to login.'); // eslint-disable-line no-alert
   };
 
   return (
     <div>
       <div className="login" id="hide">
-      <GoogleLogin
-        clientId={client_id}
-        buttonText="Login"
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        cookiePolicy={"single_host_origin"}
-        style={{ marginTop: "100px" }}
-        isSignedIn={true}
-      />
+        <GoogleLogin
+          clientId={clientId}
+          buttonText="Login"
+          onSuccess={onSuccess}
+          onFailure={onFailure}
+          cookiePolicy="single_host_origin"
+          style={{ marginTop: '100px' }}
+          isSignedIn
+        />
       </div>
     </div>
   );
 }
 
 Login.propTypes = {
-    socket: PropTypes.object.isRequired,
+  socket: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default Login;

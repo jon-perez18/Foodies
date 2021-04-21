@@ -1,22 +1,27 @@
-import { useState, useRef, useEffect } from "react";
-import PropTypes from "prop-types";
-export function Recommendation({ recommendations, onPressCreate }) {
-  const rows = [];
+import { React } from 'react';
+import PropTypes from 'prop-types';
 
-  Object.keys(recommendations).map((keyName) => {
+function Recommendation({ recommendations, onPressCreate }) {
+  const rows = [];
+  console.log(recommendations);
+
+  Object.keys(recommendations).map((keyName) => { // eslint-disable-line array-callback-return
     // use keyName to get current key's name
 
     rows.push(
       <tr className="active-user">
-        {" "}
-        <td>{keyName}</td> <td>{recommendations[keyName]}</td>{" "}
+        {' '}
+        <td>{keyName}</td>
+        {' '}
+        <td>{recommendations[keyName]}</td>
+        {' '}
         <td>
-          <button onClick={() => onPressCreate(keyName)}> Create Event </button>{" "}
-        </td>{" "}
-      </tr>
+          <button type="button" onClick={() => onPressCreate(keyName)}> Create Event </button>
+          {' '}
+        </td>
+        {' '}
+      </tr>,
     );
-
-    // and a[keyName] to get its value
   });
   return (
     <div className="recommendations">
@@ -40,3 +45,5 @@ Recommendation.propTypes = {
   recommendations: PropTypes.objectOf(PropTypes.string).isRequired,
   onPressCreate: PropTypes.func.isRequired,
 };
+
+export default Recommendation;

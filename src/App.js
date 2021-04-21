@@ -1,14 +1,15 @@
-import "./App.css";
-import Search from "./Search";
-import Login from "./Login";
-import Logout from "./Logout";
-import { ViewEvents } from "./ViewEvents";
-
-import { React, useState, useRef, useEffect } from "react";
-
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-import io from "socket.io-client";
+import './App.css';
+import {
+  React,
+} from 'react';
+import {
+  BrowserRouter as Router, Switch, Route, Link,
+} from 'react-router-dom';
+import io from 'socket.io-client';
+import Search from './Search';
+import { Login } from './Login';
+import Logout from './Logout';
+import ViewEvents from './ViewEvents';
 
 const socket = io(); // Connects to socket connection
 
@@ -22,37 +23,38 @@ function App() {
   }, []);
   
   return (
+
      <div className="App">
      <Router>
         <div>
           <nav>
             <ul>
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/search">Search</Link>
-                </li>
-                <li>
-                  <Link onClick={() => socket.emit("events")} to="/view">View Events</Link>
-                </li>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/search">Search</Link>
+              </li>
+              <li>
+                <Link onClick={() => socket.emit('events')} to="/view">View Events</Link>
+              </li>
             </ul>
-            </nav>
-            <Switch>
-              <Route path="/view">
-                {" "}
-                <ViewEvents socket={ socket } onClick={() => socket.emit("events")} />
-              </Route>
-              <Route path="/search">
-                {" "}
-                <Search socket={ socket } />
-              </Route>
-              <Route path="/">
-                {" "}
-                <Login socket={ socket }/>
-                <Logout socket={ socket }/>
-              </Route>
-            </Switch>
+          </nav>
+          <Switch>
+            <Route path="/view">
+              {' '}
+              <ViewEvents socket={socket} onClick={() => socket.emit('events')} />
+            </Route>
+            <Route path="/search">
+              {' '}
+              <Search socket={socket} />
+            </Route>
+            <Route path="/">
+              {' '}
+              <Login socket={socket} />
+              <Logout socket={socket} />
+            </Route>
+          </Switch>
         </div>
       </Router>
     </div>
