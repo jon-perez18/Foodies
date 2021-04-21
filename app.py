@@ -164,6 +164,7 @@ def add_event_to_db(event):
                              attendees=[])
     DB.session.add(new_event)
     DB.session.commit()
+    return new_event
 
 def get_events():
     '''Returns list of events from db'''
