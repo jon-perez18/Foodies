@@ -1,4 +1,6 @@
 # CS490_Project3
+Heroku Link:
+https://stark-escarpment-63420.herokuapp.com/
 
 Linting Errors/Warnings Ignored: 
 ->used to fix issues with running the actual app itself
