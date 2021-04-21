@@ -170,25 +170,30 @@ def get_events():
     print(events)
     return events
 
-def add_attendee(name, host, new_list):
+def add_attendee(name, user, new_list):
     """Adding attendees to an event in the database"""
-    change_event = models.Event.query.filter_by(event_name=name,host=host).first()
+    # print(name, user, new_list)
+    new_list.append(user)
+    change_event = models.Event.query.filter_by(event_name=name).first()
     change_event.attendees = new_list
     DB.session.commit()
+    DB.session.flush()
+    change_event = models.Event.query.filter_by(event_name=name).first()
+    print(change_event.attendees)
 
 @SOCKETIO.on("events")
 def on_events():
     '''Returns a list of events from db'''
     events_list = get_events()
-    print("on events func")
+    # print("on events func")
     SOCKETIO.emit("events", {"events": events_list}, broadcast=True, include_self=True)
 
 @SOCKETIO.on("change_attendees")
 def on_change_attendee(data):
     '''Changing the attendees list of an event'''
     print(data)
-    add_attendee(data.name, data.host, data.attendees)
-    SOCKETIO.emit("events", broadcast=True, include_self=True)
+    add_attendee(data['name'], data['user'], list(data['attendeeList']))
+    # SOCKETIO.emit("events", broadcast=True, include_self=True)
 
 if __name__ == "__main__":
     # Note that we don't call app.run anymore. We call socketio.run with app arg
