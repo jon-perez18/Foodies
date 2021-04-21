@@ -18,7 +18,7 @@ export function Login(props) {
     
     refreshTokenSetup(res);
     onLogin(res);
-    document.location.href = '/view'
+    document.location.href = '/search'
   };
 
   function onLogin(res) {
