@@ -58,7 +58,7 @@ def on_connect():
 def on_login(data_name, data_email):
     """logging in user"""
     SOCKETIO.emit('login', data_name, broadcast=True, include_self=False)
-    EVENT_INFO['host'] = data_name
+    EVENT_INFO['host'] = data_name['username']
 
     all_users = models.Login.query.all()
     names = []
