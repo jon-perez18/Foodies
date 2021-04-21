@@ -5,7 +5,6 @@ from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 import requests
-import models
 
 load_dotenv(find_dotenv())
 
@@ -18,6 +17,7 @@ APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 DB = SQLAlchemy(APP)
 
+import models
 DB.create_all()
 
 SOCKETIO = SocketIO(APP,
