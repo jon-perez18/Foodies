@@ -58,7 +58,7 @@ def on_connect():
 def on_login(data_name, data_email):
     """logging in user"""
     SOCKETIO.emit('login', data_name, broadcast=True, include_self=False)
-    EVENT_INFO['host'] = data_name
+    EVENT_INFO['host'] = data_name['username']
 
     all_users = models.Login.query.all()
     names = []
@@ -164,6 +164,7 @@ def add_event_to_db(event):
                              attendees=[])
     DB.session.add(new_event)
     DB.session.commit()
+    return new_event
 
 def get_events():
     '''Returns list of events from db'''
