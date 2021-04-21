@@ -1,6 +1,6 @@
 import './App.css';
 import {
-  React,
+  React, useEffect,
 } from 'react';
 import {
   BrowserRouter as Router, Switch, Route, Link,
@@ -14,18 +14,17 @@ import ViewEvents from './ViewEvents';
 const socket = io(); // Connects to socket connection
 
 function App() {
-    
-    useEffect(() => {
-    socket.on("login", (data_name, data_email) => {
-      console.log(data_name);
-      alert(data_name.get('username'))
+  useEffect(() => {
+    socket.on('login', (dataName, dataEmail) => {
+      console.log(dataName, dataEmail);
+      alert(dataName.get('username'));
     });
   }, []);
-  
+
   return (
 
-     <div className="App">
-     <Router>
+    <div className="App">
+      <Router>
         <div>
           <nav>
             <ul>

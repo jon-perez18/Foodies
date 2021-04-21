@@ -13,16 +13,6 @@ export function Login(props) {
   const [emails, setemails] = useState([]); // eslint-disable-line no-unused-vars
   const [user, setUser] = useState(null); // eslint-disable-line no-unused-vars
 
-  const onSuccess = (res) => {
-//     console.log('Login Success: currentUser:', res.profileObj);
-    alert(`Successful Login ${res.profileObj.name}. \n`); // eslint-disable-line no-alert
-    
-    refreshTokenSetup(res);
-    onLogin(res);
-    document.location.href = '/view'
-  };
-
-
   function onLogin(res) {
     const username = `${res.profileObj.name}`;
     setusernames((prevusernames) => [...prevusernames, username]);
@@ -30,6 +20,15 @@ export function Login(props) {
     setemails((prevemails) => [...prevemails, email]);
     socket.emit('login', { username }, { email });
   }
+
+  const onSuccess = (res) => {
+    //     console.log('Login Success: currentUser:', res.profileObj);
+    alert(`Successful Login ${res.profileObj.name}. \n`); // eslint-disable-line no-alert
+
+    refreshTokenSetup(res);
+    onLogin(res);
+    document.location.href = '/view';
+  };
 
   useEffect(() => {
     socket.on('login', (dataName, dataEmail) => {
