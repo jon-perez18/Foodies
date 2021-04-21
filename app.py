@@ -124,10 +124,10 @@ def get_event_info(data):
     """get event info"""
     print(data)
 
-    event_name = data['event_name']
-    event_description = data['event_description']
-    event_date = data['event_date']
-    event_time = data['event_time']
+    event_name = data['eventName']
+    event_description = data['eventDescription']
+    event_date = data['eventDate']
+    event_time = data['eventTime']
     print(int(event_time[:2]) - 12)
     hour = int(event_time[:2])
     if hour > 12:
@@ -158,16 +158,23 @@ def add_event_to_db(event):
                              restaurant=event['restaurant'],
                              location=event['location'],
                              event_date=event['event_date'],
-                             event_time=event['event_time'])
+                             event_time=event['event_time'],
+                             attendees=[])
     DB.session.add(new_event)
     DB.session.commit()
 
 def get_events():
     '''Returns list of events from db'''
     events = models.Event.query.all()
-    events = list(map(lambda event: [event.host, event.event_name, event.event_description, event.restaurant, event.location, event.event_date, event.event_time], events))
+    events = list(map(lambda event: [event.host, event.event_name, event.event_description, event.restaurant, event.location, event.event_date, event.event_time, event.attendees], events))
     print(events)
     return events
+
+def add_attendee(name, host, new_list):
+    """Adding attendees to an event in the database"""
+    change_event = models.Event.query.filter_by(event_name=name,host=host).first()
+    change_event.attendees = new_list
+    DB.session.commit()
 
 @SOCKETIO.on("events")
 def on_events():
@@ -175,6 +182,13 @@ def on_events():
     events_list = get_events()
     print("on events func")
     SOCKETIO.emit("events", {"events": events_list}, broadcast=True, include_self=True)
+
+@SOCKETIO.on("change_attendees")
+def on_change_attendee(data):
+    '''Changing the attendees list of an event'''
+    print(data)
+    add_attendee(data.name, data.host, data.attendees)
+    SOCKETIO.emit("events", broadcast=True, include_self=True)
 
 if __name__ == "__main__":
     # Note that we don't call app.run anymore. We call socketio.run with app arg
