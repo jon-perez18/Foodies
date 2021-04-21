@@ -57,7 +57,7 @@ def on_connect():
 @SOCKETIO.on('login')
 def on_login(data_name, data_email):
     """logging in user"""
-    SOCKETIO.emit('login', data_name, broadcast=True, include_self=False)
+    SOCKETIO.emit('login', {data_name, data_email}, include_self=True)
     EVENT_INFO['host'] = data_name['username']
 
     all_users = models.Login.query.all()
@@ -79,7 +79,7 @@ def on_login(data_name, data_email):
     print(names)
     print(emails)
     
-    EVENT_INFO['host'] = data_name
+    # EVENT_INFO['host'] = data_name
 
 @SOCKETIO.on('recs')
 def get_restaurant_recs(
@@ -125,7 +125,7 @@ def get_recomendations(data):
 def get_event_info(data):
     """get event info"""
     print(data)
-
+    host_name = data['host']
     event_name = data['eventName']
     event_description = data['eventDescription']
     event_date = data['eventDate']
@@ -139,6 +139,7 @@ def get_event_info(data):
         time = event_time + ' AM'
     print(time)
 
+    EVENT_INFO['host'] = host_name
     EVENT_INFO['event_name'] = event_name
     EVENT_INFO['event_description'] = event_description
     EVENT_INFO['event_date'] = event_date
@@ -177,8 +178,12 @@ def add_attendee(name, user, new_list):
     """Adding attendees to an event in the database"""
     # print(name, user, new_list)
     new_list.append(user)
+    print(new_list)
+    new_list.append(user)
+    print(new_list)
     change_event = models.Event.query.filter_by(event_name=name).first()
     change_event.attendees = new_list
+    DB.update(models.Event)
     DB.session.commit()
     DB.session.flush()
     change_event = models.Event.query.filter_by(event_name=name).first()
