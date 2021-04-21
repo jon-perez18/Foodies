@@ -5,7 +5,7 @@ from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 import requests
-import models
+#import models
 
 load_dotenv(find_dotenv())
 
@@ -17,7 +17,7 @@ APP.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 DB = SQLAlchemy(APP)
-
+import models
 DB.create_all()
 
 SOCKETIO = SocketIO(APP,
@@ -57,8 +57,10 @@ def on_connect():
 @SOCKETIO.on('login')
 def on_login(data_name, data_email):
     """logging in user"""
-    SOCKETIO.emit('login', data_name, broadcast=True, include_self=False)
-    EVENT_INFO['host'] = data_name
+    
+    print(data_name['username'])
+    EVENT_INFO['host'] = data_name.get('username')
+    print("EVENT_INFO['HOST']",EVENT_INFO['host'])
     all_users = models.Login.query.all()
     names = []
     emails = []
@@ -66,17 +68,21 @@ def on_login(data_name, data_email):
         names.append(user.name)
         emails.append(user.email)
 
-    if data_name not in names:
+    if data_email.get('email') not in emails:
         new_user = models.Login(name=data_name.get('username'),
                                email=data_email.get('email'))
         DB.session.add(new_user)
         DB.session.commit()
+
         names.append(data_name.get('username'))
         emails.append(data_email.get('email'))
-
+    
     print(names)
     print(emails)
-
+    
+    SOCKETIO.emit('login', data_name, broadcast=True, include_self=True)
+    
+    
 
 @SOCKETIO.on('recs')
 def get_restaurant_recs(
@@ -132,6 +138,10 @@ def get_event_info(data):
     if hour > 12:
         new_hour = hour - 12
         time = str(new_hour) + event_time[2:] + ' PM'
+    elif hour == 00:
+        new_hour = "12"
+        time = new_hour + event_time[2:] + ' AM'
+        
     else:
         time = event_time + ' AM'
     print(time)
@@ -149,7 +159,7 @@ def get_event_info(data):
     return time
 
 
-def add_event_to_db(event):
+def add_event_to_db(event): #event is a dictionary of event info
     """adding an event to the databse"""
     new_event = models.Event(host=event['host'],
                              event_name=event['event_name'],
@@ -160,7 +170,23 @@ def add_event_to_db(event):
                              event_time=event['event_time'])
     DB.session.add(new_event)
     DB.session.commit()
+    print(new_event)
+    return new_event
+    
 
+def get_events():
+    '''Returns list of events from db'''
+    events = models.Event.query.all()
+    events = list(map(lambda event: [event.host, event.event_name, event.event_description, event.restaurant, event.location, event.event_date, event.event_time], events))
+    print(events)
+    return events
+
+@SOCKETIO.on("events")
+def on_events():
+    '''Returns a list of events from db'''
+    events_list = get_events()
+    print("on events func")
+    SOCKETIO.emit("events", {"events": events_list}, broadcast=True, include_self=True)
 
 if __name__ == "__main__":
     # Note that we don't call app.run anymore. We call socketio.run with app arg
