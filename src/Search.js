@@ -99,7 +99,7 @@ function Search(props) {
                   setRadio(e.target.value);
                 }}
               />
-              <label>5000 meters</label>
+              <label htmlFor="metersLabel">5000 meters</label>
               <br />
 
               <input
