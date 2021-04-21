@@ -5,7 +5,6 @@ from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 import requests
-import models
 
 load_dotenv(find_dotenv())
 
@@ -18,6 +17,7 @@ APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 DB = SQLAlchemy(APP)
 
+import models
 DB.create_all()
 
 SOCKETIO = SocketIO(APP,
@@ -164,6 +164,7 @@ def add_event_to_db(event):
                              attendees=[])
     DB.session.add(new_event)
     DB.session.commit()
+    return new_event
 
 def get_events():
     '''Returns list of events from db'''
