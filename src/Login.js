@@ -14,15 +14,6 @@ export function Login(props) {
   const [emails, setemails] = useState([]);
   const [user, setUser] = useState(null);
 
-  const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res.profileObj);
-    alert(`Successful Login ${res.profileObj.name}. \n`);
-    
-    refreshTokenSetup(res);
-    onLogin(res);
-    document.location.href = '/search'
-  };
-
   function onLogin(res) {
     const username = `${res.profileObj.name}`;
     setusernames((prevusernames) => [...prevusernames, username]);
@@ -37,7 +28,7 @@ export function Login(props) {
 
     refreshTokenSetup(res);
     onLogin(res);
-    document.location.href = '/view';
+    document.location.href = '/search';
   };
 
   useEffect(() => {
