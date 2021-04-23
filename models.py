@@ -10,6 +10,7 @@ class Login(DB.Model):
 
 
 class Event(DB.Model):
+    '''Event Table/Model for database'''
     event_id = DB.Column(DB.Integer, primary_key=True)
     host = DB.Column(DB.String(80), nullable=False)
     event_name = DB.Column(DB.String(300), nullable=False)

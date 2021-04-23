@@ -3,7 +3,7 @@ import {
   React, useState,
 } from 'react';
 import {
-  BrowserRouter as Router, Switch, Route, 
+  BrowserRouter as Router, Switch, Route,
   Link, useHistory, withRouter, // eslint-disable-line no-unused-vars
 } from 'react-router-dom';
 import io from 'socket.io-client';
