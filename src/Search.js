@@ -8,7 +8,7 @@ import EventInfo from './EventInfo';
 import DisplayEventInfo from './DisplayEventInfo';
 
 function Search(props) {
-  const { socket, userName } = props;
+  const { socket, userName, history } = props; // eslint-disable-line no-unused-vars
   const addy = useRef(null);
   const eventNameRef = useRef(null);
   const eventDescriptionRef = useRef(null);
@@ -189,5 +189,6 @@ function Search(props) {
 Search.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
   userName: PropTypes.string.isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
 };
 export default Search;

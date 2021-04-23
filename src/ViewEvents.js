@@ -5,7 +5,7 @@ import logo from './Logo.PNG';
 // import io from 'socket.io-client';
 
 function ViewEvents(props) {
-  const { socket, userName } = props;
+  const { socket, userName, history } = props;
   const [eventData, setEvents] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function ViewEvents(props) {
     });
   }, []);
 
-  console.log('view event page', eventData);
+  console.log('view event page', eventData, history);
   const myName = userName;
   return (
     <div>
@@ -42,6 +42,7 @@ function ViewEvents(props) {
 ViewEvents.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
   userName: PropTypes.string.isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
 };
 
 const Event = (props) => {
