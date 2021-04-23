@@ -9,6 +9,7 @@ class Login(DB.Model):
         return '<Login %r>' % self.name
 
 class Event(DB.Model):
+    '''Event Table/Model for database'''
     event_id = DB.Column(DB.Integer, primary_key=True)
     host = DB.Column(DB.String(80), nullable=False)
     event_name = DB.Column(DB.String(300), nullable=False)
@@ -17,7 +18,7 @@ class Event(DB.Model):
     location = DB.Column(DB.String(80), nullable=False)
     event_date = DB.Column(DB.String(80), nullable=False)
     event_time = DB.Column(DB.String(80), nullable=False)
-    attendees = DB.Column(DB.ARRAY(DB.String(50)), nullable=True, default={})
+    attendees = DB.Column(DB.ARRAY(DB.String(50)), nullable=False)
 
     def __repr__(self):
         return '<Event %r>' % self.event_name
