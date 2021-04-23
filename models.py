@@ -8,7 +8,6 @@ class Login(DB.Model):
     def __repr__(self):
         return '<Login %r>' % self.name
 
-
 class Event(DB.Model):
     '''Event Table/Model for database'''
     event_id = DB.Column(DB.Integer, primary_key=True)
