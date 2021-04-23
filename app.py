@@ -155,6 +155,9 @@ def get_event_info(data):
 
 def add_event_to_db(event):
     """adding an event to the databse"""
+    att_list = []
+    att_list.append(event['host'])
+    print(att_list)
     new_event = models.Event(host=event['host'],
                              event_name=event['event_name'],
                              event_description=event['event_description'],
@@ -162,9 +165,23 @@ def add_event_to_db(event):
                              location=event['location'],
                              event_date=event['event_date'],
                              event_time=event['event_time'],
-                             attendees=[])
+                             attendees=att_list)
     DB.session.add(new_event)
     DB.session.commit()
+    # att_list.clear()
+    # att_list.append("host")
+    # print(att_list)
+    # event_d = models.Event(host="host1",
+    #                          event_name=event['event_name'] + " hbi",
+    #                          event_description=event['event_description'],
+    #                          restaurant=event['restaurant'],
+    #                          location=event['location'],
+    #                          event_date=event['event_date'],
+    #                          event_time=event['event_time'],
+    #                          attendees=att_list)
+    
+    # DB.session.add(event_d)
+    # DB.session.commit()
     return new_event
 
 def get_events():
@@ -177,15 +194,13 @@ def get_events():
 def add_attendee(name, user, new_list):
     """Adding attendees to an event in the database"""
     # print(name, user, new_list)
-    new_list.append(user)
     print(new_list)
     new_list.append(user)
     print(new_list)
     change_event = models.Event.query.filter_by(event_name=name).first()
     change_event.attendees = new_list
-    DB.update(models.Event)
+    DB.session.merge(change_event)
     DB.session.commit()
-    DB.session.flush()
     change_event = models.Event.query.filter_by(event_name=name).first()
     print(change_event.attendees)
 
