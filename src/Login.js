@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { GoogleLogin } from 'react-google-login';
@@ -5,7 +6,7 @@ import refreshTokenSetup from './refreshToken';
 
 require('dotenv').config();
 
-const clientId = process.env.REACT_APP_GOOGLE_ID;
+const clientId = '635379765141-ki5q6ah4lejdjrqdleksr7eof9acq2vp.apps.googleusercontent.com';
 
 export function Login(props) {
   const { socket } = props;
@@ -32,13 +33,13 @@ export function Login(props) {
   };
 
   useEffect(() => {
-    socket.on('login', (dataName, dataEmail) => {
+    socket.on('login', (data_name, data_email) => {
       // console.log('Login event received!');
       // console.log(dataName);
       // console.log(dataEmail);
-      setUser(() => dataName);
-      setusernames((prevusernames) => [...prevusernames, dataName.username]);
-      setemails((prevemails) => [...prevemails, dataEmail.email]);
+      setUser(() => data_name);
+      setusernames((prevusernames) => [...prevusernames, data_name.username]);
+      setemails((prevemails) => [...prevemails, data_email.email]);
     });
   }, []);
 

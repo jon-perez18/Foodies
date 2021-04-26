@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './App.css';
 import {
   React, useEffect,
@@ -10,7 +11,7 @@ import Search from './Search';
 import { Login } from './Login';
 import Logout from './Logout';
 import ViewEvents from './ViewEvents';
-
+import MyMap from './MyMap';
 const socket = io(); // Connects to socket connection
 
 function App() {
@@ -37,6 +38,9 @@ function App() {
               <li>
                 <Link onClick={() => socket.emit('events')} to="/view">View Events</Link>
               </li>
+              <li>
+              <Link to="/map">Map</Link>
+            </li>
             </ul>
           </nav>
           <Switch>
@@ -47,6 +51,10 @@ function App() {
             <Route path="/search">
               {' '}
               <Search socket={socket} />
+            </Route>
+            <Route path='/map'>
+            {' '}
+            <MyMap socket ={socket} />
             </Route>
             <Route path="/">
               {' '}

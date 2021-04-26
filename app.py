@@ -99,16 +99,19 @@ def get_restaurant_recs(
     response = requests.get(url=ENDPOINT, params=params, headers=HEADERS)
 
     business_data = response.json()
+    
+    coordinates = []
 
     results = {}
     for i in range(5):
         results[business_data['businesses'][i]['name']] = business_data[
             'businesses'][i]['location']['display_address'][0]
-
+        coordinates.append(business_data['businesses'][i]['coordinates'])
+    print(coordinates)
     print("results", results)
     # This emits the 'chat' event from the server to all clients except for
     # the client that emmitted the event that triggered this function
-    SOCKETIO.emit('recs', {"results": results},
+    SOCKETIO.emit('recs', {"results": results, "coordinates":coordinates},
                   broadcast=True,
                   include_self=True)
     return results
@@ -152,15 +155,19 @@ def get_event_info(data):
     EVENT_INFO['event_time'] = time
     print(event_time[:2])
     add_event_to_db(EVENT_INFO)
-
+    print(EVENT_INFO)
     SOCKETIO.emit("event_info", {'event_info': EVENT_INFO},
                   broadcast=True,
                   include_self=True)
+    
     return time
 
 
 def add_event_to_db(event): #event is a dictionary of event info
     """adding an event to the databse"""
+    att_list = []
+    att_list.append(event['host'])
+    print(att_list)
     new_event = models.Event(host=event['host'],
                              event_name=event['event_name'],
                              event_description=event['event_description'],

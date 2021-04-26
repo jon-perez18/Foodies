@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './App.css';
 import PropTypes from 'prop-types';
 import {
@@ -7,6 +8,7 @@ import Recommendation from './Recommendation';
 import EventInfo from './EventInfo';
 import DisplayEventInfo from './DisplayEventInfo';
 
+import MyMap from './MyMap';
 function Search(props) {
   const { socket } = props;
   const addy = useRef(null);
@@ -21,6 +23,7 @@ function Search(props) {
   const [recommendations, setRecom] = useState({});
   const [isContunueClick, setContinueClick] = useState(false);
   const [Event, setEvent] = useState({});
+  const [coordinates,setCoordinates] = useState([])
 
   function saveInfoFunc() {
     const inputAddy = addy.current.value;
@@ -63,8 +66,11 @@ function Search(props) {
 
     socket.on('recs', (data) => {
       console.log(data.results);
+      console.log(data.coordinates)
       const { results } = data;
+      
       setRecom((prevRecom) => results); // eslint-disable-line no-unused-vars
+      setCoordinates((prevCoordinates)=>data.coordinates)
     });
     socket.on('event_info', (data) => {
       console.log(data.event_info);
@@ -141,10 +147,12 @@ function Search(props) {
               <button type="button">View Events </button>
             </form>
           </div>
+          
         </header>
       </div>
     );
   }
+ 
   if (isCreate === false) {
     return (
       <div className="App">
@@ -179,7 +187,6 @@ function Search(props) {
         <h2>Congratulation Event Created Successfully</h2>
         <br />
         <br />
-
         <DisplayEventInfo Event={Event} />
       </header>
     </div>
