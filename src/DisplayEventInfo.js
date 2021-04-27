@@ -3,57 +3,50 @@ import PropTypes from 'prop-types';
 
 function DisplayEventInfo(props) {
   const {
-    eventName,
-    eventDescription,
-    eventDate,
-    eventTime,
-    host,
-    restaurant,
-    location,
+    Event,
   } = props;
-  console.log(props);
+  console.log(Event.host, Event.event_name);
   DisplayEventInfo.propTypes = {
-    eventName: PropTypes.string.isRequired,
-    eventDescription: PropTypes.string.isRequired,
-    eventDate: PropTypes.string.isRequired,
-    eventTime: PropTypes.string.isRequired,
-    host: PropTypes.string.isRequired,
-    restaurant: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
+    Event: PropTypes.instanceOf(Object).isRequired,
   };
 
   return (
     <div>
       <h3>
         Host:
-        {host}
+        {' '}
+        { Event.host }
       </h3>
       <h3>
         Event Name:
-        {eventName}
+        {' '}
+        { Event.event_name }
       </h3>
       <h3>
         Event Description:
-        {eventDescription}
+        {' '}
+        { Event.event_description }
       </h3>
       <h3>
         Restaurant:
-        {restaurant}
+        {' '}
+        { Event.restaurant }
       </h3>
       <h3>
         Location:
-        {location}
+        {' '}
+        { Event.location }
       </h3>
       <h3>
         Event Date:
-        {eventDate}
+        {' '}
+        { Event.event_date }
       </h3>
       <h3>
         Event Time:
-        {eventTime}
+        {' '}
+        { Event.event_time }
       </h3>
-
-      <button type="button">Create New Event</button>
     </div>
   );
 }

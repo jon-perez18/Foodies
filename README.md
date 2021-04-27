@@ -8,3 +8,6 @@ Linting Errors/Warnings Ignored:
 
     "jsx-a11y/label-has-associated-control": "off"
     "no-unused-vars"
+
+Google Drive Link (Will need to download to view): https://drive.google.com/file/d/1nQX5N6S-5JsSrFPR0eC_69XL_xpCrbax/view?usp=sharing
+Mediaspace NJIT Link (Can view straight from link/web): https://mediaspace.njit.edu/media/CS490+Project+3-Sprint1+Video/1_5bfvhyra

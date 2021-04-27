@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function Recommendation({ recommendations, onPressCreate }) {
   const rows = [];
-  console.log(recommendations);
+  // console.log(recommendations);
 
   Object.keys(recommendations).map((keyName) => { // eslint-disable-line array-callback-return
     // use keyName to get current key's name

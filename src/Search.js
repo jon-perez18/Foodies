@@ -8,7 +8,7 @@ import EventInfo from './EventInfo';
 import DisplayEventInfo from './DisplayEventInfo';
 
 function Search(props) {
-  const { socket } = props;
+  const { socket, userName, history } = props; // eslint-disable-line no-unused-vars
   const addy = useRef(null);
   const eventNameRef = useRef(null);
   const eventDescriptionRef = useRef(null);
@@ -41,6 +41,7 @@ function Search(props) {
     });
   }
   function onPressSubmit() {
+    const host = userName;
     const eventName = eventNameRef.current.value;
     const eventDescription = eventDescriptionRef.current.value;
     const eventDate = eventDateRef.current.value;
@@ -48,6 +49,7 @@ function Search(props) {
 
     setSubmit((prevSubmit) => true); // eslint-disable-line no-unused-vars
     socket.emit('event_info', {
+      host,
       eventName,
       eventDescription,
       eventDate,
@@ -68,13 +70,12 @@ function Search(props) {
     });
     socket.on('event_info', (data) => {
       console.log(data.event_info);
-      const { eventInfo } = data;
+      const eventInfo = data.event_info;
       console.log(eventInfo);
       setEvent((prevEvent) => eventInfo); // eslint-disable-line no-unused-vars
+      console.log(Event);
     });
   }, []);
-
-  console.log('Event', Event);
 
   if (isContunueClick === false) {
     return (
@@ -99,7 +100,7 @@ function Search(props) {
                   setRadio(e.target.value);
                 }}
               />
-              <label>5000 meters</label>
+              <label htmlFor="metersLabel">5000 meters</label>
               <br />
 
               <input
@@ -138,7 +139,6 @@ function Search(props) {
               <button type="button" name="continue" onClick={() => saveInfoFunc()}>
                 Continue
               </button>
-              <button type="button">View Events </button>
             </form>
           </div>
         </header>
@@ -188,5 +188,7 @@ function Search(props) {
 
 Search.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
+  userName: PropTypes.string.isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
 };
 export default Search;
