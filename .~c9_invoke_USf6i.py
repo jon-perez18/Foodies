@@ -101,26 +101,28 @@ def get_restaurant_recs(
     business_data = response.json()
     #print(business_data['businesses'][0]["rating"])
     #print(business_data['businesses'][0]["phone"])
+    coordinates = []
+    temp_cord = []
     results = {}
-    
+
     for i in range(5):
         cord=[]
         results[business_data['businesses'][i]['name']] = business_data[
             'businesses'][i]['location']['display_address'][0]+" "+business_data[
             'businesses'][i]['location']['display_address'][1]
-        data['lat'].append(business_data['businesses'][i]['coordinates']['latitude'])
-        data['long'].append(business_data['businesses'][i]['coordinates']['longitude'])
+        cord.append(business_data['businesses'][i]['coordinates']['latitude'])
+        cord.append(business_data['businesses'][i]['coordinates']['longitude'])
         data['ratings'].append(business_data['businesses'][i]["rating"])
         data['phone'].append(business_data['businesses'][0]["phone"])
-        #coordinates.append(business_data['businesses'][i]['coordinates'])
+        
+        data['temp_cord'].append(cord)
+        coordinates.append(business_data['businesses'][i]['coordinates'])
     #print(coordinates)
     
     print("results", results)
     # This emits the 'chat' event from the server to all clients except for
     # the client that emmitted the event that triggered this function
-    SOCKETIO.emit('recs', {"results": results,"phone":data['phone'],'ratings':data['ratings'],
-        'lat':data['lat'],'long':data['long']
-    },
+    SOCKETIO.emit('recs', {"results": results, "coordinates":coordinates,'temp_cord':data['temp_cord'],"phone":data['phone'],'ratings':data['ratings']},
                   broadcast=True,
                   include_self=True)
     return results
@@ -139,9 +141,8 @@ def get_recomendations(data):
 @SOCKETIO.on('event_info')
 def get_event_info(data):
     """get event info"""
-     
     print(data)
-    host_name = data['host']
+    
     event_name = data['eventName']
     event_description = data['eventDescription']
     event_date = data['eventDate']
@@ -157,19 +158,19 @@ def get_event_info(data):
         
     else:
         time = event_time + ' AM'
-    # print(time)
+    print(time)
 
-    EVENT_INFO['host'] = host_name
     EVENT_INFO['event_name'] = event_name
     EVENT_INFO['event_description'] = event_description
     EVENT_INFO['event_date'] = event_date
     EVENT_INFO['event_time'] = time
-    # print(event_time[:2])
+    print(event_time[:2])
     add_event_to_db(EVENT_INFO)
-
+    print(EVENT_INFO)
     SOCKETIO.emit("event_info", {'event_info': EVENT_INFO},
                   broadcast=True,
                   include_self=True)
+    
     return time
 
 
