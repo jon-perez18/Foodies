@@ -26,5 +26,5 @@ border-radius: 4px;
 #mapid { height: 180px; }
 .leaflet-container{
   width:100vw;
-  height:100vh;
+  height:50vw;
 }

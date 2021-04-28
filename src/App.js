@@ -1,26 +1,23 @@
-/* eslint-disable */
 import './App.css';
 import {
-  React, useEffect,
+  React, useState,
 } from 'react';
 import {
-  BrowserRouter as Router, Switch, Route, Link,
+  BrowserRouter as Router, Switch, Route,
+  Link, useHistory, withRouter, // eslint-disable-line no-unused-vars
 } from 'react-router-dom';
 import io from 'socket.io-client';
 import Search from './Search';
 import { Login } from './Login';
 import Logout from './Logout';
 import ViewEvents from './ViewEvents';
-import MyMap from './MyMap';
+
 const socket = io(); // Connects to socket connection
 
 function App() {
-  useEffect(() => {
-    socket.on('login', (dataName, dataEmail) => {
-      console.log(dataName, dataEmail);
-      alert(dataName.get('username'));
-    });
-  }, []);
+  const [user, setUser] = useState(''); // eslint-disable-line no-unused-vars
+  const history = useHistory();
+  // const Button = withRouter(({history}) => {})
 
   return (
 
@@ -38,27 +35,20 @@ function App() {
               <li>
                 <Link onClick={() => socket.emit('events')} to="/view">View Events</Link>
               </li>
-              <li>
-              <Link to="/map">Map</Link>
-            </li>
             </ul>
           </nav>
           <Switch>
             <Route path="/view">
               {' '}
-              <ViewEvents socket={socket} onClick={() => socket.emit('events')} />
+              <ViewEvents socket={socket} userName={user} history={history} />
             </Route>
             <Route path="/search">
               {' '}
-              <Search socket={socket} />
-            </Route>
-            <Route path='/map'>
-            {' '}
-            <MyMap socket ={socket} />
+              <Search socket={socket} userName={user} history={history} />
             </Route>
             <Route path="/">
               {' '}
-              <Login socket={socket} />
+              <Login socket={socket} setUser={setUser} history={history} />
               <Logout socket={socket} />
             </Route>
           </Switch>
@@ -67,5 +57,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
