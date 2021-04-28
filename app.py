@@ -190,16 +190,24 @@ def get_events():
 
 def add_attendee(name, user, new_list):
     """Adding attendees to an event in the database"""
-    print(new_list)
+    # print(new_list)
     new_list.append(user)
-    print(new_list)
+    # print(new_list)
     change_event = models.Event.query.filter_by(event_name=name).first()
     change_event.attendees = new_list
     DB.session.merge(change_event)
     DB.session.commit()
     on_events()
-    # change_event = models.Event.query.filter_by(event_name=name).first()
-    # print(change_event.attendees)
+
+def leave_event(name, user, current_list):
+    '''Leaving event'''
+    current_list.remove(user)
+    change_event = models.Event.query.filter_by(event_name=name).first()
+    change_event.attendees = current_list
+    DB.session.merge(change_event)
+    DB.session.commit()
+    on_events()
+
 
 @SOCKETIO.on("events")
 def on_events():
@@ -214,6 +222,13 @@ def on_change_attendee(data):
     print(data)
     add_attendee(data['name'], data['user'], list(data['attendeeList']))
     # SOCKETIO.emit("events", {"events": events_list} broadcast=True, include_self=True)
+
+@SOCKETIO.on("leave_event")
+def on_leave_event(data):
+    '''Leaving an event'''
+    print(data)
+    leave_event(data['name'], data['user'], list(data['attendeeList']))
+
 
 if __name__ == "__main__":
     # Note that we don't call app.run anymore. We call socketio.run with app arg
