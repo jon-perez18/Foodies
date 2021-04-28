@@ -7,6 +7,8 @@ import Recommendation from './Recommendation';
 import EventInfo from './EventInfo';
 import DisplayEventInfo from './DisplayEventInfo';
 
+import MyMap from './MyMap';
+
 function Search(props) {
   const { socket, userName, history } = props; // eslint-disable-line no-unused-vars
   const addy = useRef(null);
@@ -21,13 +23,19 @@ function Search(props) {
   const [recommendations, setRecom] = useState({});
   const [isContunueClick, setContinueClick] = useState(false);
   const [Event, setEvent] = useState({});
-
+  const [phone, setPhone] = useState([]);
+  const [ratings, setRatings] = useState([]);
+  const [lat, setLat] = useState([]);
+  const [long, setLong] = useState([]);
+  const [isMapReady, setMap] = useState(false);
   function saveInfoFunc() {
     const inputAddy = addy.current.value;
     setAddress(inputAddy);
     console.log(storeAddress);
     setContinueClick((prevClickContinue) => true); // eslint-disable-line no-unused-vars
-    socket.emit('recs', { addy: inputAddy, radio });
+    socket.emit('recs', {
+      addy: inputAddy, radio, ratings, phone, lat, long,
+    });
   }
   function onPressCreate(key) {
     setCreate((preCreate) => true); // eslint-disable-line no-unused-vars
@@ -64,9 +72,35 @@ function Search(props) {
     });
 
     socket.on('recs', (data) => {
-      console.log(data.results);
+      console.log(data);
       const { results } = data;
-      setRecom((prevRecom) => results); // eslint-disable-line no-unused-vars
+      console.log(data.ratings);
+      setRecom((prevRecom) => {
+        let tempRecom = prevRecom;
+        tempRecom = results;
+        return tempRecom;
+      }); // eslint-disable-line no-unused-vars
+      setPhone((prevPhone) => {
+        let tempPhone = prevPhone;
+        tempPhone = data.phone;
+        return tempPhone;
+      });
+      setRatings((prevRatings) => {
+        let tempRatings = prevRatings;
+        tempRatings = data.ratings;
+        return tempRatings;
+      });
+      setLat((prevLat) => {
+        let tempLat = prevLat;
+        tempLat = data.lat;
+        return tempLat;
+      });
+      setLong((prevLong) => {
+        let tempLong = prevLong;
+        tempLong = data.long;
+        return tempLong;
+      });
+      setMap(true);
     });
     socket.on('event_info', (data) => {
       console.log(data.event_info);
@@ -147,13 +181,25 @@ function Search(props) {
   }
   if (isCreate === false) {
     return (
-      <div className="App">
-        <header className="App-header">
-          <Recommendation
-            onPressCreate={onPressCreate}
+      <div>
+        <div className="recom">
+          <header className="App-header">
+            <Recommendation
+              onPressCreate={onPressCreate}
+              recommendations={recommendations}
+            />
+          </header>
+        </div>
+        {isMapReady === true ? (
+          <MyMap
             recommendations={recommendations}
+            onPressCreate={onPressCreate}
+            ratings={ratings}
+            phone={phone}
+            lat={lat}
+            long={long}
           />
-        </header>
+        ) : (' ')}
       </div>
     );
   }
@@ -179,7 +225,6 @@ function Search(props) {
         <h2>Congratulation Event Created Successfully</h2>
         <br />
         <br />
-
         <DisplayEventInfo Event={Event} />
       </header>
     </div>

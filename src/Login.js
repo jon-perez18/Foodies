@@ -6,7 +6,6 @@ import refreshTokenSetup from './refreshToken';
 require('dotenv').config();
 
 const clientId = process.env.REACT_APP_GOOGLE_ID;
-
 export function Login(props) {
   const { socket, setUser, history } = props;
   const [usernames, setusernames] = useState([]); // eslint-disable-line no-unused-vars
