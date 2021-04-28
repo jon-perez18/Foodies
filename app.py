@@ -58,8 +58,8 @@ def on_connect():
 @SOCKETIO.on('login')
 def on_login(data_name, data_email):
     """logging in user"""
-    SOCKETIO.emit('login', data_name, broadcast=True, include_self=False)
-    EVENT_INFO['host'] = data_name['username']
+    SOCKETIO.emit('login', {data_name, data_email}, include_self=True)
+    # EVENT_INFO['host'] = data_name['username']
 
     all_users = models.Login.query.all()
     names = []
@@ -80,9 +80,11 @@ def on_login(data_name, data_email):
     print(names)
     print(emails)
     
+
     SOCKETIO.emit('login', data_name, broadcast=True, include_self=True)
     
     
+
 
 @SOCKETIO.on('recs')
 def get_restaurant_recs(
@@ -129,7 +131,7 @@ def get_restaurant_recs(
 @SOCKETIO.on('recommendations')
 def get_recomendations(data):
     """get recommendations"""
-    print("RECOMMENDATION", data)
+    # print("RECOMMENDATION", data)
     restaurant = data['restaurant']
     location = data['location']
     EVENT_INFO['restaurant'] = restaurant
@@ -177,7 +179,9 @@ def add_event_to_db(event): #event is a dictionary of event info
     """adding an event to the databse"""
     att_list = []
     att_list.append(event['host'])
-    print(att_list)
+
+    # print(att_list)
+
     new_event = models.Event(host=event['host'],
                              event_name=event['event_name'],
                              event_description=event['event_description'],
@@ -185,10 +189,10 @@ def add_event_to_db(event): #event is a dictionary of event info
                              location=event['location'],
                              event_date=event['event_date'],
                              event_time=event['event_time'],
-                             attendees=[])
+                             attendees=att_list)
     DB.session.add(new_event)
     DB.session.commit()
-    print(new_event)
+
     return new_event
     
 
@@ -196,19 +200,21 @@ def get_events():
     '''Returns list of events from db'''
     events = models.Event.query.all()
     events = list(map(lambda event: [event.host, event.event_name, event.event_description, event.restaurant, event.location, event.event_date, event.event_time, event.attendees], events))
-    print(events)
+    # print(events)
     return events
 
 def add_attendee(name, user, new_list):
     """Adding attendees to an event in the database"""
-    # print(name, user, new_list)
+    print(new_list)
     new_list.append(user)
+    print(new_list)
     change_event = models.Event.query.filter_by(event_name=name).first()
     change_event.attendees = new_list
+    DB.session.merge(change_event)
     DB.session.commit()
-    DB.session.flush()
-    change_event = models.Event.query.filter_by(event_name=name).first()
-    print(change_event.attendees)
+    on_events()
+    # change_event = models.Event.query.filter_by(event_name=name).first()
+    # print(change_event.attendees)
 
 @SOCKETIO.on("events")
 def on_events():
@@ -222,7 +228,7 @@ def on_change_attendee(data):
     '''Changing the attendees list of an event'''
     print(data)
     add_attendee(data['name'], data['user'], list(data['attendeeList']))
-    # SOCKETIO.emit("events", broadcast=True, include_self=True)
+    # SOCKETIO.emit("events", {"events": events_list} broadcast=True, include_self=True)
 
 if __name__ == "__main__":
     # Note that we don't call app.run anymore. We call socketio.run with app arg

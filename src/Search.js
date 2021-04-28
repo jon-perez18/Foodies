@@ -111,8 +111,6 @@ function Search(props) {
     });
   }, []);
 
-  console.log('Event', Event);
-
   if (isContunueClick === false) {
     return (
       <div className="App">
