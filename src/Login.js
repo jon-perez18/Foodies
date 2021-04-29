@@ -10,7 +10,6 @@ export function Login(props) {
   const { socket, setUser, history } = props;
   const [usernames, setusernames] = useState([]); // eslint-disable-line no-unused-vars
   const [emails, setemails] = useState([]); // eslint-disable-line no-unused-vars
-
   function onLogin(res) {
     const username = `${res.profileObj.name}`;
     setusernames((prevusernames) => [...prevusernames, username]);

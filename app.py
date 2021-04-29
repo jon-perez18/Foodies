@@ -58,8 +58,9 @@ def on_connect():
 @SOCKETIO.on('login')
 def on_login(data_name, data_email):
     """logging in user"""
+
     SOCKETIO.emit('login', {data_name, data_email}, include_self=True)
-    # EVENT_INFO['host'] = data_name['username']
+    EVENT_INFO['host'] = data_name['username']
 
     all_users = models.Login.query.all()
     names = []
@@ -104,24 +105,26 @@ def get_restaurant_recs(
     #print(business_data['businesses'][0]["rating"])
     #print(business_data['businesses'][0]["phone"])
     results = {}
-    
+    results2 ={}
     for i in range(5):
-        cord=[]
+     
         results[business_data['businesses'][i]['name']] = business_data[
             'businesses'][i]['location']['display_address'][0]+" "+business_data[
             'businesses'][i]['location']['display_address'][1]
-        data['lat'].append(business_data['businesses'][i]['coordinates']['latitude'])
-        data['long'].append(business_data['businesses'][i]['coordinates']['longitude'])
-        data['ratings'].append(business_data['businesses'][i]["rating"])
-        data['phone'].append(business_data['businesses'][0]["phone"])
-        #coordinates.append(business_data['businesses'][i]['coordinates'])
-    #print(coordinates)
-    
-    print("results", results)
+    for i in range(5):
+        restaurant = business_data['businesses'][i]['name']
+        location = business_data[
+            'businesses'][i]['location']['display_address'][0]+" "+business_data[
+            'businesses'][i]['location']['display_address'][1]
+        lat = business_data['businesses'][i]['coordinates']['latitude']
+        longi = business_data['businesses'][i]['coordinates']['longitude']
+        ratings = business_data['businesses'][i]["rating"]
+        phone = business_data['businesses'][i]["phone"]
+        results2[i] = {'restaurant':restaurant, 'location':location,'lat': lat,"longi": longi,'ratings':ratings,'phone':phone }
+    print("results", results2)
     # This emits the 'chat' event from the server to all clients except for
     # the client that emmitted the event that triggered this function
-    SOCKETIO.emit('recs', {"results": results,"phone":data['phone'],'ratings':data['ratings'],
-        'lat':data['lat'],'long':data['long']
+    SOCKETIO.emit('recs', {"results": results, 'result2':results2
     },
                   broadcast=True,
                   include_self=True)
