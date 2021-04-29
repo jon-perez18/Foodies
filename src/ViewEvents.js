@@ -5,7 +5,7 @@ import logo from './Logo.PNG';
 // import io from 'socket.io-client';
 
 function ViewEvents(props) {
-  const { socket, userName, history } = props;
+  const { socket, userName } = props;
   const [eventData, setEvents] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function ViewEvents(props) {
     });
   }, []);
 
-  console.log('view event page', eventData, history);
+  console.log('view event page', eventData);
   const myName = userName;
   return (
     <div>
@@ -42,7 +42,7 @@ function ViewEvents(props) {
 ViewEvents.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
   userName: PropTypes.string.isRequired,
-  history: PropTypes.instanceOf(Object).isRequired,
+  // history: PropTypes.instanceOf(Object).isRequired,
 };
 
 const Event = (props) => {
@@ -64,9 +64,12 @@ const Event = (props) => {
 
   function addToAttendees(checkEvent, addUser, toList) {
     // Still have to change the main array to display on screen, waiting for db
-    // const currentAttendees = toList;
-    console.log(checkEvent, addUser, toList);
+    // console.log(checkEvent, addUser, toList);
     socket.emit('change_attendees', { name: checkEvent, user: addUser, attendeeList: toList });
+  }
+  function leaveEvent(checkEvent, addUser, toList) {
+    // console.log(checkEvent, addUser, toList);
+    socket.emit('leave_event', { name: checkEvent, user: addUser, attendeeList: toList });
   }
   return (
     <div className="box">
@@ -75,10 +78,12 @@ const Event = (props) => {
       <ul>
         <li>
           Hosted by:
+          {' '}
           { hosts }
         </li>
         <li>
           Where:
+          {' '}
           { place }
         </li>
         <li>
@@ -88,20 +93,32 @@ const Event = (props) => {
         </li>
         <li>
           When:
+          {' '}
           { date }
           {' '}
           { time }
           {' '}
         </li>
         <li>
-          { attendees }
+          Attending:
+          {' '}
+          {
+          attendees.map((item, index) => <span>{ (index ? ', ' : '') + item }</span>)
+          }
         </li>
       </ul>
-      {hosts === myName ? null : (
+      {hosts === myName || attendees.includes(myName) ? null : (
         <div className="center">
           <button type="button" onClick={() => addToAttendees(name, myName, attendees)}>Request Join</button>
         </div>
       )}
+      {
+        hosts !== myName && attendees.includes(myName) ? (
+          <div className="center">
+            <button type="button" onClick={() => leaveEvent(name, myName, attendees)}>Leave Event</button>
+          </div>
+        ) : null
+      }
     </div>
   );
 };
