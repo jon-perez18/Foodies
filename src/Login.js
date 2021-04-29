@@ -1,15 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Login.css';
 import { GoogleLogin } from 'react-google-login';
-import { refreshTokenSetup } from './refreshToken';
+import refreshTokenSetup from './refreshToken';
 import logo from './Logo.PNG';
 
 require('dotenv').config();
-const client_id=process.env.REACT_APP_GOOGLE_ID;
+
+const client_id = process.env.REACT_APP_GOOGLE_ID;
 
 export function Login(props) {
   const { socket } = props;
+
   const [usernames, setusernames] = useState([]);
   const [emails, setemails] = useState([]);
   const [user, setUser] = useState(null);
@@ -28,23 +30,23 @@ export function Login(props) {
     setusernames((prevusernames) => [...prevusernames, username]);
     const email = `${res.profileObj.email}`;
     setemails((prevemails) => [...prevemails, email]);
-    socket.emit("login", { username: username }, { email: email });
+    socket.emit('login', { username }, { email });
   }
 
   useEffect(() => {
-    socket.on("login", (data_name, data_email) => {
-      console.log("Login event received!");
-      console.log(data_name);
-      console.log(data_email);
-      setUser(() => data_name);
-      setusernames((prevusernames) => [...prevusernames, data_name.username]);
-      setemails((prevemails) => [...prevemails, data_email.email]);
+    socket.on('login', (dataName, dataEmail) => {
+      // console.log('Login event received!');
+      // console.log(dataName);
+      // console.log(dataEmail);
+      setUser(() => dataName);
+      setusernames((prevusernames) => [...prevusernames, dataName.username]);
+      setemails((prevemails) => [...prevemails, dataEmail.email]);
     });
   }, []);
 
-  const onFailure = (res) => {
-    console.log("Login failed: res:", res);
-    alert(`Failed to login.`);
+  const onFailure = (res) => { // eslint-disable-line no-unused-vars
+    // console.log('Login failed: res:', res);
+    alert('Failed to login.'); // eslint-disable-line no-alert
   };
 
   return (
@@ -69,7 +71,6 @@ export function Login(props) {
             />
           </div>
         </div>
-        
       </div>
       <div className='launchPage'>
         <h1>Meet Up and Eat Up!
@@ -98,7 +99,7 @@ export function Login(props) {
 }
 
 Login.propTypes = {
-    socket: PropTypes.object.isRequired,
+  socket: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default Login;
