@@ -22,48 +22,55 @@ function EventInfo(props) {
     <div>
       <h2>Create Event</h2>
       <br />
+
       <label htmlFor="eventName">
         Event Name
-        <input
-          type="text"
-          ref={eventNameRef}
-          name="event_name"
-          placeholder="Enter Event Name Here"
-        />
-        <br />
-        <br />
       </label>
+      <br />
+      <input
+        type="text"
+        ref={eventNameRef}
+        name="event_name"
+        placeholder="Enter Event Name Here"
+      />
+      <br />
+      <br />
 
       <label htmlFor="eventDescription">
         Event Desription
-        <textarea
-          type="textarea"
-          ref={eventDescriptionRef}
-          name="event_description"
-          placeholder="Enter Description Here"
-        />
       </label>
       <br />
+      <textarea
+        type="textarea"
+        ref={eventDescriptionRef}
+        name="event_description"
+        placeholder="Enter Description Here"
+      />
       <br />
+      <br />
+
       <label htmlFor="eventDate">
         Event Date
-        <input type="date" ref={eventDateRef} name="event_date" />
       </label>
+      <br />
+      <input type="date" ref={eventDateRef} name="event_date" />
+      <br />
+      <br />
 
-      <br />
-      <br />
       <label htmlFor="eventTime">
         Event Time
-        <input
-          type="time"
-          ref={eventTimeRef}
-          id="appt"
-          name="appt"
-          required
-        />
       </label>
       <br />
+      <input
+        type="time"
+        ref={eventTimeRef}
+        id="appt"
+        name="appt"
+        required
+      />
       <br />
+      <br />
+
       <button type="submit" onClick={() => onPressSubmit()}> Submit </button>
     </div>
   );

@@ -1,9 +1,10 @@
 import './App.css';
 import {
-  React, useEffect,
+  React, useState,
 } from 'react';
 import {
-  BrowserRouter as Router, Switch, Route, Link,
+  BrowserRouter as Router, Switch, Route,
+  Link, useHistory, withRouter, // eslint-disable-line no-unused-vars
 } from 'react-router-dom';
 import io from 'socket.io-client';
 import Search from './Search';
@@ -14,12 +15,9 @@ import ViewEvents from './ViewEvents';
 const socket = io(); // Connects to socket connection
 
 function App() {
-  useEffect(() => {
-    socket.on('login', (dataName, dataEmail) => {
-      console.log(dataName, dataEmail);
-      alert(dataName.get('username'));
-    });
-  }, []);
+  const [user, setUser] = useState(''); // eslint-disable-line no-unused-vars
+  const history = useHistory();
+  // const Button = withRouter(({history}) => {})
 
   return (
 
@@ -38,25 +36,24 @@ function App() {
                 <Link onClick={() => socket.emit('events')} to="/view">View Events</Link>
               </li>
             </ul>
-            </nav>
-            <Switch>
-              <Route path="/view">
-                {" "}
-                <ViewEvents socket={ socket } onClick={() => socket.emit("events")} />
-              </Route>
-              <Route path="/search">
-                {" "}
-                <Search socket={ socket } />
-              </Route>
-              <Route path="/">
-                {" "}
-                <Login socket={ socket }/>
-              </Route>
-            </Switch>
+          </nav>
+          <Switch>
+            <Route path="/view">
+              {' '}
+              <ViewEvents socket={socket} userName={user} history={history} />
+            </Route>
+            <Route path="/search">
+              {' '}
+              <Search socket={socket} userName={user} history={history} />
+            </Route>
+            <Route path="/">
+              {' '}
+              <Login socket={socket} setUser={setUser} history={history} />
+            </Route>
+          </Switch>
         </div>
       </Router>
     </div>
   );
 }
-
 export default App;

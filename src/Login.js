@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './Login.css';
 import { GoogleLogin } from 'react-google-login';
@@ -10,39 +10,29 @@ require('dotenv').config();
 const client_id = process.env.REACT_APP_GOOGLE_ID;
 
 export function Login(props) {
-  const { socket } = props;
-
-  const [usernames, setusernames] = useState([]);
-  const [emails, setemails] = useState([]);
-  const [user, setUser] = useState(null);
-
-  const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res.profileObj);
-    alert(`Successful Login ${res.profileObj.name}. \n`);
-    
-    refreshTokenSetup(res);
-    onLogin(res);
-    document.location.href = '/search'
-  };
+  const { socket, setUser, history } = props;
+  const [usernames, setusernames] = useState([]); // eslint-disable-line no-unused-vars
+  const [emails, setemails] = useState([]); // eslint-disable-line no-unused-vars
 
   function onLogin(res) {
     const username = `${res.profileObj.name}`;
     setusernames((prevusernames) => [...prevusernames, username]);
     const email = `${res.profileObj.email}`;
     setemails((prevemails) => [...prevemails, email]);
+    // console.log(usernames, emails);
     socket.emit('login', { username }, { email });
   }
+  
+  const onSuccess = (res) => {
+    //     console.log('Login Success: currentUser:', res.profileObj);
+    alert(`Successful Login ${res.profileObj.name}. \n`); // eslint-disable-line no-alert
 
-  useEffect(() => {
-    socket.on('login', (dataName, dataEmail) => {
-      // console.log('Login event received!');
-      // console.log(dataName);
-      // console.log(dataEmail);
-      setUser(() => dataName);
-      setusernames((prevusernames) => [...prevusernames, dataName.username]);
-      setemails((prevemails) => [...prevemails, dataEmail.email]);
-    });
-  }, []);
+    refreshTokenSetup(res);
+    onLogin(res);
+    setUser(() => res.profileObj.name);
+    console.log(history);
+    // document.location.href = '/search';
+  };
 
   const onFailure = (res) => { // eslint-disable-line no-unused-vars
     // console.log('Login failed: res:', res);
@@ -100,6 +90,8 @@ export function Login(props) {
 
 Login.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
+  setUser: PropTypes.func.isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default Login;
