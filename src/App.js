@@ -49,7 +49,6 @@ function App() {
             <Route path="/">
               {' '}
               <Login socket={socket} setUser={setUser} history={history} />
-              <Logout socket={socket} />
             </Route>
           </Switch>
         </div>
