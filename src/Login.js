@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
+import './Login.css';
 import { GoogleLogin } from 'react-google-login';
 import { refreshTokenSetup } from './refreshToken';
+import logo from './Logo.PNG';
 
 require('dotenv').config();
 const client_id=process.env.REACT_APP_GOOGLE_ID;
@@ -46,19 +48,52 @@ export function Login(props) {
   };
 
   return (
-    <div>
-      <div className="login" id="hide">
-      <GoogleLogin
-        clientId={client_id}
-        buttonText="Login"
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        cookiePolicy={"single_host_origin"}
-        style={{ marginTop: "100px" }}
-        isSignedIn={true}
-      />
+    <html>
+      
+      <div className="loginPage">
+        <div className = "heading">
+        
+        <img id='logo' src={logo} alt="location picture" />
+        
+        &ensp; Foodies
+        
+          <div id = 'login'>
+            <GoogleLogin id='login'
+              clientId={client_id}
+              buttonText="Login"
+              onSuccess={onSuccess}
+              onFailure={onFailure}
+              cookiePolicy={"single_host_origin"}
+              style={{ marginTop: "100px" }}
+              isSignedIn={true}
+            />
+          </div>
+        </div>
+        
       </div>
-    </div>
+      <div className='launchPage'>
+        <h1>Meet Up and Eat Up!
+        </h1>
+      </div>
+      <div className="launchInfo">
+        <p>Host And Join Group Gatherings In Your Area </p>
+        <p>Meet New People And Enjoy New Food</p>
+      </div>
+      <div className = "ourMission">
+        <p></p>
+        <h2>Our Mission</h2>
+        <p></p>
+        <p>In a technologically influenced world, it's worthwhile to make real-connections.</p>
+        <p>Meet new people in neutral settings and enjoy the atmosphere the world has to offer.</p>
+        <p>Our app is powered by Google and Yelp to make your experience as smooth as possible.</p>
+        <p>Join us today and experience life.</p>
+        <p></p>
+      </div>
+      <div className = "creatorInfo">
+        <p>Contributors: Anuja Badeti, Jonathan Perex, Kelly Hopkins, Aushutosh</p>
+      </div>
+  
+    </html>
   );
 }
 

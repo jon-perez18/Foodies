@@ -50,7 +50,6 @@ function App() {
               <Route path="/">
                 {" "}
                 <Login socket={ socket }/>
-                <Logout socket={ socket }/>
               </Route>
             </Switch>
         </div>
