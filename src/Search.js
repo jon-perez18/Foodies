@@ -23,18 +23,15 @@ function Search(props) {
   const [recommendations, setRecom] = useState({});
   const [isContunueClick, setContinueClick] = useState(false);
   const [Event, setEvent] = useState({});
-  const [phone, setPhone] = useState([]);
-  const [ratings, setRatings] = useState([]);
-  const [lat, setLat] = useState([]);
-  const [long, setLong] = useState([]);
   const [isMapReady, setMap] = useState(false);
+  const [results2, setResult2] = useState({});
   function saveInfoFunc() {
     const inputAddy = addy.current.value;
     setAddress(inputAddy);
     console.log(storeAddress);
     setContinueClick((prevClickContinue) => true); // eslint-disable-line no-unused-vars
     socket.emit('recs', {
-      addy: inputAddy, radio, ratings, phone, lat, long,
+      addy: inputAddy, radio,
     });
   }
   function onPressCreate(key) {
@@ -80,25 +77,11 @@ function Search(props) {
         tempRecom = results;
         return tempRecom;
       }); // eslint-disable-line no-unused-vars
-      setPhone((prevPhone) => {
-        let tempPhone = prevPhone;
-        tempPhone = data.phone;
-        return tempPhone;
-      });
-      setRatings((prevRatings) => {
-        let tempRatings = prevRatings;
-        tempRatings = data.ratings;
-        return tempRatings;
-      });
-      setLat((prevLat) => {
-        let tempLat = prevLat;
-        tempLat = data.lat;
-        return tempLat;
-      });
-      setLong((prevLong) => {
-        let tempLong = prevLong;
-        tempLong = data.long;
-        return tempLong;
+
+      setResult2((prevRes) => {
+        let tempRes = prevRes;
+        tempRes = data.result2;
+        return tempRes;
       });
       setMap(true);
     });
@@ -192,12 +175,8 @@ function Search(props) {
         </div>
         {isMapReady === true ? (
           <MyMap
-            recommendations={recommendations}
             onPressCreate={onPressCreate}
-            ratings={ratings}
-            phone={phone}
-            lat={lat}
-            long={long}
+            results2={results2}
           />
         ) : (' ')}
       </div>
