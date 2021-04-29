@@ -77,7 +77,6 @@ function Search(props) {
         tempRecom = results;
         return tempRecom;
       }); // eslint-disable-line no-unused-vars
-
       setResult2((prevRes) => {
         let tempRes = prevRes;
         tempRes = data.result2;
