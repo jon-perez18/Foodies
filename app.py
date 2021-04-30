@@ -107,7 +107,6 @@ def get_restaurant_recs(
     results = {}
     results2 ={}
     for i in range(5):
-<<<<<<< HEAD
      
         results[business_data['businesses'][i]['name']] = business_data[
             'businesses'][i]['location']['display_address'][0]+" "+business_data[
@@ -123,18 +122,6 @@ def get_restaurant_recs(
         phone = business_data['businesses'][i]["phone"]
         results2[i] = {'restaurant':restaurant, 'location':location,'lat': lat,"longi": longi,'ratings':ratings,'phone':phone }
     print("results", results2)
-=======
-        results[business_data['businesses'][i]['name']] = business_data[
-            'businesses'][i]['location']['display_address'][0]+" "+business_data[
-            'businesses'][i]['location']['display_address'][1]
-        data['lat'].append(business_data['businesses'][i]['coordinates']['latitude'])
-        data['long'].append(business_data['businesses'][i]['coordinates']['longitude'])
-        data['ratings'].append(business_data['businesses'][i]["rating"])
-        data['phone'].append(business_data['businesses'][0]["phone"])
-        
-    
-    print("results", results)
->>>>>>>  fixed location pinned on the map
     # This emits the 'chat' event from the server to all clients except for
     # the client that emmitted the event that triggered this function
     SOCKETIO.emit('recs', {"results": results, 'result2':results2
