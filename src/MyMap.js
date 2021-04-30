@@ -74,6 +74,7 @@ function MyMap(props) {
           </Popup>
         </Marker>
         <Marker position={[results2[2].lat, results2[2].longi]}>
+
           <Popup>
             <p>
               Name:
@@ -120,6 +121,7 @@ function MyMap(props) {
           </Popup>
         </Marker>
         <Marker position={[results2[4].lat, results2[4].longi]}>
+
           <Popup>
             <p>
               Name:
