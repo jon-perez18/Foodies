@@ -7,7 +7,7 @@ import logo from './Logo.PNG';
 
 require('dotenv').config();
 
-const client_id = process.env.REACT_APP_GOOGLE_ID; // eslint-disable-line camelcase
+const client_id = '635379765141-ki5q6ah4lejdjrqdleksr7eof9acq2vp.apps.googleusercontent.com'; // eslint-disable-line camelcase
 
 export function Login(props) {
   const { socket, setUser, history } = props;
@@ -81,7 +81,7 @@ export function Login(props) {
         <p />
       </div>
       <div className="creatorInfo">
-        <p>Contributors: Anuja Badeti, Jonathan Perex, Kelly Hopkins, Aushutosh</p>
+        <p>Contributors: Anuja Badeti, Jonathan Perex, Kelly Hopkins, Ashutosh Rana</p>
       </div>
     </div>
   );

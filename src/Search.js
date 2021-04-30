@@ -6,8 +6,8 @@ import {
 import Recommendation from './Recommendation';
 import EventInfo from './EventInfo';
 import DisplayEventInfo from './DisplayEventInfo';
-
 import MyMap from './MyMap';
+import './MyMap.css';
 
 function Search(props) {
   const { socket, userName, history } = props; // eslint-disable-line no-unused-vars
@@ -165,8 +165,8 @@ function Search(props) {
   if (isCreate === false) {
     return (
       <div>
-        <div className="recom">
-          <header className="App-header">
+        <div>
+          <header className="App-header recom">
             <Recommendation
               onPressCreate={onPressCreate}
               recommendations={recommendations}
@@ -174,10 +174,12 @@ function Search(props) {
           </header>
         </div>
         {isMapReady === true ? (
-          <MyMap
-            onPressCreate={onPressCreate}
-            results2={results2}
-          />
+          <div className="map-header">
+            <MyMap
+              onPressCreate={onPressCreate}
+              results2={results2}
+            />
+          </div>
         ) : (' ')}
       </div>
     );
