@@ -7,7 +7,7 @@ import logo from './Logo.PNG';
 
 require('dotenv').config();
 
-const client_id = 'process.env.REACT_APP_GOOGLE_ID'; // eslint-disable-line camelcase
+const client_id = process.env.REACT_APP_GOOGLE_ID; // eslint-disable-line camelcase
 
 export function Login(props) {
   const { socket, setUser, history } = props;
