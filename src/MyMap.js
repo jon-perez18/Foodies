@@ -28,7 +28,7 @@ function MyMap(props) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Marker position={[results2[0].lat, results2[0].longi]}>
-          <Popup>
+          <Popup className="popup">
             <p>
               Name:
               {results2[0].restaurant }
@@ -51,7 +51,7 @@ function MyMap(props) {
           </Popup>
         </Marker>
         <Marker position={[results2[1].lat, results2[1].longi]}>
-          <Popup>
+          <Popup className="popup">
             <p>
               Name:
               {results2[1].restaurant }
@@ -74,7 +74,8 @@ function MyMap(props) {
           </Popup>
         </Marker>
         <Marker position={[results2[2].lat, results2[2].longi]}>
-          <Popup>
+
+          <Popup className="popup">
             <p>
               Name:
               {results2[2].restaurant }
@@ -97,7 +98,7 @@ function MyMap(props) {
           </Popup>
         </Marker>
         <Marker position={[results2[3].lat, results2[3].longi]}>
-          <Popup>
+          <Popup className="popup">
             <p>
               Name:
               {results2[3].restaurant }
@@ -120,7 +121,8 @@ function MyMap(props) {
           </Popup>
         </Marker>
         <Marker position={[results2[4].lat, results2[4].longi]}>
-          <Popup>
+
+          <Popup className="popup">
             <p>
               Name:
               {results2[4].restaurant }

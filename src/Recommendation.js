@@ -15,18 +15,22 @@ function Recommendation({ recommendations, onPressCreate }) {
         {' '}
         <td>{recommendations[keyName]}</td>
         {' '}
+
+        {' '}
         <td>
           <button type="button" onClick={() => onPressCreate(keyName)}> Create Event </button>
           {' '}
         </td>
+
         {' '}
       </tr>,
+
     );
   });
   return (
     <div className="recommendations">
       <div> </div>
-      <h2>Top 5 Reccomendations </h2>
+      <h2 className="five">Top 5 Reccomendations </h2>
       <div>
         <table>
           <thead>

@@ -7,12 +7,13 @@ import logo from './Logo.PNG';
 
 require('dotenv').config();
 
-const client_id = process.env.REACT_APP_GOOGLE_ID; // eslint-disable-line camelcase
+const client_id = 'process.env.REACT_APP_GOOGLE_ID'; // eslint-disable-line camelcase
 
 export function Login(props) {
   const { socket, setUser, history } = props;
   const [usernames, setusernames] = useState([]); // eslint-disable-line no-unused-vars
   const [emails, setemails] = useState([]); // eslint-disable-line no-unused-vars
+  const [imgUrl, setUrl] = useState(null); // eslint-disable-line no-unused-vars
   function onLogin(res) {
     const username = `${res.profileObj.name}`;
     setusernames((prevusernames) => [...prevusernames, username]);
@@ -23,9 +24,8 @@ export function Login(props) {
   }
 
   const onSuccess = (res) => {
-    //     console.log('Login Success: currentUser:', res.profileObj);
+    // console.log('Login Success: currentUser:', res.profileObj);
     alert(`Successful Login ${res.profileObj.name}. \n`); // eslint-disable-line no-alert
-
     refreshTokenSetup(res);
     onLogin(res);
     setUser(() => res.profileObj.name);
@@ -81,7 +81,7 @@ export function Login(props) {
         <p />
       </div>
       <div className="creatorInfo">
-        <p>Contributors: Anuja Badeti, Jonathan Perex, Kelly Hopkins, Aushutosh</p>
+        <p>Contributors: Anuja Badeti, Jonathan Perex, Kelly Hopkins, Ashutosh Rana</p>
       </div>
     </div>
   );
