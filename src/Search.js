@@ -109,6 +109,9 @@ function Search(props) {
              <Logout />
           </div>
         </div>
+        
+        <header className="App-header">
+          <div>
 
       <article className="l-design-widht">
         <div className="card card--accent">
@@ -176,7 +179,6 @@ function Search(props) {
           </form>
         </div>
       </article>
-      </div>
     );
   }
   if (isCreate === false) {
@@ -192,7 +194,11 @@ function Search(props) {
             </div>
           </div>
           
+          <header className="App-header">
+
+        <div>
           <header className="App-header recom">
+
             <Recommendation
               onPressCreate={onPressCreate}
               recommendations={recommendations}
