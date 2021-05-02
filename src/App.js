@@ -9,7 +9,7 @@ import {
 import io from 'socket.io-client';
 import Search from './Search';
 import { Login } from './Login';
-import Logout from './Logout';
+import Logout from './Logout'; // eslint-disable-line no-unused-vars
 import ViewEvents from './ViewEvents';
 
 const socket = io(); // Connects to socket connection

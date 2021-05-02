@@ -1,4 +1,4 @@
-import './App.css';
+import './Search.css';
 import PropTypes from 'prop-types';
 import {
   React, useState, useRef, useEffect,
@@ -6,10 +6,12 @@ import {
 import Recommendation from './Recommendation';
 import EventInfo from './EventInfo';
 import DisplayEventInfo from './DisplayEventInfo';
+
 import Logout from './Logout';
 import logo from './Logo.PNG';
 
 import MyMap from './MyMap';
+import './MyMap.css';
 
 function Search(props) {
   const { socket, userName, history } = props; // eslint-disable-line no-unused-vars
@@ -25,18 +27,15 @@ function Search(props) {
   const [recommendations, setRecom] = useState({});
   const [isContunueClick, setContinueClick] = useState(false);
   const [Event, setEvent] = useState({});
-  const [phone, setPhone] = useState([]);
-  const [ratings, setRatings] = useState([]);
-  const [lat, setLat] = useState([]);
-  const [long, setLong] = useState([]);
   const [isMapReady, setMap] = useState(false);
+  const [results2, setResult2] = useState({});
   function saveInfoFunc() {
     const inputAddy = addy.current.value;
     setAddress(inputAddy);
     console.log(storeAddress);
     setContinueClick((prevClickContinue) => true); // eslint-disable-line no-unused-vars
     socket.emit('recs', {
-      addy: inputAddy, radio, ratings, phone, lat, long,
+      addy: inputAddy, radio,
     });
   }
   function onPressCreate(key) {
@@ -82,25 +81,10 @@ function Search(props) {
         tempRecom = results;
         return tempRecom;
       }); // eslint-disable-line no-unused-vars
-      setPhone((prevPhone) => {
-        let tempPhone = prevPhone;
-        tempPhone = data.phone;
-        return tempPhone;
-      });
-      setRatings((prevRatings) => {
-        let tempRatings = prevRatings;
-        tempRatings = data.ratings;
-        return tempRatings;
-      });
-      setLat((prevLat) => {
-        let tempLat = prevLat;
-        tempLat = data.lat;
-        return tempLat;
-      });
-      setLong((prevLong) => {
-        let tempLong = prevLong;
-        tempLong = data.long;
-        return tempLong;
+      setResult2((prevRes) => {
+        let tempRes = prevRes;
+        tempRes = data.result2;
+        return tempRes;
       });
       setMap(true);
     });
@@ -115,6 +99,7 @@ function Search(props) {
 
   if (isContunueClick === false) {
     return (
+
       <div className="App">
       
         <div className = "logout-heading">
@@ -127,72 +112,79 @@ function Search(props) {
         
         <header className="App-header">
           <div>
+
+      <article className="l-design-widht">
+        <div className="card card--accent">
+          <label className="input">
+
             <input
-              type="input"
+              className="input__field"
+              type="text"
               ref={addy}
-              className="form__field"
-              placeholder="Enter an address"
+              placeholder=" "
             />
+            <span className="input__label">Enter Your Desired Address</span>
+          </label>
+          <br />
+          <form>
+            <h3>Enter Your Desired Range</h3>
 
-            <form>
-              <h3>Enter your desired range</h3>
+            <input
+              type="radio"
+              checked={radio === '5000'}
+              value="5000"
+              onChange={(e) => {
+                setRadio(e.target.value);
+              }}
+            />
+            <label htmlFor="metersLabel">5000 meters</label>
+            <br />
 
-              <input
-                type="radio"
-                checked={radio === '5000'}
-                value="5000"
-                onChange={(e) => {
-                  setRadio(e.target.value);
-                }}
-              />
-              <label htmlFor="metersLabel">5000 meters</label>
-              <br />
+            <input
+              type="radio"
+              checked={radio === '10000'}
+              value="10000"
+              onChange={(e) => {
+                setRadio(e.target.value);
+              }}
+            />
+            <label htmlFor="10000Meter">10000 meters</label>
+            <br />
 
-              <input
-                type="radio"
-                checked={radio === '10000'}
-                value="10000"
-                onChange={(e) => {
-                  setRadio(e.target.value);
-                }}
-              />
-              <label htmlFor="10000Meter">10000 meters</label>
-              <br />
+            <input
+              type="radio"
+              checked={radio === '25000'}
+              value="25000"
+              onChange={(e) => {
+                setRadio(e.target.value);
+              }}
+            />
+            <label htmlFor="25000Meter">25000 meters</label>
+            <br />
 
-              <input
-                type="radio"
-                checked={radio === '25000'}
-                value="25000"
-                onChange={(e) => {
-                  setRadio(e.target.value);
-                }}
-              />
-              <label htmlFor="25000Meter">25000 meters</label>
-              <br />
-
-              <input
-                type="radio"
-                checked={radio === '39000'}
-                value="39000"
-                onChange={(e) => {
-                  setRadio(e.target.value);
-                }}
-              />
-              <label htmlFor="39000Meter">39000 meters</label>
-              <br />
-              <br />
-              <button type="button" name="continue" onClick={() => saveInfoFunc()}>
-                Continue
-              </button>
-            </form>
-          </div>
-        </header>
-      </div>
+            <input
+              type="radio"
+              checked={radio === '39000'}
+              value="39000"
+              onChange={(e) => {
+                setRadio(e.target.value);
+              }}
+            />
+            <label htmlFor="39000Meter">39000 meters</label>
+            <br />
+            <br />
+            <button type="button" name="continue" onClick={() => saveInfoFunc()}>
+              Continue
+            </button>
+          </form>
+        </div>
+      </article>
     );
   }
   if (isCreate === false) {
     return (
       <div>
+
         <div className="recom">
           <div className = "logout-heading">
             <img id='logo' src={logo} alt="location picture" />
@@ -203,6 +195,10 @@ function Search(props) {
           </div>
           
           <header className="App-header">
+
+        <div>
+          <header className="App-header recom">
+
             <Recommendation
               onPressCreate={onPressCreate}
               recommendations={recommendations}
@@ -210,14 +206,12 @@ function Search(props) {
           </header>
         </div>
         {isMapReady === true ? (
-          <MyMap
-            recommendations={recommendations}
-            onPressCreate={onPressCreate}
-            ratings={ratings}
-            phone={phone}
-            lat={lat}
-            long={long}
-          />
+          <div id="maps" className="map-header">
+            <MyMap
+              onPressCreate={onPressCreate}
+              results2={results2}
+            />
+          </div>
         ) : (' ')}
       </div>
     );

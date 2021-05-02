@@ -11,151 +11,137 @@ import PropTypes from 'prop-types';
 function MyMap(props) {
   const {
     onPressCreate,
-    recommendations,
-    ratings,
-    phone,
-    long,
-    lat,
+    results2,
   } = props;
-  const restaurant = [];
-  const location = [];
-  console.log('long', long);
-  console.log(ratings);
-  Object.keys(recommendations).map((keyName) => {
-    restaurant.push(keyName);
-    location.push(recommendations[keyName]);
-    return restaurant;
-  });
-  console.log(restaurant);
-  console.log(location);
+
   MyMap.propTypes = {
     onPressCreate: PropTypes.func.isRequired,
-    recommendations: PropTypes.objectOf(PropTypes.string).isRequired,
     ratings: PropTypes.arrayOf(PropTypes.string).isRequired,
     phone: PropTypes.arrayOf(PropTypes.string).isRequired,
-    long: PropTypes.arrayOf(PropTypes.number).isRequired,
-    lat: PropTypes.arrayOf(PropTypes.number).isRequired,
+    results2: PropTypes.objectOf(PropTypes.object).isRequired,
   };
   return (
     <div>
-      <MapContainer center={[lat[0], long[0]]} zoom={13} scrollWheelZoom>
+      <MapContainer center={[results2[0].lat, results2[0].longi]} zoom={13} scrollWheelZoom>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[lat[0], long[0]]}>
-          <Popup>
+        <Marker position={[results2[0].lat, results2[0].longi]}>
+          <Popup className="popup">
             <p>
               Name:
-              {restaurant[0]}
+              {results2[0].restaurant }
             </p>
             {' '}
             <p>
               Location:
-              {location[0]}
+              {results2[0].location }
             </p>
             <p>
               Ratings:
-              {ratings[0]}
+              {results2[0].ratings }
             </p>
             {' '}
             <p>
               Phone:
-              {phone[0] }
+              {results2[0].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(restaurant[0])}> Create Event </button>
+            <button type="button" onClick={() => onPressCreate(results2[0].restaurant)}> Create Event </button>
           </Popup>
         </Marker>
-        <Marker position={[lat[1], long[1]]}>
-          <Popup>
+        <Marker position={[results2[1].lat, results2[1].longi]}>
+          <Popup className="popup">
             <p>
               Name:
-              {restaurant[1]}
+              {results2[1].restaurant }
             </p>
             {' '}
             <p>
               Location:
-              {location[1]}
+              {results2[1].location }
             </p>
             <p>
               Ratings:
-              {ratings[1]}
+              {results2[1].ratings }
             </p>
             {' '}
             <p>
               Phone:
-              {phone[1] }
+              {results2[1].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(restaurant[1])}> Create Event </button>
+            <button type="button" onClick={() => onPressCreate(results2[1].restaurant)}> Create Event </button>
           </Popup>
         </Marker>
-        <Marker position={[lat[2], long[2]]}>
-          <Popup>
+        <Marker position={[results2[2].lat, results2[2].longi]}>
+
+          <Popup className="popup">
             <p>
               Name:
-              {restaurant[2]}
+              {results2[2].restaurant }
             </p>
             {' '}
             <p>
               Location:
-              {location[2]}
+              {results2[2].location }
             </p>
             <p>
               Ratings:
-              {ratings[2]}
+              {results2[2].ratings }
             </p>
             {' '}
             <p>
               Phone:
-              {phone[2] }
+              {results2[2].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(restaurant[2])}> Create Event </button>
+            <button type="button" onClick={() => onPressCreate(results2[2].restaurant)}> Create Event </button>
           </Popup>
         </Marker>
-        <Marker position={[lat[3], long[3]]}>
-          <Popup>
+        <Marker position={[results2[3].lat, results2[3].longi]}>
+          <Popup className="popup">
             <p>
               Name:
-              {restaurant[3]}
+              {results2[3].restaurant }
             </p>
             {' '}
             <p>
               Location:
-              {location[3]}
+              {results2[3].location }
             </p>
             <p>
               Ratings:
-              {ratings[3]}
+              {results2[3].ratings }
             </p>
             {' '}
             <p>
               Phone:
-              {phone[3] }
+              {results2[3].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(restaurant[3])}> Create Event </button>
+            <button type="button" onClick={() => onPressCreate(results2[3].restaurant)}> Create Event </button>
           </Popup>
         </Marker>
-        <Marker position={[lat[4], long[4]]}>
-          <Popup>
+        <Marker position={[results2[4].lat, results2[4].longi]}>
+
+          <Popup className="popup">
             <p>
               Name:
-              {restaurant[4]}
+              {results2[4].restaurant }
             </p>
             {' '}
             <p>
               Location:
-              {location[4]}
+              {results2[4].location }
             </p>
             <p>
               Ratings:
-              {ratings[4]}
+              {results2[4].ratings }
             </p>
             {' '}
             <p>
               Phone:
-              {phone[4] }
+              {results2[4].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(restaurant[4])}> Create Event </button>
+            <button type="button" onClick={() => onPressCreate(results2[4].restaurant)}> Create Event </button>
           </Popup>
         </Marker>
       </MapContainer>

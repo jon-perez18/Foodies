@@ -1,5 +1,6 @@
 import { React } from 'react';
 import PropTypes from 'prop-types';
+import './App.css';
 
 function Recommendation({ recommendations, onPressCreate }) {
   const rows = [];
@@ -15,18 +16,22 @@ function Recommendation({ recommendations, onPressCreate }) {
         {' '}
         <td>{recommendations[keyName]}</td>
         {' '}
+
+        {' '}
         <td>
           <button type="button" onClick={() => onPressCreate(keyName)}> Create Event </button>
           {' '}
         </td>
+
         {' '}
       </tr>,
+
     );
   });
   return (
     <div className="recommendations">
       <div> </div>
-      <h2>Top 5 Reccomendations </h2>
+      <h2 className="five">Top 5 Reccomendations </h2>
       <div>
         <table>
           <thead>
@@ -37,6 +42,7 @@ function Recommendation({ recommendations, onPressCreate }) {
           </thead>
           <tbody>{rows}</tbody>
         </table>
+        <i id="arrow" className="fas fa-long-arrow-alt-down" />
       </div>
     </div>
   );

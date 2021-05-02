@@ -77,3 +77,18 @@ nav li {
 #navbar{
   display: none;
 }
+.recom{
+  width:100%;
+  background-image: url('restro-background.jpg');
+  color:white;
+ font-family: 'Roboto', sans-serif;
+ font-size: 2rem;
+ min-height:80vh;
+}
+.five{
+  color: black;
+}
+#arrow{
+  height:20%;
+
+}
