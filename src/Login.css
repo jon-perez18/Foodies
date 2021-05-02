@@ -96,6 +96,13 @@ h2{
 }
 #login{
     position:absolute; 
+    top: 50px; 
+    right: 30px;
+    display: block;
+}
+#logout{
+    position:absolute; 
     top: 90px; 
     right: 30px;
+    display: none;
 }

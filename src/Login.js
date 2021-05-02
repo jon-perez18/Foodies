@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './Login.css';
+import './App.css';
 import { GoogleLogin } from 'react-google-login';
 import refreshTokenSetup from './refreshToken';
 import logo from './Logo.PNG';
+import Logout from './Logout';
 
 require('dotenv').config();
 
 const client_id = process.env.REACT_APP_GOOGLE_ID;
+
+export function check_login(check){
+  if(check){
+    document.getElementById('login').style.display = "none";
+    document.getElementById('logout').style.display = "block";
+    document.getElementById('navbar').style.display = "block";
+  }
+}
 
 export function Login(props) {
   const { socket, setUser, history } = props;
@@ -26,7 +36,7 @@ export function Login(props) {
   const onSuccess = (res) => {
     //     console.log('Login Success: currentUser:', res.profileObj);
     alert(`Successful Login ${res.profileObj.name}. \n`); // eslint-disable-line no-alert
-
+    check_login(`${res.isSignedIn}`)
     refreshTokenSetup(res);
     onLogin(res);
     setUser(() => res.profileObj.name);
@@ -59,6 +69,9 @@ export function Login(props) {
               style={{ marginTop: "100px" }}
               isSignedIn={true}
             />
+          </div>
+          <div id="logout">
+            <Logout />
           </div>
         </div>
       </div>

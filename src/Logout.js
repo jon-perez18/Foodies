@@ -7,6 +7,7 @@ function Logout() {
   const onSuccess = () => {
     console.log('Logout made successfully');
     alert('Sucessful Logout');
+    document.location.href = '/';
   };
 
   return (

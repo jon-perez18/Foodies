@@ -6,6 +6,8 @@ import {
 import Recommendation from './Recommendation';
 import EventInfo from './EventInfo';
 import DisplayEventInfo from './DisplayEventInfo';
+import Logout from './Logout';
+import logo from './Logo.PNG';
 
 import MyMap from './MyMap';
 
@@ -114,6 +116,15 @@ function Search(props) {
   if (isContunueClick === false) {
     return (
       <div className="App">
+      
+        <div className = "logout-heading">
+        <img id='logo' src={logo} alt="location picture" />
+        &ensp; Foodies
+          <div id="logout-button">
+             <Logout />
+          </div>
+        </div>
+        
         <header className="App-header">
           <div>
             <input
@@ -183,6 +194,14 @@ function Search(props) {
     return (
       <div>
         <div className="recom">
+          <div className = "logout-heading">
+            <img id='logo' src={logo} alt="location picture" />
+            &ensp; Foodies
+            <div id="logout-button">
+              <Logout />
+            </div>
+          </div>
+          
           <header className="App-header">
             <Recommendation
               onPressCreate={onPressCreate}
@@ -206,6 +225,14 @@ function Search(props) {
   if (isSubmit === false) {
     return (
       <div className="App">
+        <div className = "logout-heading">
+          <img id='logo' src={logo} alt="location picture" />
+          &ensp; Foodies
+          <div id="logout-button">
+            <Logout />
+          </div>
+        </div>
+          
         <header className="App-header">
           <EventInfo
             eventNameRef={eventNameRef}
@@ -221,6 +248,14 @@ function Search(props) {
   console.log(Event);
   return (
     <div className="App">
+      <div className = "logout-heading">
+        <img id='logo' src={logo} alt="location picture" />
+        &ensp; Foodies
+        <div id="logout-button">
+          <Logout />
+        </div>
+      </div>
+      
       <header className="App-header">
         <h2>Congratulation Event Created Successfully</h2>
         <br />
