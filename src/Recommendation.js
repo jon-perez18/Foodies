@@ -1,5 +1,6 @@
 import { React } from 'react';
 import PropTypes from 'prop-types';
+import './App.css';
 
 function Recommendation({ recommendations, onPressCreate }) {
   const rows = [];
@@ -41,6 +42,7 @@ function Recommendation({ recommendations, onPressCreate }) {
           </thead>
           <tbody>{rows}</tbody>
         </table>
+        <i id="arrow" className="fas fa-long-arrow-alt-down" />
       </div>
     </div>
   );
