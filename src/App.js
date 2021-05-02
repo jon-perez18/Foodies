@@ -24,19 +24,21 @@ function App() {
     <div className="App">
       <Router>
         <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/search">Search</Link>
-              </li>
-              <li>
-                <Link onClick={() => socket.emit('events')} to="/view">View Events</Link>
-              </li>
-            </ul>
-          </nav>
+          <div id="navbar">
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/search">Search</Link>
+                </li>
+                <li>
+                  <Link onClick={() => socket.emit('events')} to="/view">View Events</Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
           <Switch>
             <Route path="/view">
               {' '}
