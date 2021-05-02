@@ -174,7 +174,7 @@ function Search(props) {
           </header>
         </div>
         {isMapReady === true ? (
-          <div className="map-header">
+          <div id="maps" className="map-header">
             <MyMap
               onPressCreate={onPressCreate}
               results2={results2}
