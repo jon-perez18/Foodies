@@ -206,20 +206,22 @@ def get_events():
     # print(events)
     return events
 
-def add_attendee(name, user, new_list):
+def add_attendee(name, host, user, new_list):
     """Adding attendees to an event in the database"""
     # print(new_list)
     new_list.append(user)
     # print(new_list)
+    print(host)
     change_event = models.Event.query.filter_by(event_name=name).first()
     change_event.attendees = new_list
     DB.session.merge(change_event)
     DB.session.commit()
     on_events()
 
-def leave_event(name, user, current_list):
+def leave_event(name, host, user, current_list):
     '''Leaving event'''
     current_list.remove(user)
+    print(host)
     change_event = models.Event.query.filter_by(event_name=name).first()
     change_event.attendees = current_list
     DB.session.merge(change_event)
@@ -238,14 +240,14 @@ def on_events():
 def on_change_attendee(data):
     '''Changing the attendees list of an event'''
     print(data)
-    add_attendee(data['name'], data['user'], list(data['attendeeList']))
+    add_attendee(data['name'], data['host'], data['user'], list(data['attendeeList']))
     # SOCKETIO.emit("events", {"events": events_list} broadcast=True, include_self=True)
 
 @SOCKETIO.on("leave_event")
 def on_leave_event(data):
     '''Leaving an event'''
     print(data)
-    leave_event(data['name'], data['user'], list(data['attendeeList']))
+    leave_event(data['name'], data['host'], data['user'], list(data['attendeeList']))
 
 
 if __name__ == "__main__":
