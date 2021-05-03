@@ -16,7 +16,7 @@
 .App-header {
   position:relative;
   top: 30px;
-  background-color: #282c34;
+  /*background-color: #282c34;*/
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -78,12 +78,16 @@ nav li {
   display: none;
 }
 .recom{
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+}
+.recom-body{
+  top: 30px;
+  position:relative;
   width:100%;
   background-image: url('restro-background.jpg');
   color:white;
- font-family: 'Roboto', sans-serif;
- font-size: 2rem;
- min-height:80vh;
+  min-height:80vh;;
 }
 .five{
   color: black;
