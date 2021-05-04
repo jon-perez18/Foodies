@@ -71,20 +71,20 @@ def on_login(data_name, data_email):
 
     if data_name.get('username') not in names:
         new_user = models.Login(name=data_name.get('username'),
-                               email=data_email.get('email'))
+                                email=data_email.get('email'))
         DB.session.add(new_user)
         DB.session.commit()
 
         names.append(data_name.get('username'))
         emails.append(data_email.get('email'))
-    
+
     print(names)
     print(emails)
-    
+
 
     SOCKETIO.emit('login', data_name, broadcast=True, include_self=True)
-    
-    
+
+
 
 
 @SOCKETIO.on('recs')
@@ -105,27 +105,26 @@ def get_restaurant_recs(
     #print(business_data['businesses'][0]["rating"])
     #print(business_data['businesses'][0]["phone"])
     results = {}
-    results2 ={}
+    results2 = {}
     for i in range(5):
-     
         results[business_data['businesses'][i]['name']] = business_data[
             'businesses'][i]['location']['display_address'][0]+" "+business_data[
-            'businesses'][i]['location']['display_address'][1]
+                'businesses'][i]['location']['display_address'][1]
     for i in range(5):
         restaurant = business_data['businesses'][i]['name']
         location = business_data[
             'businesses'][i]['location']['display_address'][0]+" "+business_data[
-            'businesses'][i]['location']['display_address'][1]
+                'businesses'][i]['location']['display_address'][1]
         lat = business_data['businesses'][i]['coordinates']['latitude']
         longi = business_data['businesses'][i]['coordinates']['longitude']
         ratings = business_data['businesses'][i]["rating"]
         phone = business_data['businesses'][i]["phone"]
-        results2[i] = {'restaurant':restaurant, 'location':location,'lat': lat,"longi": longi,'ratings':ratings,'phone':phone }
+        results2[i] = {'restaurant':restaurant, 'location':location, 'lat': lat,
+                       "longi": longi, 'ratings':ratings, 'phone':phone}
     print("results", results2)
     # This emits the 'chat' event from the server to all clients except for
     # the client that emmitted the event that triggered this function
-    SOCKETIO.emit('recs', {"results": results, 'result2':results2
-    },
+    SOCKETIO.emit('recs', {"results": results, 'result2':results2},
                   broadcast=True,
                   include_self=True)
     return results
@@ -144,7 +143,7 @@ def get_recomendations(data):
 @SOCKETIO.on('event_info')
 def get_event_info(data):
     """get event info"""
-     
+
     print(data)
     host_name = data['host']
     event_name = data['eventName']
@@ -159,7 +158,6 @@ def get_event_info(data):
     elif hour == 00:
         new_hour = "12"
         time = new_hour + event_time[2:] + ' AM'
-        
     else:
         time = event_time + ' AM'
     # print(time)
@@ -197,32 +195,31 @@ def add_event_to_db(event): #event is a dictionary of event info
     DB.session.commit()
 
     return new_event
-    
+
 
 def get_events():
     '''Returns list of events from db'''
     events = models.Event.query.all()
-    events = list(map(lambda event: [event.host, event.event_name, event.event_description, event.restaurant, event.location, event.event_date, event.event_time, event.attendees], events))
+    events = list(map(lambda event: [event.host, event.event_name, event.event_description,
+                                     event.restaurant, event.location, event.event_date,
+                                     event.event_time, event.attendees], events))
     # print(events)
     return events
 
-def add_attendee(name, host, user, new_list):
+def add_attendee(name, host, restaurant, user, new_list):
     """Adding attendees to an event in the database"""
-    # print(new_list)
     new_list.append(user)
-    # print(new_list)
-    print(host)
-    change_event = models.Event.query.filter_by(event_name=name).first()
+    change_event = DB.session.query(models.Event).filter_by(event_name=name, host=host,
+                                                            restaurant=restaurant).first()
     change_event.attendees = new_list
-    DB.session.merge(change_event)
     DB.session.commit()
     on_events()
 
-def leave_event(name, host, user, current_list):
+def leave_event(name, host, restaurant, user, current_list):
     '''Leaving event'''
     current_list.remove(user)
-    print(host)
-    change_event = models.Event.query.filter_by(event_name=name).first()
+    change_event = DB.session.query(models.Event).filter_by(event_name=name, host=host,
+                                                            restaurant=restaurant).first()
     change_event.attendees = current_list
     DB.session.merge(change_event)
     DB.session.commit()
@@ -240,14 +237,15 @@ def on_events():
 def on_change_attendee(data):
     '''Changing the attendees list of an event'''
     print(data)
-    add_attendee(data['name'], data['host'], data['user'], list(data['attendeeList']))
+    add_attendee(data['name'], data['host'], data['place'], data['user'],
+                 list(data['attendeeList']))
     # SOCKETIO.emit("events", {"events": events_list} broadcast=True, include_self=True)
 
 @SOCKETIO.on("leave_event")
 def on_leave_event(data):
     '''Leaving an event'''
     print(data)
-    leave_event(data['name'], data['host'], data['user'], list(data['attendeeList']))
+    leave_event(data['name'], data['host'], data['place'], data['user'], list(data['attendeeList']))
 
 
 if __name__ == "__main__":

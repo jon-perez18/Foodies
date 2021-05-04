@@ -3,12 +3,6 @@ import './App.css';
 import PropTypes from 'prop-types';
 import { React, useState, useEffect } from 'react';
 import logo from './Logo.PNG';
-// import bg from './restro-background.jpg';
-// <img
-//         className="bg-picture"
-//         src={bg}
-//         alt="background"
-//       />
 
 function ViewEvents(props) {
   const { socket, userName } = props;
@@ -20,7 +14,6 @@ function ViewEvents(props) {
     });
   }, []);
 
-  console.log('view event page', eventData);
   const myName = userName;
   return (
     <div className="main-container">
@@ -48,7 +41,6 @@ function ViewEvents(props) {
 ViewEvents.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
   userName: PropTypes.string.isRequired,
-  // history: PropTypes.instanceOf(Object).isRequired,
 };
 
 const Event = (props) => {
@@ -69,17 +61,17 @@ const Event = (props) => {
     myName, hosts, name, description, place, address, date, time, attendees, socket,
   } = props;
 
-  function addToAttendees(checkEvent, hostName, addUser, toList) {
+  function addToAttendees(checkEvent, hostName, restaurant, addUser, toList) {
     // Still have to change the main array to display on screen, waiting for db
     // console.log(checkEvent, addUser, toList);
     socket.emit('change_attendees', {
-      name: checkEvent, host: hostName, user: addUser, attendeeList: toList,
+      name: checkEvent, host: hostName, place: restaurant, user: addUser, attendeeList: toList,
     });
   }
-  function leaveEvent(checkEvent, hostName, addUser, toList) {
+  function leaveEvent(checkEvent, hostName, restaurant, addUser, toList) {
     // console.log(checkEvent, addUser, toList);
     socket.emit('leave_event', {
-      name: checkEvent, host: hostName, user: addUser, attendeeList: toList,
+      name: checkEvent, host: hostName, place: restaurant, user: addUser, attendeeList: toList,
     });
   }
   return (
@@ -123,13 +115,13 @@ const Event = (props) => {
         </ul>
         {hosts === myName || attendees.includes(myName) ? null : (
           <div className="center">
-            <button type="button" onClick={() => addToAttendees(name, hosts, myName, attendees)}>Request Join</button>
+            <button type="button" onClick={() => addToAttendees(name, hosts, place, myName, attendees)}>Request Join</button>
           </div>
         )}
         {
         hosts !== myName && attendees.includes(myName) ? (
           <div className="center">
-            <button type="button" onClick={() => leaveEvent(name, hosts, myName, attendees)}>Leave Event</button>
+            <button type="button" onClick={() => leaveEvent(name, hosts, place, myName, attendees)}>Leave Event</button>
           </div>
         ) : null
       }
