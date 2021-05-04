@@ -89,7 +89,7 @@ nav li {
   top: 30px;
   position:relative;
   width:100%;
-  background-image: url('restro-background.jpg');
+  background-color: #89AD97;
   color:white;
   min-height:80vh;
 }
