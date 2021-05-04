@@ -14,7 +14,7 @@ import MyMap from './MyMap';
 import './MyMap.css';
 
 function Search(props) {
-  const { socket, userName, history } = props; // eslint-disable-line no-unused-vars
+  const { socket, userName } = props;
   const addy = useRef(null);
   const eventNameRef = useRef(null);
   const eventDescriptionRef = useRef(null);
@@ -32,7 +32,7 @@ function Search(props) {
   function saveInfoFunc() {
     const inputAddy = addy.current.value;
     setAddress(inputAddy);
-    console.log(storeAddress);
+    // console.log(storeAddress);
     setContinueClick((prevClickContinue) => true); // eslint-disable-line no-unused-vars
     socket.emit('recs', {
       addy: inputAddy, radio,
@@ -43,7 +43,7 @@ function Search(props) {
     // console.log(key)
     const restaurant = key;
     const location = recommendations[key];
-    console.log(restaurant, location);
+    // console.log(restaurant, location);
     socket.emit('recommendations', {
       restaurant,
       location,
@@ -69,13 +69,13 @@ function Search(props) {
     // Listening for a chat event emitted by the server. If received, we
     // run the code in the function that is passed in as the second arg
     socket.on('recomendations', (data) => { // eslint-disable-line no-unused-vars
-      console.log('recoomendation', data);
+      // console.log('recoomendation', data);
     });
 
     socket.on('recs', (data) => {
-      console.log(data);
+      // console.log(data);
       const { results } = data;
-      console.log(data.ratings);
+      // console.log(data.ratings);
       setRecom((prevRecom) => {
         let tempRecom = prevRecom;
         tempRecom = results;
@@ -89,11 +89,11 @@ function Search(props) {
       setMap(true);
     });
     socket.on('event_info', (data) => {
-      console.log(data.event_info);
+      // console.log(data.event_info);
       const eventInfo = data.event_info;
-      console.log(eventInfo);
+      // console.log(eventInfo);
       setEvent((prevEvent) => eventInfo); // eslint-disable-line no-unused-vars
-      console.log(Event);
+      // console.log(Event);
     });
   }, []);
 
@@ -236,7 +236,7 @@ function Search(props) {
       </div>
     );
   }
-  console.log(Event);
+  // console.log(Event);
   return (
     <div className="App">
       <div className="logout-heading">
@@ -260,6 +260,5 @@ function Search(props) {
 Search.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
   userName: PropTypes.string.isRequired,
-  history: PropTypes.instanceOf(Object).isRequired,
 };
 export default Search;

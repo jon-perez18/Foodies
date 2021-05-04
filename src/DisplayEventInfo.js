@@ -5,7 +5,7 @@ function DisplayEventInfo(props) {
   const {
     Event,
   } = props;
-  console.log(Event.host, Event.event_name);
+  // console.log(Event.host, Event.event_name);
   DisplayEventInfo.propTypes = {
     Event: PropTypes.instanceOf(Object).isRequired,
   };
