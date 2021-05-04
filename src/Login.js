@@ -10,7 +10,7 @@ require('dotenv').config();
 const client_id = process.env.REACT_APP_GOOGLE_ID; // eslint-disable-line camelcase
 
 export function Login(props) {
-  const { socket, setUser, history } = props;
+  const { socket, setUser } = props;
   const [usernames, setusernames] = useState([]); // eslint-disable-line no-unused-vars
   const [emails, setemails] = useState([]); // eslint-disable-line no-unused-vars
   function onLogin(res) {
@@ -29,7 +29,7 @@ export function Login(props) {
     refreshTokenSetup(res);
     onLogin(res);
     setUser(() => res.profileObj.name);
-    console.log(history);
+    // console.log(history);
     // document.location.href = '/search';
   };
 
@@ -90,7 +90,6 @@ export function Login(props) {
 Login.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
   setUser: PropTypes.func.isRequired,
-  history: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default Login;
