@@ -59,6 +59,7 @@ mark {
 .l-design-widht {
   max-width: 40rem;
   padding: 1rem;
+  margin: 1rem auto;
 }
 
 .input {
