@@ -84,14 +84,14 @@ export function Login(props) {
       <div className="launchInfo">
         <p>Host And Join Group Gatherings In Your Area </p>
         <p>Meet New People And Enjoy New Food</p>
-        
       </div>
       <div className="ourMission">
         <p />
         <p>&ensp;</p>
         <h2>Our Mission</h2>
         <p />
-        <p>&ensp;In a technologically influenced world, it&apos;s worthwhile to make real-connections.</p>
+        <p>&ensp;</p>
+        <p>In a technologically influenced world, it&apos;sworthwhile to make real-connections.</p>
         <p>Meet new people in neutral settings and enjoy the atmosphere the world has to offer.</p>
         <p>Our app is powered by Google and Yelp to make your experience as smooth as possible.</p>
         <p>Join us today and experience life.</p>
@@ -102,7 +102,6 @@ export function Login(props) {
           <a href="https://github.com/jon-perez18/Foodies">GitHub</a>
           <p>&ensp;</p>
         </p>
-        
         <p />
       </div>
       <div className="creatorInfo">
