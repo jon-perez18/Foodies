@@ -12,7 +12,10 @@
   font-family: "Inter", sans-serif;
   font-size: calc(0.6rem + 0.4vw);
   color: var(--color-text);
-  background: var(--color-background);
+  display: block;
+
+  background-image: url('restro-background.jpg');
+  background-position: 50%, 0;
   font-weight: 300;
   padding: 0 calc(var(--size-bezel) * 3);
 }
@@ -37,6 +40,7 @@ mark {
   border-radius: var(--size-radius);
   border: 3px solid var(--color-shadow, currentColor);
   box-shadow: 0.5rem 0.5rem 0 var(--color-shadow, currentColor);
+
 }
 .card--inverted {
   --color-background: var(--color-dark);
@@ -44,13 +48,12 @@ mark {
   --color-shadow: var(--color-accent);
 }
 .card--accent {
-  text-align: center;
   --color-background: var(--color-signal);
   --color-accent: var(--color-light);
   color: var(--color-dark);
+
 }
 .card *:first-child {
-  margin-top: 0;
 }
 
 .l-design-widht {

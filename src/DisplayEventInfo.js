@@ -1,3 +1,4 @@
+import './Search.css';
 import { React } from 'react';
 import PropTypes from 'prop-types';
 
@@ -11,7 +12,8 @@ function DisplayEventInfo(props) {
   };
 
   return (
-    <div>
+    <div className="card card--accent">
+      <h3>Congratulations! Event Successfully Created </h3>
       <h3>
         Host:
         {' '}
