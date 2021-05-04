@@ -40,11 +40,7 @@ mark {
   border-radius: var(--size-radius);
   border: 3px solid var(--color-shadow, currentColor);
   box-shadow: 0.5rem 0.5rem 0 var(--color-shadow, currentColor);
-  display: inline-block;
-  position: absolute;
-  width: 50%;
-  /*left: 50%;*/
-  /*right: 50%;*/
+
 }
 .card--inverted {
   --color-background: var(--color-dark);
@@ -55,10 +51,7 @@ mark {
   --color-background: var(--color-signal);
   --color-accent: var(--color-light);
   color: var(--color-dark);
-}
-.center {
-  display: flex;
-  margin: 5px;
+
 }
 .card *:first-child {
 }
@@ -66,7 +59,6 @@ mark {
 .l-design-widht {
   max-width: 40rem;
   padding: 1rem;
-  justify-content: center;
 }
 
 .input {
