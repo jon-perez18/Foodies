@@ -192,12 +192,15 @@ function Search(props) {
             </div>
           </div>
 
-          <header className="App-header recom">
-            <Recommendation
-              onPressCreate={onPressCreate}
-              recommendations={recommendations}
-            />
-          </header>
+          <div className="recom-body">
+            <header className="App-header recom">
+              <Recommendation
+                onPressCreate={onPressCreate}
+                recommendations={recommendations}
+              />
+            </header>
+          </div>
+
         </div>
         {isMapReady === true ? (
           <div id="maps" className="map-header">
