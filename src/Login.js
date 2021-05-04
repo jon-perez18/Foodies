@@ -11,11 +11,11 @@ require('dotenv').config();
 
 const client_id = process.env.REACT_APP_GOOGLE_ID; // eslint-disable-line camelcase
 
-export function check_login(check){
-  if(check){
-    document.getElementById('login').style.display = "none";
-    document.getElementById('logout').style.display = "block";
-    document.getElementById('navbar').style.display = "block";
+export function check_login(check) { // eslint-disable-line camelcase
+  if (check) {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('logout').style.display = 'block';
+    document.getElementById('navbar').style.display = 'block';
   }
 }
 
@@ -37,7 +37,7 @@ export function Login(props) {
     // console.log('Login Success: currentUser:', res.profileObj);
     alert(`Successful Login ${res.profileObj.name}. \n`); // eslint-disable-line no-alert
 
-    check_login(`${res.isSignedIn}`)
+    check_login(`${res.isSignedIn}`);
     refreshTokenSetup(res);
     onLogin(res);
     setUser(() => res.profileObj.name);

@@ -101,81 +101,81 @@ function Search(props) {
     return (
 
       <div className="App">
-      
-        <div className = "logout-heading">
-        <img id='logo' src={logo} alt="location picture" />
+
+        <div className="logout-heading">
+          <img id="logo" src={logo} alt="App logo" />
         &ensp; Foodies
           <div id="logout-button">
-             <Logout />
+            <Logout />
           </div>
         </div>
 
-      <article className="l-design-widht">
-        <div className="card card--accent">
-          <label className="input">
+        <article className="l-design-widht">
+          <div className="card card--accent">
+            <label className="input">
 
-            <input
-              className="input__field"
-              type="text"
-              ref={addy}
-              placeholder=" "
-            />
-            <span className="input__label">Enter Your Desired Address</span>
-          </label>
-          <br />
-          <form>
-            <h3>Enter Your Desired Range</h3>
+              <input
+                className="input__field"
+                type="text"
+                ref={addy}
+                placeholder=" "
+              />
+              <span className="input__label">Enter Your Desired Address</span>
+            </label>
+            <br />
+            <form>
+              <h3>Enter Your Desired Range</h3>
 
-            <input
-              type="radio"
-              checked={radio === '5000'}
-              value="5000"
-              onChange={(e) => {
-                setRadio(e.target.value);
-              }}
-            />
-            <label htmlFor="metersLabel">5000 meters</label>
-            <br />
+              <input
+                type="radio"
+                checked={radio === '5000'}
+                value="5000"
+                onChange={(e) => {
+                  setRadio(e.target.value);
+                }}
+              />
+              <label htmlFor="metersLabel">5000 meters</label>
+              <br />
 
-            <input
-              type="radio"
-              checked={radio === '10000'}
-              value="10000"
-              onChange={(e) => {
-                setRadio(e.target.value);
-              }}
-            />
-            <label htmlFor="10000Meter">10000 meters</label>
-            <br />
+              <input
+                type="radio"
+                checked={radio === '10000'}
+                value="10000"
+                onChange={(e) => {
+                  setRadio(e.target.value);
+                }}
+              />
+              <label htmlFor="10000Meter">10000 meters</label>
+              <br />
 
-            <input
-              type="radio"
-              checked={radio === '25000'}
-              value="25000"
-              onChange={(e) => {
-                setRadio(e.target.value);
-              }}
-            />
-            <label htmlFor="25000Meter">25000 meters</label>
-            <br />
+              <input
+                type="radio"
+                checked={radio === '25000'}
+                value="25000"
+                onChange={(e) => {
+                  setRadio(e.target.value);
+                }}
+              />
+              <label htmlFor="25000Meter">25000 meters</label>
+              <br />
 
-            <input
-              type="radio"
-              checked={radio === '39000'}
-              value="39000"
-              onChange={(e) => {
-                setRadio(e.target.value);
-              }}
-            />
-            <label htmlFor="39000Meter">39000 meters</label>
-            <br />
-            <br />
-            <button type="button" name="continue" onClick={() => saveInfoFunc()}>
-              Continue
-            </button>
-          </form>
-        </div>
-      </article>
+              <input
+                type="radio"
+                checked={radio === '39000'}
+                value="39000"
+                onChange={(e) => {
+                  setRadio(e.target.value);
+                }}
+              />
+              <label htmlFor="39000Meter">39000 meters</label>
+              <br />
+              <br />
+              <button type="button" name="continue" onClick={() => saveInfoFunc()}>
+                Continue
+              </button>
+            </form>
+          </div>
+        </article>
       </div>
     );
   }
@@ -184,14 +184,14 @@ function Search(props) {
       <div>
 
         <div className="recom">
-          <div className = "logout-heading">
-            <img id='logo' src={logo} alt="location picture" />
+          <div className="logout-heading">
+            <img id="logo" src={logo} alt="App logo" />
             &ensp; Foodies
             <div id="logout-button">
               <Logout />
             </div>
           </div>
-          
+
           <div className="recom-body">
             <header className="App-header recom">
               <Recommendation
@@ -200,6 +200,7 @@ function Search(props) {
               />
             </header>
           </div>
+
         </div>
         {isMapReady === true ? (
           <div id="maps" className="map-header">
@@ -215,14 +216,14 @@ function Search(props) {
   if (isSubmit === false) {
     return (
       <div className="App">
-        <div className = "logout-heading">
-          <img id='logo' src={logo} alt="location picture" />
+        <div className="logout-heading">
+          <img id="logo" src={logo} alt="App logo" />
           &ensp; Foodies
           <div id="logout-button">
             <Logout />
           </div>
         </div>
-          
+
         <header className="App-header">
           <EventInfo
             eventNameRef={eventNameRef}
@@ -238,14 +239,14 @@ function Search(props) {
   console.log(Event);
   return (
     <div className="App">
-      <div className = "logout-heading">
-        <img id='logo' src={logo} alt="location picture" />
+      <div className="logout-heading">
+        <img id="logo" src={logo} alt="App logo" />
         &ensp; Foodies
         <div id="logout-button">
           <Logout />
         </div>
       </div>
-      
+
       <header className="App-header">
         <h2>Congratulation Event Created Successfully</h2>
         <br />
