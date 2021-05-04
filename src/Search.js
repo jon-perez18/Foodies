@@ -248,10 +248,12 @@ function Search(props) {
       </div>
 
       <header className="App-header">
-        <h2>Congratulation Event Created Successfully</h2>
-        <br />
-        <br />
-        <DisplayEventInfo Event={Event} />
+        <div className="quick">
+          <h2>Congratulation Event Created Successfully</h2>
+          <br />
+          <br />
+          <DisplayEventInfo Event={Event} />
+        </div>
       </header>
     </div>
   );
