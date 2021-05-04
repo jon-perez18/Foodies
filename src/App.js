@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
   BrowserRouter as Router, Switch, Route,
-  Link, useHistory, withRouter, // eslint-disable-line no-unused-vars
+  Link, withRouter, // eslint-disable-line no-unused-vars
 } from 'react-router-dom';
 import io from 'socket.io-client';
 import Search from './Search';
@@ -16,8 +16,6 @@ const socket = io(); // Connects to socket connection
 
 function App() {
   const [user, setUser] = useState(''); // eslint-disable-line no-unused-vars
-  const history = useHistory();
-  // const Button = withRouter(({history}) => {})
 
   return (
 
@@ -42,15 +40,15 @@ function App() {
           <Switch>
             <Route path="/view">
               {' '}
-              <ViewEvents socket={socket} userName={user} history={history} />
+              <ViewEvents socket={socket} userName={user} />
             </Route>
             <Route path="/search">
               {' '}
-              <Search socket={socket} userName={user} history={history} />
+              <Search socket={socket} userName={user} />
             </Route>
             <Route path="/">
               {' '}
-              <Login socket={socket} setUser={setUser} history={history} />
+              <Login socket={socket} setUser={setUser} />
             </Route>
           </Switch>
         </div>

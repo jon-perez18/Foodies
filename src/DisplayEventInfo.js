@@ -1,3 +1,4 @@
+import './Search.css';
 import { React } from 'react';
 import PropTypes from 'prop-types';
 
@@ -5,13 +6,14 @@ function DisplayEventInfo(props) {
   const {
     Event,
   } = props;
-  console.log(Event.host, Event.event_name);
+  // console.log(Event.host, Event.event_name);
   DisplayEventInfo.propTypes = {
     Event: PropTypes.instanceOf(Object).isRequired,
   };
 
   return (
-    <div>
+    <div className="card card--accent">
+      <h3>Congratulations! Event Successfully Created </h3>
       <h3>
         Host:
         {' '}
