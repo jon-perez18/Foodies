@@ -2,6 +2,7 @@ import './ViewEvents.css';
 import './App.css';
 import PropTypes from 'prop-types';
 import { React, useState, useEffect } from 'react';
+import Logout from './Logout';
 import logo from './Logo.PNG';
 
 function ViewEvents(props) {
@@ -16,24 +17,34 @@ function ViewEvents(props) {
 
   const myName = userName;
   return (
-    <div className="main-container">
-      <h2>{ myName }</h2>
-      <div className="container">
-        <h1>Events</h1>
-        {eventData.map((items, index) => (
-          <Event
-            myName={myName}
-            hosts={eventData[index][0]}
-            name={eventData[index][1]}
-            description={eventData[index][2]}
-            place={eventData[index][3]}
-            address={eventData[index][4]}
-            date={eventData[index][5]}
-            time={eventData[index][6]}
-            attendees={eventData[index][7]}
-            socket={socket}
-          />
-        ))}
+    <div>
+      <div className = "logout-heading">
+        <img id='logo' src={logo} alt="location picture" />
+        &ensp; Foodies
+        <div id="logout-button">
+          <Logout />
+        </div>
+      </div>
+      
+      <div className="main-container">
+        <h2>{ myName }</h2>
+        <div className="container">
+          <h1>Events</h1>
+          {eventData.map((items, index) => (
+            <Event
+              myName={myName}
+              hosts={eventData[index][0]}
+              name={eventData[index][1]}
+              description={eventData[index][2]}
+              place={eventData[index][3]}
+              address={eventData[index][4]}
+              date={eventData[index][5]}
+              time={eventData[index][6]}
+              attendees={eventData[index][7]}
+              socket={socket}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

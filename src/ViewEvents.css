@@ -54,6 +54,7 @@
 
 .main-container{
   position: relative;
+  top: 15px;
 }
 .main-container:before {
   content: ' ';
@@ -68,3 +69,4 @@
   background-repeat: repeat repeat;
   background-position: 50%, 0;
 }
+
