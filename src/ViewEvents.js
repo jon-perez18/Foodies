@@ -1,8 +1,9 @@
 import './ViewEvents.css';
+import './App.css';
 import PropTypes from 'prop-types';
 import { React, useState, useEffect } from 'react';
+import Logout from './Logout';
 import logo from './Logo.PNG';
-// import io from 'socket.io-client';
 
 function ViewEvents(props) {
   const { socket, userName } = props;
@@ -14,27 +15,36 @@ function ViewEvents(props) {
     });
   }, []);
 
-  console.log('view event page', eventData);
   const myName = userName;
   return (
     <div>
-      <h1>{ myName }</h1>
-      <div className="container">
-        <h2>Events</h2>
-        {eventData.map((items, index) => (
-          <Event
-            myName={myName}
-            hosts={eventData[index][0]}
-            name={eventData[index][1]}
-            description={eventData[index][2]}
-            place={eventData[index][3]}
-            address={eventData[index][4]}
-            date={eventData[index][5]}
-            time={eventData[index][6]}
-            attendees={eventData[index][7]}
-            socket={socket}
-          />
-        ))}
+      <div className = "logout-heading">
+        <img id='logo' src={logo} alt="location picture" />
+        &ensp; Foodies
+        <div id="logout-button">
+          <Logout />
+        </div>
+      </div>
+      
+      <div className="main-container">
+        <h2>{ myName }</h2>
+        <div className="container">
+          <h1>Events</h1>
+          {eventData.map((items, index) => (
+            <Event
+              myName={myName}
+              hosts={eventData[index][0]}
+              name={eventData[index][1]}
+              description={eventData[index][2]}
+              place={eventData[index][3]}
+              address={eventData[index][4]}
+              date={eventData[index][5]}
+              time={eventData[index][6]}
+              attendees={eventData[index][7]}
+              socket={socket}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -42,7 +52,6 @@ function ViewEvents(props) {
 ViewEvents.propTypes = {
   socket: PropTypes.instanceOf(Object).isRequired,
   userName: PropTypes.string.isRequired,
-  // history: PropTypes.instanceOf(Object).isRequired,
 };
 
 const Event = (props) => {
@@ -50,6 +59,7 @@ const Event = (props) => {
     myName: PropTypes.string.isRequired,
     hosts: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     place: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
@@ -59,66 +69,82 @@ const Event = (props) => {
   };
 
   const {
-    myName, hosts, name, place, address, date, time, attendees, socket,
+    myName, hosts, name, description, place, address, date, time, attendees, socket,
   } = props;
 
-  function addToAttendees(checkEvent, addUser, toList) {
+  function addToAttendees(checkEvent, hostName, restaurant, addUser, toList) {
     // Still have to change the main array to display on screen, waiting for db
     // console.log(checkEvent, addUser, toList);
-    socket.emit('change_attendees', { name: checkEvent, user: addUser, attendeeList: toList });
+    socket.emit('change_attendees', {
+      name: checkEvent, host: hostName, place: restaurant, user: addUser, attendeeList: toList,
+    });
   }
-  function leaveEvent(checkEvent, addUser, toList) {
+  function leaveEvent(checkEvent, hostName, restaurant, addUser, toList) {
     // console.log(checkEvent, addUser, toList);
-    socket.emit('leave_event', { name: checkEvent, user: addUser, attendeeList: toList });
+    socket.emit('leave_event', {
+      name: checkEvent, host: hostName, place: restaurant, user: addUser, attendeeList: toList,
+    });
   }
   return (
     <div className="box">
-      <div className="picture"><img className="loc-thumbnail" src={logo} alt="location" /></div>
-      <h4>{ name }</h4>
-      <ul>
-        <li>
-          Hosted by:
-          {' '}
-          { hosts }
-        </li>
-        <li>
-          Where:
-          {' '}
-          { place }
-        </li>
-        <li>
-          {' '}
-          { address }
-          {' '}
-        </li>
-        <li>
-          When:
-          {' '}
-          { date }
-          {' '}
-          { time }
-          {' '}
-        </li>
-        <li>
-          Attending:
-          {' '}
-          {
+      <div className="front">
+        <div className="picture">
+          <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer"><img className="loc-thumbnail" src={logo} alt="location" /></a>
+        </div>
+        <h4>{ name }</h4>
+        <ul>
+          <li>
+            Hosted by:
+            {' '}
+            { hosts }
+          </li>
+          <li>
+            Where:
+            {' '}
+            { place }
+          </li>
+          <li>
+            {' '}
+            { address }
+            {' '}
+          </li>
+          <li>
+            When:
+            {' '}
+            { date }
+            {' '}
+            { time }
+            {' '}
+          </li>
+          <li>
+            Attending:
+            {' '}
+            {
           attendees.map((item, index) => <span>{ (index ? ', ' : '') + item }</span>)
           }
-        </li>
-      </ul>
-      {hosts === myName || attendees.includes(myName) ? null : (
-        <div className="center">
-          <button type="button" onClick={() => addToAttendees(name, myName, attendees)}>Request Join</button>
-        </div>
-      )}
-      {
+          </li>
+        </ul>
+        {hosts === myName || attendees.includes(myName) ? null : (
+          <div className="center">
+            <button type="button" onClick={() => addToAttendees(name, hosts, place, myName, attendees)}>Request Join</button>
+          </div>
+        )}
+        {
         hosts !== myName && attendees.includes(myName) ? (
           <div className="center">
-            <button type="button" onClick={() => leaveEvent(name, myName, attendees)}>Leave Event</button>
+            <button type="button" onClick={() => leaveEvent(name, hosts, place, myName, attendees)}>Leave Event</button>
           </div>
         ) : null
       }
+      </div>
+      <div className="back">
+        <h5>Event Description: </h5>
+        <pre>
+          {' '}
+        &emsp;
+          {description}
+        </pre>
+      </div>
     </div>
   );
 };
