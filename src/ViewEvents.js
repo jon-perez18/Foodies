@@ -18,14 +18,14 @@ function ViewEvents(props) {
   const myName = userName;
   return (
     <div>
-      <div className = "logout-heading">
-        <img id='logo' src={logo} alt="location picture" />
+      <div className="logout-heading">
+        <img id="logo" src={logo} alt="App logo" />
         &ensp; Foodies
         <div id="logout-button">
           <Logout />
         </div>
       </div>
-      
+
       <div className="main-container">
         <h2>{ myName }</h2>
         <div className="container">
