@@ -51,7 +51,7 @@ export function Login(props) {
   };
 
   return (
-    <div className = "background">
+    <div className="background">
       <div className="loginPage">
         <div className="heading">
 
@@ -93,12 +93,16 @@ export function Login(props) {
         <p>Meet new people in neutral settings and enjoy the atmosphere the world has to offer.</p>
         <p>Our app is powered by Google and Yelp to make your experience as smooth as possible.</p>
         <p>Join us today and experience life.</p>
-        <p /><p>&ensp;</p>
-        <p>Find out more about our app on <a href="https://github.com/jon-perez18/Foodies">GitHub</a></p>
+        <p />
+        <p>&ensp;</p>
+        <p>
+          Find out more about our app on
+          <a href="https://github.com/jon-perez18/Foodies">GitHub</a>
+        </p>
         <p />
       </div>
       <div className="creatorInfo">
-        <p>Contributors: Anuja Badeti, Jonathan Perex, Kelly Hopkins, Ashutosh Rana</p>
+        <p>Contributors: Anuja Badeti, Jonathan Perez, Kelly Hopkins, Ashutosh Rana</p>
       </div>
     </div>
   );
