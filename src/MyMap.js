@@ -7,6 +7,7 @@ import {
 } from 'react-leaflet';
 import { React } from 'react';
 import PropTypes from 'prop-types';
+import Stars from './Stars';
 
 function MyMap(props) {
   const {
@@ -47,8 +48,8 @@ function MyMap(props) {
               {' '}
               {' '}
               {results2[0].ratings }
-              {' '}
             </p>
+            <Stars ratings={results2[0].ratings} />
             {' '}
             <p>
               Phone:
@@ -86,6 +87,7 @@ function MyMap(props) {
               {' '}
               {results2[1].ratings }
             </p>
+            <Stars ratings={results2[1].ratings} />
             {' '}
             <p>
               Phone:
@@ -124,6 +126,7 @@ function MyMap(props) {
               {' '}
               {results2[2].ratings }
             </p>
+            <Stars ratings={results2[2].ratings} />
             {' '}
             <p>
               Phone:
@@ -161,6 +164,7 @@ function MyMap(props) {
               {' '}
               {results2[3].ratings }
             </p>
+            <Stars ratings={results2[3].ratings} />
             {' '}
             <p>
               Phone:
@@ -199,6 +203,7 @@ function MyMap(props) {
               {' '}
               {results2[4].ratings }
             </p>
+            <Stars ratings={results2[4].ratings} />
             {' '}
             <p>
               Phone:
