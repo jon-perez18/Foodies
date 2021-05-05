@@ -17,7 +17,7 @@
   position:relative;
   top: 30px;
   /*background-color: #282c34;*/
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,7 +86,7 @@ nav li {
   font-size: 2rem;
 }
 .recom-body{
-  top: 30px;
+  top: 50px;
   position:relative;
   width:100%;
   background-color: #89AD97;
