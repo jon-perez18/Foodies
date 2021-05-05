@@ -19,7 +19,13 @@ function Recommendation({ recommendations, onPressCreate }) {
 
         {' '}
         <td>
-          <button type="button" onClick={() => onPressCreate(keyName)}> Create Event </button>
+          <button type="button" onClick={() => onPressCreate(keyName)}>
+            {' '}
+            Create Event
+            {' '}
+            {' '}
+            <i className="fas fa-plus" />
+          </button>
           {' '}
         </td>
 
