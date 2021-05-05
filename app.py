@@ -59,11 +59,9 @@ def on_connect():
 def on_login(data_name, data_email):
     """logging in user"""
 
-<<<<<<< HEAD
+
     SOCKETIO.emit('login', {'data_name':data_name,'data_email': data_email}, include_self=True)
-=======
-    SOCKETIO.emit('login', {data_name, data_email}, include_self=True)
->>>>>>> removed cliend id from login.js
+
     EVENT_INFO['host'] = data_name['username']
 
     all_users = models.Login.query.all()
