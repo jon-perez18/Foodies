@@ -1,7 +1,9 @@
 
 
 
-#mapid { height: 180px; }
+#mapid { height: 180px;
+
+}
 .leaflet-container{
   width:94.8vw;
   height:100vh;

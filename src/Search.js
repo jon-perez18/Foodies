@@ -183,7 +183,7 @@ function Search(props) {
     return (
       <div>
 
-        <div className="recom">
+        <div className="recom ">
           <div className="logout-heading">
             <img id="logo" src={logo} alt="App logo" />
             &ensp; Foodies
