@@ -31,46 +31,75 @@ function MyMap(props) {
           <Popup className="popup">
             <p>
               Name:
+              {' '}
+              {' '}
               {results2[0].restaurant }
             </p>
             {' '}
             <p>
               Location:
+              {' '}
+              {' '}
               {results2[0].location }
             </p>
             <p>
               Ratings:
+              {' '}
+              {' '}
               {results2[0].ratings }
+              {' '}
             </p>
             {' '}
             <p>
               Phone:
+              {' '}
+              {' '}
               {results2[0].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(results2[0].restaurant)}> Create Event </button>
+            <button type="button" className="map-button" onClick={() => onPressCreate(results2[0].restaurant)}>
+              {' '}
+              Create Event
+              {' '}
+              {' '}
+              <i className="fas fa-plus" />
+            </button>
           </Popup>
         </Marker>
         <Marker position={[results2[1].lat, results2[1].longi]}>
           <Popup className="popup">
             <p>
               Name:
+              {' '}
+              {' '}
               {results2[1].restaurant }
             </p>
             {' '}
             <p>
               Location:
+              {' '}
+              {' '}
               {results2[1].location }
             </p>
             <p>
               Ratings:
+              {' '}
+              {' '}
               {results2[1].ratings }
             </p>
             {' '}
             <p>
               Phone:
+              {' '}
+              {' '}
               {results2[1].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(results2[1].restaurant)}> Create Event </button>
+            <button type="button" className="map-button" onClick={() => onPressCreate(results2[1].restaurant)}>
+              {' '}
+              Create Event
+              {' '}
+              {' '}
+              <i className="fas fa-plus" />
+            </button>
           </Popup>
         </Marker>
         <Marker position={[results2[2].lat, results2[2].longi]}>
@@ -78,46 +107,74 @@ function MyMap(props) {
           <Popup className="popup">
             <p>
               Name:
+              {' '}
+              {' '}
               {results2[2].restaurant }
             </p>
             {' '}
             <p>
               Location:
+              {' '}
+              {' '}
               {results2[2].location }
             </p>
             <p>
               Ratings:
+              {' '}
+              {' '}
               {results2[2].ratings }
             </p>
             {' '}
             <p>
               Phone:
+              {' '}
+              {' '}
               {results2[2].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(results2[2].restaurant)}> Create Event </button>
+            <button type="button" className="map-button" onClick={() => onPressCreate(results2[2].restaurant)}>
+              {' '}
+              Create Event
+              {' '}
+              {' '}
+              <i className="fas fa-plus" />
+            </button>
           </Popup>
         </Marker>
         <Marker position={[results2[3].lat, results2[3].longi]}>
           <Popup className="popup">
             <p>
               Name:
+              {' '}
+              {' '}
               {results2[3].restaurant }
             </p>
             {' '}
             <p>
               Location:
+              {' '}
+              {' '}
               {results2[3].location }
             </p>
             <p>
               Ratings:
+              {' '}
+              {' '}
               {results2[3].ratings }
             </p>
             {' '}
             <p>
               Phone:
+              {' '}
+              {' '}
               {results2[3].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(results2[3].restaurant)}> Create Event </button>
+            <button type="button" className="map-button" onClick={() => onPressCreate(results2[3].restaurant)}>
+              {' '}
+              Create Event
+              {' '}
+              {' '}
+              <i className="fas fa-plus" />
+            </button>
           </Popup>
         </Marker>
         <Marker position={[results2[4].lat, results2[4].longi]}>
@@ -125,23 +182,37 @@ function MyMap(props) {
           <Popup className="popup">
             <p>
               Name:
+              {' '}
+              {' '}
               {results2[4].restaurant }
             </p>
             {' '}
             <p>
               Location:
+              {' '}
+              {' '}
               {results2[4].location }
             </p>
             <p>
               Ratings:
+              {' '}
+              {' '}
               {results2[4].ratings }
             </p>
             {' '}
             <p>
               Phone:
+              {' '}
+              {' '}
               {results2[4].phone }
             </p>
-            <button type="button" onClick={() => onPressCreate(results2[4].restaurant)}> Create Event </button>
+            <button type="button" className="map-button" onClick={() => onPressCreate(results2[4].restaurant)}>
+              {' '}
+              Create Event
+              {' '}
+              {' '}
+              <i className="fas fa-plus" />
+            </button>
           </Popup>
         </Marker>
       </MapContainer>
